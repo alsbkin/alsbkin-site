@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ALSBKIN</title>
+
+  <meta name="description" content="ALSBKIN - proiect muzical românesc cu piese originale și reinterpretări metal, folk metal, salsa, bachata și kizomba." />
+
+  <title>ALSBKIN | Official Website</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -20,20 +28,30 @@
       justify-content: center;
       align-items: center;
       padding: 30px;
-      background: linear-gradient(135deg, #000000, #1a1a1a);
+      background:
+        radial-gradient(circle at top, rgba(245, 197, 66, 0.16), transparent 35%),
+        linear-gradient(135deg, #000000, #1a1a1a);
     }
 
     h1 {
-      font-size: 64px;
+      font-size: clamp(48px, 10vw, 96px);
       letter-spacing: 6px;
       margin-bottom: 10px;
       color: #f5c542;
     }
 
+    .subtitle {
+      color: #ffffff;
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: normal;
+    }
+
     p {
       font-size: 20px;
-      max-width: 600px;
+      max-width: 700px;
       line-height: 1.6;
+      color: #dddddd;
     }
 
     .buttons {
@@ -49,6 +67,12 @@
       text-decoration: none;
       border-radius: 30px;
       font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .buttons a:hover {
+      background: #ffffff;
+      transform: translateY(-3px);
     }
 
     section {
@@ -58,20 +82,45 @@
 
     h2 {
       color: #f5c542;
+      font-size: 32px;
     }
 
     footer {
       padding: 30px;
       color: #888;
       font-size: 14px;
+      border-top: 1px solid #222;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        letter-spacing: 4px;
+      }
+
+      .buttons a {
+        display: block;
+        width: 220px;
+        margin: 12px auto;
+      }
+
+      p {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
+
 <body>
 
 <header>
   <h1>ALSBKIN</h1>
-  <p>Muzică originală, videoclipuri animate și povești cu energie cinematografică.</p>
+
+  <h2 class="subtitle">Metal • Folk Metal • Latin Versions</h2>
+
+  <p>
+    Muzică originală românească, reinterpretări și versiuni alternative în stil metal,
+    folk metal, salsa, bachata și kizomba.
+  </p>
 
   <div class="buttons">
     <a href="https://www.youtube.com/@ALSBKIN" target="_blank">YouTube</a>
@@ -82,17 +131,35 @@
 
 <section>
   <h2>Muzică</h2>
-  <p>Aici vor apărea piesele și videoclipurile oficiale ALSBKIN.</p>
+  <p>
+    Aici vor apărea piesele, promo-urile și videoclipurile oficiale ALSBKIN.
+  </p>
+</section>
+
+<section>
+  <h2>Genuri</h2>
+  <p>
+    🎸 Metal<br><br>
+    ⚔️ Folk Metal Românesc<br><br>
+    💃 Salsa<br><br>
+    ❤️ Bachata<br><br>
+    🌙 Kizomba / Urban Kiz
+  </p>
 </section>
 
 <section>
   <h2>Despre</h2>
-  <p>ALSBKIN este un proiect muzical românesc care combină umorul, storytelling-ul și producția modernă.</p>
+  <p>
+    ALSBKIN este un proiect muzical românesc care combină metalul,
+    folk metalul și influențele latino moderne într-un stil original.
+  </p>
 </section>
 
 <section>
   <h2>Contact</h2>
-  <p>Email: contact@alsbkin.ro</p>
+  <p>
+    Email: contact@alsbkin.ro
+  </p>
 </section>
 
 <footer>
