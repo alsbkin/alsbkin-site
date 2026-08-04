@@ -40,7 +40,10 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: "Exo 2", sans-serif;
+      color: #8fd8ff;
+      text-align: center;
       background:
         radial-gradient(
           circle at top,
@@ -48,9 +51,6 @@
           transparent 35%
         ),
         linear-gradient(180deg, #050505, #101010);
-      color: #8fd8ff;
-      text-align: center;
-      min-height: 100vh;
     }
 
     nav {
@@ -65,11 +65,11 @@
     }
 
     nav a {
-      color: #8fd8ff;
-      text-decoration: none;
       margin: 0 12px;
-      font-weight: 700;
+      color: #8fd8ff;
       font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
       transition: 0.3s ease;
     }
 
@@ -80,18 +80,19 @@
     main {
       width: min(1300px, 95%);
       margin: 0 auto;
-      padding: 75px 0 90px;
+      padding: 18px 0 90px;
     }
 
     h1 {
-      margin: 0 0 45px;
+      margin: 0 0 25px;
       color: #ffffff;
-      font-size: clamp(38px, 6vw, 64px);
-      letter-spacing: 3px;
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 800;
+      letter-spacing: 2px;
       text-transform: uppercase;
       text-shadow:
-        0 0 18px rgba(143, 216, 255, 0.38),
-        0 0 38px rgba(143, 216, 255, 0.16);
+        0 0 9px rgba(143, 216, 255, 0.28),
+        0 0 16px rgba(143, 216, 255, 0.12);
     }
 
     .releases-grid {
@@ -154,7 +155,12 @@
 
       main {
         width: 94%;
-        padding-top: 55px;
+        padding: 14px 0 70px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        font-size: 22px;
       }
 
       .spotify-release {
