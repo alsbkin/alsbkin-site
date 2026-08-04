@@ -482,14 +482,28 @@ header {
 }
 
 .buttons {
-  margin-top: 22px;
+  position: absolute;
+  left: 50%;
+  bottom: 115px;
+  transform: translateX(-50%);
+  z-index: 5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  width: 100%;
+  padding: 0 20px;
+  margin: 0;
 }
 
 .buttons a {
   font-family: "Exo 2", sans-serif;
   font-weight: 600;
   display: inline-block;
-  margin: 10px;
+  margin: 0;
   padding: 14px 26px;
   color: #ffffff;
   background: #c00000;
