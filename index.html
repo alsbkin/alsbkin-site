@@ -482,11 +482,18 @@ header {
 }
 
 .buttons {
+  position: relative;
+  z-index: 2;
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+
+  .hero-buttons {
   position: absolute;
   left: 50%;
-  bottom: 125px;
+  bottom: 110px;
   transform: translateX(-50%);
-  z-index: 5;
+  z-index: 10;
 
   display: flex;
   justify-content: center;
@@ -495,10 +502,14 @@ header {
   gap: 14px;
 
   width: 100%;
-  padding: 0 20px;
   margin: 0;
+  padding: 0 20px;
 }
 
+.hero-buttons a {
+  margin: 0;
+}
+  
 .buttons a {
   font-family: "Exo 2", sans-serif;
   font-weight: 600;
@@ -771,7 +782,7 @@ footer {
       Muzică originală Salsa, Bachata, Kizomba, Folk Metal, EDM și Balkan Pop-Folk.
     </p>
 
-    <div class="buttons">
+<div class="buttons hero-buttons">
 
 <a href="https://music.youtube.com/@alsbkin?si=3ueFRRC6Alra72Cy"
    target="_blank"
