@@ -453,36 +453,62 @@ nav a:hover {
   }
 }  
 header {
+  position: relative;
+  height: 65vh;
+  min-height: 520px;
+  max-height: 750px;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  padding: 95px 20px 15px;
-  background:
-    radial-gradient(circle at center, rgba(143, 216, 255, 0.12), transparent 40%),
-    linear-gradient(135deg, #000000, #151515);
-}
 
-.banner {
-  width: min(800px, 82%);
-  height: auto;
-  border-radius: 20px;
-  box-shadow:
-    0 0 35px rgba(143, 216, 255, 0.16),
-    0 0 70px rgba(0, 0, 0, 0.8);
-  margin-bottom: 25px;
+  padding: 40px 20px;
+
+  background:
+    linear-gradient(
+rgba(0,0,0,.35),
+rgba(0,0,0,.70)
+    ),
+    url("banner ALSBKIN 2.jpeg");
+
+  background-position: center top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #000;
 }
 
 .intro {
-  max-width: 850px;
-  font-size: 20px;
-  line-height: 1.7;
-  color: #8fd8ff;
-  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+
+  max-width: 950px;
+
+  margin-top: auto;
+  margin-bottom: 20px;
+
+  font-size: clamp(20px, 2vw, 28px);
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+  text-align: center;
+
+  text-shadow:
+      0 3px 12px rgba(0,0,0,.95),
+      0 0 20px rgba(0,0,0,.7);
 }
 
-.buttons {
-  margin-top: 22px;
+.buttons{
+
+    position:relative;
+
+    z-index:2;
+
+    margin-top:15px;
+
+    margin-bottom:35px;
 }
 
 .buttons a {
@@ -753,11 +779,10 @@ footer {
   </nav>
 
   <header>
-    <img src="banner ALSBKIN 2.jpeg" class="banner" alt="ALSBKIN official banner" />
-
-    <p class="intro">
-      Muzică originală Salsa, Bachata, Kizomba, Folk Metal, EDM și Balkan Pop-Folk.
-    </p>
+  
+<p class="intro">
+Original music • Salsa • Bachata • Kizomba • Folk Metal • EDM • Balkan Pop-Folk
+</p>
 
     <div class="buttons">
 
