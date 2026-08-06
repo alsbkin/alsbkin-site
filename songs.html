@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Songs | ALSBKIN</title>
+
+  <meta
+    name="description"
+    content="Ascultă lansările ALSBKIN pe Spotify."
+  />
+
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  />
+
+  <link rel="canonical" href="https://alsbkin.ro/songs.html" />
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/favicon-32x32.png"
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Exo 2", sans-serif;
+      color: #8fd8ff;
+      text-align: center;
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(143, 216, 255, 0.1),
+          transparent 35%
+        ),
+        linear-gradient(180deg, #050505, #101010);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      column-gap: 22px;
+      padding: 12px 20px;
+      background: rgba(0, 0, 0, 0.84);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #222;
+    }
+
+    nav .nav-left {
+      justify-self: end;
+    }
+
+    nav .nav-right {
+      justify-self: start;
+    }
+
+    nav a {
+      display: inline-block;
+      margin: 0 12px;
+      color: #8fd8ff;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #c00000;
+    }
+
+    .nav-main {
+      display: block;
+      line-height: 1.05;
+    }
+
+    .nav-sub {
+      display: block;
+      margin-top: 3px;
+      font-size: 80%;
+      line-height: 1.05;
+      opacity: 0.92;
+    }
+
+    .about-nav {
+      text-align: center;
+      line-height: 1.05;
+    }
+
+    /* Butonul Acasă animat */
+    .home-nav {
+      position: relative;
+      display: inline-block;
+      padding: 15px 34px;
+      font-family: "Exo 2", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+
+      color: #ffffff;
+      background: linear-gradient(
+        135deg,
+        #740000 0%,
+        #d00000 45%,
+        #ff3030 100%
+      );
+
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 32px;
+
+      box-shadow:
+        0 5px 0 #530000,
+        0 10px 20px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(255, 0, 0, 0.7),
+        0 0 42px rgba(255, 0, 0, 0.4);
+
+      transform-style: preserve-3d;
+      will-change: transform, box-shadow;
+
+      animation:
+        homeMove 6s ease-in-out infinite,
+        homePulse 1.25s ease-in-out infinite;
+
+      z-index: 10;
+    }
+
+    /* Halo luminos animat */
+    .home-nav::before {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      z-index: -1;
+
+      border: 2px solid rgba(255, 40, 40, 0.55);
+      border-radius: 40px;
+
+      box-shadow:
+        0 0 18px rgba(255, 0, 0, 0.7),
+        inset 0 0 18px rgba(255, 0, 0, 0.25);
+
+      animation: homeHalo 1.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Notă muzicală plutitoare */
+    .home-nav::after {
+      content: "♫";
+      position: absolute;
+      top: -18px;
+      right: -15px;
+
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: bold;
+
+      text-shadow:
+        0 0 8px #ff0000,
+        0 0 16px #ff0000,
+        0 0 28px #ff3030;
+
+      animation: homeMusicNote 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Efect la trecerea cursorului */
+    .home-nav:hover {
+      color: #000000;
+
+      background: linear-gradient(
+        135deg,
+        #f5c542,
+        #fff2a0
+      );
+
+      border-color: rgba(255, 255, 255, 0.8);
+
+      box-shadow:
+        0 5px 0 #9f7900,
+        0 12px 26px rgba(0, 0, 0, 0.5),
+        0 0 28px rgba(245, 197, 66, 0.95),
+        0 0 60px rgba(245, 197, 66, 0.55);
+
+      animation-play-state: paused;
+      transform: scale(1.18) translateY(-5px);
+    }
+
+    /* Mișcare amplă */
+    @keyframes homeMove {
+      0% {
+        transform:
+          translate(0, 0)
+          rotate(-3deg)
+          perspective(500px)
+          rotateX(0deg)
+          rotateY(0deg);
+      }
+
+      20% {
+        transform:
+          translate(32px, -18px)
+          rotate(3deg)
+          perspective(500px)
+          rotateX(4deg)
+          rotateY(-5deg);
+      }
+
+      40% {
+        transform:
+          translate(-28px, -32px)
+          rotate(-2deg)
+          perspective(500px)
+          rotateX(-4deg)
+          rotateY(5deg);
+      }
+
+      60% {
+        transform:
+          translate(30px, 12px)
+          rotate(4deg)
+          perspective(500px)
+          rotateX(4deg)
+          rotateY(4deg);
+      }
+
+      80% {
+        transform:
+          translate(-24px, -14px)
+          rotate(-4deg)
+          perspective(500px)
+          rotateX(-3deg)
+          rotateY(-4deg);
+      }
+
+      100% {
+        transform:
+          translate(0, 0)
+          rotate(-3deg)
+          perspective(500px)
+          rotateX(0deg)
+          rotateY(0deg);
+      }
+    }
+
+    /* Puls roșu */
+    @keyframes homePulse {
+      0%,
+      100% {
+        box-shadow:
+          0 5px 0 #530000,
+          0 10px 20px rgba(0, 0, 0, 0.45),
+          0 0 14px rgba(255, 0, 0, 0.45),
+          0 0 30px rgba(255, 0, 0, 0.25);
+      }
+
+      50% {
+        box-shadow:
+          0 5px 0 #530000,
+          0 12px 25px rgba(0, 0, 0, 0.5),
+          0 0 30px rgba(255, 0, 0, 1),
+          0 0 70px rgba(255, 0, 0, 0.75);
+      }
+    }
+
+    /* Extinderea haloului */
+    @keyframes homeHalo {
+      0%,
+      100% {
+        opacity: 0.35;
+        transform: scale(0.95);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.12);
+      }
+    }
+
+    /* Nota muzicală urcă și dispare */
+    @keyframes homeMusicNote {
+      0% {
+        opacity: 0;
+        transform: translate(0, 8px) rotate(-10deg) scale(0.75);
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: 0.9;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(15px, -28px) rotate(14deg) scale(1.25);
+      }
+    }
+
+    main {
+      width: min(1300px, 95%);
+      margin: 0 auto;
+      padding: 18px 0 90px;
+    }
+
+    h1 {
+      margin: 0 0 25px;
+      color: #ffffff;
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 9px rgba(143, 216, 255, 0.28),
+        0 0 16px rgba(143, 216, 255, 0.12);
+    }
+
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 35px;
+      align-items: start;
+    }
+
+    .spotify-release {
+      margin: 0;
+      padding: 22px;
+      background: #141414;
+      border: 1px solid #292929;
+      border-radius: 18px;
+      box-shadow:
+        0 14px 34px rgba(0, 0, 0, 0.48),
+        0 0 20px rgba(143, 216, 255, 0.08);
+    }
+
+    .spotify-release h2 {
+      margin: 0 0 16px;
+      color: #8fd8ff;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .spotify-release iframe {
+      display: block;
+      width: 100%;
+      height: 152px;
+      border: 0;
+      border-radius: 12px;
+      box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(29, 185, 84, 0.1);
+    }
+
+        .email-button {
+      display: inline-block;
+      margin-bottom: 26px;
+      padding: 14px 30px;
+      color: #ffffff;
+      background: #c00000;
+      border-radius: 30px;
+      font-family: "Exo 2", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .email-button:hover {
+      color: #000000;
+      background: #f5c542;
+      transform: translateY(-3px);
+    }
+
+    footer {
+      padding: 35px 20px;
+      color: #8fd8ff;
+      font-size: 14px;
+      border-top: 1px solid #222;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .releases-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        column-gap: 8px;
+        padding: 10px 8px;
+      }
+
+      nav a {
+        margin: 6px 2px;
+        font-size: 12px;
+      }
+
+      main {
+        width: 94%;
+        padding: 14px 0 70px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        font-size: 22px;
+      }
+
+      .spotify-release {
+        padding: 16px;
+      }
+
+      .spotify-release h2 {
+        font-size: 19px;
+      }
+    }
+
+    /* Pe telefon: mișcare mai mică */
+    @media (max-width: 700px) {
+      .home-nav {
+        padding: 12px 24px;
+        font-size: 1rem;
+
+        animation:
+          homeMoveMobile 5s ease-in-out infinite,
+          homePulse 1.25s ease-in-out infinite;
+      }
+
+      @keyframes homeMoveMobile {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(-2deg);
+        }
+
+        25% {
+          transform: translate(10px, -7px) rotate(2deg);
+        }
+
+        50% {
+          transform: translate(-10px, -12px) rotate(-2deg);
+        }
+
+        75% {
+          transform: translate(8px, 5px) rotate(2deg);
+        }
+      }
+    }
+
+    /* Respectă preferința utilizatorilor care dezactivează animațiile */
+    @media (prefers-reduced-motion: reduce) {
+      .home-nav,
+      .home-nav::before,
+      .home-nav::after {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html#video" class="nav-left">Video</a>
+
+    <a href="index.html" class="home-nav">
+      <span class="nav-main">ACASĂ</span>
+      <span class="nav-sub">HOME</span>
+    </a>
+
+    <a href="index.html#despre" class="nav-right about-nav">
+      <span class="nav-main" style="text-transform:none;">Despre</span>
+      <span class="nav-sub" style="text-transform:none;">About</span>
+    </a>
+  </nav>
+
+  <main>
+    <h1>Songs</h1>
+
+    <div class="releases-grid">
+    
+<section class="spotify-release">
+    <h2>Romanian Folk Metal • Rock • Alternative • Industrial</h2>
+
+    <iframe
+      data-testid="embed-iframe"
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/playlist/0UHuZKRyWs8R1OGylcJNxw?utm_source=generator&si=4284b99a3c604ad9"
+      title="Romanian Folk Metal • Rock • Alternative • Industrial — ALSBKIN"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allowfullscreen
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+</section>
+
+     <section class="spotify-release">
+    <h2>EDM • Electronic • Dance • House</h2>
+
+    <iframe
+      data-testid="embed-iframe"
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/playlist/5p604ZDGWD7RE8QKM8Fwnj?utm_source=generator&si=4b6829a1f3114f48"
+      title="EDM • Electronic • Dance • House — ALSBKIN"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allowfullscreen
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+</section>
+
+<section class="spotify-release">
+    <h2>Balkan Pop-Folk</h2>
+
+    <iframe
+      data-testid="embed-iframe"
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/playlist/1hRHdJnv8LzDX1bVPy5FFv?utm_source=generator&si=17503139d96f4d7e"
+      title="Balkan Pop-Folk — ALSBKIN"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allowfullscreen
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+</section>
+
+      <section class="spotify-release">
+    <h2>Latino</h2>
+
+    <iframe
+      data-testid="embed-iframe"
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/playlist/31IHaP6NfuwhSJ5Dh044QA?utm_source=generator&si=ee0c48e5d13c495f"
+      title="Latino — ALSBKIN"
+      width="100%"
+      height="352"
+      frameborder="0"
+      allowfullscreen
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+</section>
+
+    </div>
+  </main>
+
+  <footer>
+    <a href="mailto:alsbkin@gmail.com" class="email-button">Trimite email</a>
+    <p>© 2026 ALSBKIN. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
