@@ -751,17 +751,23 @@ footer {
   .banner {
     width: 100%;
     border-radius: 14px;
+    margin-bottom: 0;
   }
 
-.hero-buttons {
-    margin-top: 20px;
-    margin-bottom: 25px;
-}
+  .hero-buttons {
+    position: relative;
+    width: 100%;
+    margin: 20px 0 25px;
+    padding: 0;
+    gap: 10px;
+  }
 
-.hero-buttons a {
-    margin: 8px auto;
-}
-  
+  .hero-buttons a {
+    display: block;
+    width: 230px;
+    margin: 6px auto;
+  }
+
   .intro,
   p {
     font-size: 17px;
@@ -774,7 +780,6 @@ footer {
   .buttons a {
     display: block;
     width: 230px;
-    margin: 12px auto;
   }
 
   .playlist-card {
@@ -784,25 +789,7 @@ footer {
   .playlist-card h3 {
     font-size: 18px;
   }
-}
-
-@media (max-width: 900px) {
-  .hero-buttons {
-    position: relative !important;
-    width: 100% !important;
-    margin: 18px 0 25px !important;
-    padding: 0 !important;
-    transform: none !important;
-    gap: 10px !important;
-  }
-
-  .hero-buttons a {
-    display: block !important;
-    width: 230px !important;
-    margin: 6px auto !important;
-  }
-}
-  
+}  
   </style>
 </head>
 
