@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="ro">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neamul | ALSBKIN</title>
+<meta content="Neamul de ALSBKIN este o piesă Folk Metal despre identitate, onoare și legătura dintre generații. Ascultă piesa și citește versurile complete." name="description"/>
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<link href="https://alsbkin.ro/neamul.html" rel="canonical"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&amp;family=Marck+Script&amp;display=swap" rel="stylesheet"/>
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Exo 2", sans-serif;
+      color: #8fd8ff;
+      text-align: center;
+      background:
+        radial-gradient(circle at top, rgba(143, 216, 255, 0.1), transparent 35%),
+        linear-gradient(180deg, #050505, #101010);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 20px;
+      background: rgba(0, 0, 0, 0.84);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #222;
+    }
+
+    .top-prev,
+    .top-next {
+      display: flex;
+      align-items: center;
+      min-height: 52px;
+      color: #78ff45;
+      text-decoration: none;
+      font-weight: 800;
+      line-height: 1.15;
+      transition: 0.25s ease;
+    }
+
+    .top-prev {
+      justify-self: end;
+      text-align: right;
+    }
+
+    .top-next {
+      justify-self: start;
+      text-align: left;
+    }
+
+    .top-prev:hover,
+    .top-next:hover {
+      color: #baff8e;
+      text-shadow: 0 0 14px rgba(120, 255, 69, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .top-prev .arrow {
+      margin-right: 9px;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .top-next .arrow {
+      margin-left: 9px;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .top-song-name {
+      display: block;
+      max-width: 220px;
+    }
+
+    .songs-nav {
+      position: relative;
+      display: inline-block;
+      padding: 15px 34px;
+      font-family: "Exo 2", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      background: linear-gradient(135deg, #740000 0%, #d00000 45%, #ff3030 100%);
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 32px;
+      box-shadow:
+        0 5px 0 #530000,
+        0 10px 20px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(255, 0, 0, 0.7),
+        0 0 42px rgba(255, 0, 0, 0.4);
+      transform-style: preserve-3d;
+      will-change: transform, box-shadow;
+      animation:
+        songsMove 6s ease-in-out infinite,
+        songsPulse 1.25s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    .songs-nav::before {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      z-index: -1;
+      border: 2px solid rgba(255, 40, 40, 0.55);
+      border-radius: 40px;
+      box-shadow:
+        0 0 18px rgba(255, 0, 0, 0.7),
+        inset 0 0 18px rgba(255, 0, 0, 0.25);
+      animation: songsHalo 1.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .songs-nav::after {
+      content: "♫";
+      position: absolute;
+      top: -18px;
+      right: -15px;
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px #ff0000,
+        0 0 16px #ff0000,
+        0 0 28px #ff3030;
+      animation: musicNote 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .songs-nav:hover {
+      color: #000000;
+      background: linear-gradient(135deg, #f5c542, #fff2a0);
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow:
+        0 5px 0 #9f7900,
+        0 12px 26px rgba(0, 0, 0, 0.5),
+        0 0 28px rgba(245, 197, 66, 0.95),
+        0 0 60px rgba(245, 197, 66, 0.55);
+      animation-play-state: paused;
+      transform: scale(1.18) translateY(-5px);
+    }
+
+    @keyframes songsMove {
+      0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+      20% { transform: translate(32px, -18px) rotate(3deg); }
+      40% { transform: translate(-28px, -32px) rotate(-2deg); }
+      60% { transform: translate(30px, 12px) rotate(4deg); }
+      80% { transform: translate(-24px, -14px) rotate(-4deg); }
+    }
+
+    @keyframes songsPulse {
+      0%, 100% {
+        box-shadow:
+          0 5px 0 #530000,
+          0 10px 20px rgba(0, 0, 0, 0.45),
+          0 0 14px rgba(255, 0, 0, 0.45),
+          0 0 30px rgba(255, 0, 0, 0.25);
+      }
+      50% {
+        box-shadow:
+          0 5px 0 #530000,
+          0 12px 25px rgba(0, 0, 0, 0.5),
+          0 0 30px rgba(255, 0, 0, 1),
+          0 0 70px rgba(255, 0, 0, 0.75);
+      }
+    }
+
+    @keyframes songsHalo {
+      0%, 100% { opacity: 0.35; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.12); }
+    }
+
+    @keyframes musicNote {
+      0% { opacity: 0; transform: translate(0, 8px) rotate(-10deg) scale(0.75); }
+      25% { opacity: 1; }
+      70% { opacity: 0.9; }
+      100% { opacity: 0; transform: translate(15px, -28px) rotate(14deg) scale(1.25); }
+    }
+
+    main {
+      width: min(1180px, 94%);
+      margin: 0 auto;
+      padding: 30px 0 80px;
+    }
+
+    .song-title {
+      margin: 10px 0 34px;
+      color:#d8c38b;
+      font-family:"Marck Script", cursive;
+      font-size:clamp(46px,6.4vw,78px);
+      font-weight: 700;
+      line-height: 1.05;
+      text-shadow:
+        0 0 12px rgba(143, 216, 255, 0.22),
+        0 0 22px rgba(143, 216, 255, 0.12);
+    }
+
+    .section-title {
+      margin: 36px 0 20px;
+      font-weight: 700;
+    }
+
+    .versions-title {
+      color: transparent;
+      background: linear-gradient(180deg, #ff7a84 0%, #ef3150 48%, #b80f2e 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      font-family: "Marck Script", cursive;
+      font-size: 36px;
+    }
+
+    .lyrics-title {
+      color: #d9dde3;
+      font-family: "Marck Script", cursive;
+      font-size: 36px;
+    }
+
+    .version-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 0 auto 22px;
+    }
+
+    .version-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex: 0 1 calc((100% - 70px) / 6);
+      min-width: 150px;
+      min-height: 66px;
+      padding: 10px 12px;
+      color: #78ff45;
+      background: linear-gradient(135deg, #3b080d 0%, #74101b 55%, #a81729 100%);
+      border: 1px solid rgba(255, 90, 105, 0.45);
+      border-radius: 15px;
+      font-family: "Exo 2", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+    }
+
+    .version-btn.has-player {
+      display: flex;
+    }
+
+    .version-btn:hover,
+    .version-btn.active {
+      color: #baff8e;
+      background: linear-gradient(135deg, #8f1020 0%, #d51b35 60%, #ff4b5f 100%);
+      border-color: #ff7b8a;
+      transform: translateY(-2px);
+      box-shadow: 0 0 18px rgba(255, 42, 75, 0.38);
+    }
+
+    .player-area {
+      display: none;
+      width: 100%;
+      margin: 22px auto 40px;
+      padding: 18px;
+      background: #141414;
+      border: 1px solid #292929;
+      border-radius: 18px;
+      box-shadow:
+        0 14px 34px rgba(0, 0, 0, 0.48),
+        0 0 20px rgba(143, 216, 255, 0.08);
+    }
+
+    .player-area iframe {
+      display: block;
+      width: 100%;
+      height: 232px;
+      border: 0;
+      border-radius: 12px;
+    }
+
+    .lyrics {
+ position:relative; overflow:visible; isolation:isolate;
+ column-count:2; column-gap:70px; max-width:1000px; margin:0 auto;
+ padding:32px 38px; color:#e8f7ff; background:transparent;
+ border:none; border-radius:0; font-family:"Marck Script",cursive;
+ font-size:22px; font-weight:400; line-height:1.48; text-align:left;
+ white-space:pre-line; box-shadow:none;
+ text-shadow:0 2px 8px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.72);
+}
+.lyrics::before {
+ content:""; position:absolute; top:18px; left:50%;
+ width:min(112%,1120px); aspect-ratio:1/1; transform:translateX(-50%);
+ z-index:-2; background:url("https://alsbkin.ro/images/covers/neamul.jpg") center/contain no-repeat;
+ filter:brightness(.42) saturate(1) contrast(1.05); opacity:.96; pointer-events:none;
+}
+.lyrics::after {
+ content:""; position:absolute; inset:0; z-index:-1; background:transparent; pointer-events:none;
+}
+
+    footer {
+ position:relative; z-index:20; display:block;
+ width:fit-content; max-width:calc(100% - 32px); margin:30px auto;
+ padding:10px 16px; background:rgba(10,10,10,.88); color:#8fd8ff;
+ font-size:14px; border:1px solid #222; border-radius:10px; box-sizing:border-box;
+}
+
+    @media (max-width: 900px) {
+      .lyrics {
+        overflow:hidden; column-count:1; column-gap:0;
+        padding:26px 24px; font-size:17px;
+      }
+      .lyrics::before {
+        top:18px; width:96%; filter:brightness(.30) saturate(.92);
+      }
+      .lyrics::after {
+        background:linear-gradient(rgba(0,0,0,.255),rgba(0,0,0,.383) 55%,rgba(0,0,0,.561));
+      }
+    }
+
+    @media (max-width: 700px) {
+      nav {
+        padding: 10px 8px;
+      }
+
+      .songs-nav {
+        padding: 12px 24px;
+        font-size: 1rem;
+        animation:
+          songsMoveMobile 5s ease-in-out infinite,
+          songsPulse 1.25s ease-in-out infinite;
+      }
+
+      @keyframes songsMoveMobile {
+        0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+        25% { transform: translate(10px, -7px) rotate(2deg); }
+        50% { transform: translate(-10px, -12px) rotate(-2deg); }
+        75% { transform: translate(8px, 5px) rotate(2deg); }
+      }
+
+      .song-title {
+        margin-top: 16px;
+        font-size: 46px;
+      }
+
+      .section-title {
+        font-size: 17px;
+      }
+
+      .version-buttons {
+        gap: 10px;
+      }
+
+      .version-btn {
+        flex: 0 1 calc(50% - 5px);
+        min-width: 0;
+      }
+
+      .version-btn {
+        min-height: 60px;
+        padding: 9px 8px;
+        font-size: 13px;
+      }
+
+      .player-area iframe {
+        height: 232px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .songs-nav,
+      .songs-nav::before,
+      .songs-nav::after {
+        animation: none;
+      }
+    }
+  
+
+    .song-description {
+ position:relative; z-index:5; max-width:1000px; margin:44px auto 0;
+ padding:28px 32px; background:transparent; border:none; border-radius:0;
+ box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none;
+}
+
+    .song-description h2 {
+      margin: 0 0 16px;
+      color: #d8c38b;
+      font-family: "Marck Script", cursive;
+      font-size: 34px;
+      font-weight: 700;
+      text-shadow:0 2px 8px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.72);
+    }
+
+    .song-description p {
+      margin: 0;
+      color: #d9dde3;
+      font-family: "Marck Script", cursive;
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.55;
+      text-align: justify;
+      text-justify: inter-word;
+      text-shadow:0 2px 8px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.72);
+    }
+
+    .lyrics-credit {
+      max-width: 1000px;
+      margin: 0 auto 12px;
+      color: #d8c38b;
+      font-family: "Marck Script", cursive;
+      font-size: 19px;
+      font-weight: 400;
+      text-align: left;
+    }
+
+    .song-navigation {
+      max-width: 1000px;
+      margin: 42px auto 6px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .song-navigation a {
+      display: flex;
+      align-items: center;
+      min-height: 60px;
+      color: #78ff45;
+      text-decoration: none;
+      font-weight: 800;
+      line-height: 1.25;
+      transition: 0.25s ease;
+    }
+
+    .song-navigation a:hover {
+      color: #baff8e;
+      transform: translateY(-2px);
+      text-shadow: 0 0 14px rgba(120, 255, 69, 0.45);
+    }
+
+    .previous-song {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .next-song {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .song-navigation .arrow {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .previous-song .arrow {
+      margin-right: 10px;
+    }
+
+    .next-song .arrow {
+      margin-left: 10px;
+    }
+
+    @media (max-width: 700px) {
+      .song-description {
+        padding: 24px 22px;
+      }
+
+      .song-description h2 {
+        font-size: 30px;
+      }
+
+      .song-description p {
+        font-size: 20px;
+      }
+
+      nav {
+        gap: 8px;
+        padding: 10px 8px;
+      }
+
+      .top-prev,
+      .top-next {
+        min-height: 54px;
+        font-size: 12px;
+      }
+
+      .top-song-name {
+        max-width: 105px;
+      }
+
+      .top-prev .arrow,
+      .top-next .arrow {
+        font-size: 23px;
+      }
+    }
+
+    .song-navigation {
+      display: none !important;
+    }
+footer{display:block!important;width:fit-content!important;max-width:calc(100% - 32px)!important;margin-left:auto!important;margin-right:auto!important;}
+
+    /* Center lyrics and description without changing the existing layout */
+    .lyrics { text-align: center !important; }
+    .song-description, .song-description h2, .song-description p { text-align: center !important; }
+    .song-description p { text-align-last: center !important; }
+    @media (max-width: 900px) {
+      .lyrics { text-align: center !important; }
+      .song-description, .song-description h2, .song-description p { text-align: center !important; }
+    }
+
+</style>
+<meta content="music.song" property="og:type"/><meta content="Neamul | ALSBKIN" property="og:title"/><meta content="Neamul de ALSBKIN este o piesă Folk Metal despre identitate, onoare și legătura dintre generații. Ascultă piesa și citește versurile complete." property="og:description"/><meta content="https://alsbkin.ro/neamul.html" property="og:url"/><meta content="ALSBKIN" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Neamul | ALSBKIN" name="twitter:title"/><meta content="Neamul de ALSBKIN este o piesă Folk Metal despre identitate, onoare și legătura dintre generații. Ascultă piesa și citește versurile complete." name="twitter:description"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "MusicRecording",
+  "name": "Neamul",
+  "url": "https://alsbkin.ro/neamul.html",
+  "image": "https://alsbkin.ro/images/covers/neamul.jpg",
+  "byArtist": {
+    "@type": "MusicGroup",
+    "name": "ALSBKIN",
+    "url": "https://alsbkin.ro/"
+  },
+  "inLanguage": "ro",
+  "genre": [
+    "Folk Metal",
+    "Metal"
+  ],
+  "sameAs": [
+    "https://open.spotify.com/track/7Evh8tW20i1WZTWtJ1s5gG"
+  ]
+}</script><meta content="https://alsbkin.ro/images/covers/neamul.jpg" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="1200" property="og:image:height"/><meta content="https://alsbkin.ro/images/covers/neamul.jpg" name="twitter:image"/></head>
+<body>
+<nav><a class="top-prev" href="noaptea-de-vara.html"><span aria-hidden="true" class="arrow">←</span><span class="top-song-name">Noaptea de vară</span></a><a class="songs-nav" href="songs.html">Songs</a><a class="top-next" href="brumarelul.html"><span class="top-song-name">Brumărelul</span><span aria-hidden="true" class="arrow">→</span></a></nav>
+<main>
+<h1 class="song-title">Neamul</h1>
+<h2 class="section-title versions-title">Ascultă variantele piesei</h2>
+<div class="version-buttons">
+<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/7Evh8tW20i1WZTWtJ1s5gG?utm_source=generator&amp;si=457a1d3187944e9c" type="button">Folk/Metal/Rock</button>
+<button class="version-btn" data-src="" type="button">EDM/Dance/House</button>
+<button class="version-btn" data-src="" type="button">Balkan Pop-Folk</button>
+<button class="version-btn" data-src="" type="button">Bachata</button>
+<button class="version-btn" data-src="" type="button">Salsa</button>
+<button class="version-btn" data-src="" type="button">Kizomba</button>
+</div>
+<div class="player-area" id="playerArea">
+<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" title="Neamul — ALSBKIN">
+</iframe>
+</div>
+<h2 class="section-title lyrics-title">Lyrics / Versuri</h2><p class="lyrics-credit">Versuri scrise de Alin Pop</p>
+<div class="lyrics">Pe drum de piatră bate vântul
+Sub cerul vechi de mii de ani
+Se-aprind în noi iar dor și gândul
+Că nu trăim pentru dușmani
+
+Prin focul serii cântă lemnul
+Paharul plin se ridică sus
+Iar peste munți răsună cerul
+Și nimeni încă nu ne-a răpus
+
+Hei! Ridică focul mai sus
+Lasă-l să ardă în pieptul tău
+Hei! Esti viu și strigi, nu esti răpus
+Nimeni nu frânge neamul meu
+
+Hei! Să se-audă glasul tare
+Să tune codrul peste zări
+Focul din piepturi e văpaie
+Uniți, învingem orice încercări
+
+Prin ploaie, ger și prin urgie
+Am mers cu capul ridicat
+Nicio povară nu ne frânge
+Și drumul nostru-i luminat
+
+Când cade noaptea peste noi
+Și umbrele se-adună legănat
+Uităm de griji și de nevoi
+Cântăm cu sufletul curat
+
+Dacă vântul ne încearcă
+Dacă drumul pare greu
+Ridică fruntea, mergi înainte
+Nu te opri din drumul tău
+
+Hei! Ridică focul mai sus
+Lasă-l să ardă în pieptul tău
+Hei! Esti viu și strigi, nu esti răpus
+Nimeni nu frânge neamul meu
+
+Hei! Să se-audă glasul tare
+Să tune codrul peste zări
+Focul din piepturi e văpaie
+Uniți, învingem orice încercări</div><section class="song-description"><h2>Despre piesă</h2><p>Cu riff-uri puternice, influențe folk și o energie intensă, piesa vorbește despre identitate, onoare și legătura dintre generații. Este un omagiu adus celor care și-au păstrat valorile indiferent de vremuri.</p></section>
+</main>
+<footer>
+    © 2026 ALSBKIN. All rights reserved.
+  </footer>
+<script>
+    const versionButtons = document.querySelectorAll(".version-btn");
+    const playerArea = document.getElementById("playerArea");
+    const variantPlayer = document.getElementById("variantPlayer");
+
+    versionButtons.forEach((button) => {
+      const source = button.dataset.src.trim();
+
+      if (source) {
+        button.classList.add("has-player");
+      }
+
+      button.addEventListener("click", () => {
+        if (!source) return;
+
+        versionButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+
+        variantPlayer.src = source;
+        playerArea.style.display = "block";
+        playerArea.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    });
+  </script>
+</body>
+</html>
