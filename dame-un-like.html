@@ -559,6 +559,7 @@ footer{display:block!important;width:fit-content!important;max-width:calc(100% -
   opacity: 0.52 !important;
   column-count: 3 !important;
   column-gap: 40px !important;
+  max-width: 1150px !important;
   font-size: 18px !important;
   line-height: 1.48 !important;
   text-align: center !important;
@@ -567,7 +568,7 @@ footer{display:block!important;width:fit-content!important;max-width:calc(100% -
   /* IMPORTANT: same positioning on every song page.
      Top spacing places the lyrics lower on the cover;
      bottom spacing is zero so About follows the text, not the image. */
-  padding: 220px 38px 0 !important;
+  padding: 240px 38px 0 !important;
 }
 
 .song-description {
@@ -596,6 +597,7 @@ footer {
   .lyrics {
     column-count: 2 !important;
     column-gap: 18px !important;
+    max-width: 100% !important;
     font-size: 15.3px !important;
     line-height: 1.48 !important;
 
@@ -630,6 +632,24 @@ footer {
 .song-description p {
   font-size: 18px !important;
   opacity: 1 !important;
+}
+
+
+/* Compress About -> copyright spacing: copyright 20px higher */
+footer {
+  margin-top: -10px !important;
+}
+
+
+/* Reduce heading -> description text gap by 20px */
+.song-description h2 {
+  margin-bottom: -4px !important;
+}
+
+
+/* Move only copyright 10px downward */
+footer {
+  margin-top: 0 !important;
 }
 
 </style>
