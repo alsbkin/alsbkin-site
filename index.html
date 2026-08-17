@@ -606,7 +606,7 @@ p {
 
 .youtube-playlists {
   width: min(800px, 100%);
-  margin: 45px auto 0;
+  margin: 1px auto 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 28px;
@@ -861,6 +861,34 @@ footer {
 }
 .latino-subgenres {
   font-size: 50%;
+}
+
+
+/* Tighten the real gap between social buttons and YouTube playlists */
+header {
+  padding-bottom: 0;
+}
+
+.hero-buttons {
+  margin-bottom: 15px;
+}
+
+#muzica {
+  padding-top: 0;
+}
+
+.youtube-playlists {
+  margin-top: 1px;
+}
+
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
+  .hero-buttons {
+    margin-bottom: 15px;
+  }
+
+  #muzica {
+    padding-top: 0;
+  }
 }
 
 </style>
