@@ -542,10 +542,11 @@ header {
 .tiktok-btn {
   background: linear-gradient(
     135deg,
-    rgba(17, 17, 17, 0.80),
-    rgba(34, 34, 34, 0.80)
+    rgba(0, 0, 0, 1),
+    rgba(7, 7, 7, 1)
   ) !important;
   color: #ffffff !important;
+  border: 1px solid rgba(210, 210, 210, 0.55);
   backdrop-filter: blur(4px);
 }
 
@@ -565,7 +566,6 @@ header {
   
 section {
   padding: 18px 20px 30px;
-  border-top: 1px solid #222;
 }
 
 h2 {
@@ -655,7 +655,6 @@ footer {
   padding: 35px;
   color: #8fd8ff;
   font-size: 14px;
-  border-top: 1px solid #222;
 }
 
 @media (max-width: 800px) {
@@ -830,6 +829,77 @@ nav .nav-right {
   font-family: "Marck Script", cursive !important;
 }
 
+
+/* Blended vertical color flow — subtle red / yellow / blue */
+header {
+  background:
+    linear-gradient(
+      to bottom,
+      #080808 0%,
+      #100707 42%,
+      #0f0b06 78%,
+      #0d0d07 100%
+    );
+}
+
+#muzica {
+  background:
+    linear-gradient(
+      to bottom,
+      #0d0d07 0%,
+      #111006 32%,
+      #0b1013 72%,
+      #081019 100%
+    );
+}
+
+#video {
+  background:
+    linear-gradient(
+      to bottom,
+      #081019 0%,
+      #07111b 36%,
+      #0f090b 76%,
+      #120707 100%
+    );
+}
+
+#despre {
+  background:
+    linear-gradient(
+      to bottom,
+      #120707 0%,
+      #130808 34%,
+      #100d07 72%,
+      #111006 100%
+    );
+}
+
+#contact {
+  background:
+    linear-gradient(
+      to bottom,
+      #111006 0%,
+      #121006 34%,
+      #0a1015 72%,
+      #071019 100%
+    );
+}
+
+footer {
+  background:
+    linear-gradient(
+      to bottom,
+      #071019 0%,
+      #07111a 46%,
+      #080a0d 78%,
+      #080808 100%
+    );
+}
+.latino-subgenres {
+  font-size: 50%;
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet"/>
 </head>
@@ -870,14 +940,14 @@ nav .nav-right {
 <section id="muzica">
 <div class="youtube-playlists">
 <article class="playlist-card">
-<h3>⚔️ ROMANIAN FOLK METAL</h3>
+<h3>⚔️ FOLK/METAL/ROCK</h3>
 <div class="youtube-player">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexN3XLRj2rGLeWre779BN_OM" title="ALSBKIN Romanian Folk Metal Playlist">
 </iframe>
 </div>
 </article>
 <article class="playlist-card">
-<h3>⚡ EDM</h3>
+<h3>⚡ EDM/DANCE/HOUSE/TRAP</h3>
 <div class="youtube-player">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PLMnipVzbCs6Y" title="ALSBKIN EDM Playlist">
 </iframe>
@@ -891,7 +961,7 @@ nav .nav-right {
 </div>
 </article>
 <article class="playlist-card">
-<h3>💃 LATINO</h3>
+<h3>💃 LATINO <span class="latino-subgenres">| SALSA | BACHATA | KIZOMBA</span></h3>
 <div class="youtube-player">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PLE6DIXdctjV4" title="ALSBKIN Latino Playlist">
 </iframe>
