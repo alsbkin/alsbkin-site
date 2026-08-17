@@ -485,6 +485,38 @@
       text-transform: none;
     }
 
+
+/* Smooth vertical tricolor ambient flow: red -> yellow -> blue */
+body {
+  background:
+    linear-gradient(
+      to bottom,
+      #100707 0%,
+      #120909 16%,
+      #111006 42%,
+      #121107 56%,
+      #081019 82%,
+      #07111a 100%
+    );
+}
+
+/* Let the page-wide gradient flow continuously behind the content */
+main,
+.spotify-release,
+footer {
+  background-color: transparent;
+}
+
+/* Keep cards readable while allowing a trace of the ambient gradient through */
+.spotify-release {
+  background: rgba(20, 20, 20, 0.88);
+}
+
+/* Remove the hard footer separator so the blue transition remains continuous */
+footer {
+  border-top: none;
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&amp;display=swap" rel="stylesheet"/>
 <meta property="og:type" content="website"/>

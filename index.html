@@ -830,71 +830,34 @@ nav .nav-right {
 }
 
 
-/* Blended vertical color flow — subtle red / yellow / blue */
-header {
+/* Smooth vertical tricolor ambient flow: red -> yellow -> blue */
+body {
   background:
     linear-gradient(
       to bottom,
-      #080808 0%,
-      #100707 42%,
-      #0f0b06 78%,
-      #0d0d07 100%
+      #100707 0%,
+      #120909 16%,
+      #111006 42%,
+      #121107 56%,
+      #081019 82%,
+      #07111a 100%
     );
 }
 
-#muzica {
-  background:
-    linear-gradient(
-      to bottom,
-      #0d0d07 0%,
-      #111006 32%,
-      #0b1013 72%,
-      #081019 100%
-    );
-}
-
-#video {
-  background:
-    linear-gradient(
-      to bottom,
-      #081019 0%,
-      #07111b 36%,
-      #0f090b 76%,
-      #120707 100%
-    );
-}
-
-#despre {
-  background:
-    linear-gradient(
-      to bottom,
-      #120707 0%,
-      #130808 34%,
-      #100d07 72%,
-      #111006 100%
-    );
-}
-
-#contact {
-  background:
-    linear-gradient(
-      to bottom,
-      #111006 0%,
-      #121006 34%,
-      #0a1015 72%,
-      #071019 100%
-    );
-}
-
+/* Let one continuous gradient flow behind all page sections */
+header,
+#muzica,
+#video,
+#despre,
+#contact,
 footer {
-  background:
-    linear-gradient(
-      to bottom,
-      #071019 0%,
-      #07111a 46%,
-      #080a0d 78%,
-      #080808 100%
-    );
+  background: transparent;
+}
+
+/* No hard separators between sections */
+section,
+footer {
+  border-top: none;
 }
 .latino-subgenres {
   font-size: 50%;
