@@ -420,7 +420,7 @@
       position: absolute;
       top: 0;
       left: 50%;
-      width: min(52%, 520px);
+      width: min(112%, 1120px);
       aspect-ratio: 1 / 1;
       transform: translateX(-50%);
       z-index: -2;
@@ -666,6 +666,88 @@ footer {
 .song-description p {
   font-size: 18px !important;
   opacity: 1 !important;
+}
+
+
+
+/* Salsa Instrumental: background independent from About text */
+.song-description {
+  max-width: 1120px !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+  overflow: visible !important;
+}
+
+.song-description::before {
+  top: 0 !important;
+  left: 50% !important;
+  width: min(100%, 1120px) !important;
+  max-width: 1120px !important;
+  aspect-ratio: 1 / 1 !important;
+  transform: translateX(-50%) !important;
+  background-size: contain !important;
+  background-position: top center !important;
+  background-repeat: no-repeat !important;
+}
+
+.song-description h2 {
+  padding-top: 750px !important;
+}
+
+footer {
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width: 700px) {
+  .song-description {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 22px !important;
+  }
+
+  .song-description::before {
+    width: min(100%, 1120px) !important;
+    max-width: 100% !important;
+    top: 0 !important;
+    background-size: contain !important;
+    background-position: top center !important;
+  }
+
+  .song-description h2 {
+    padding-top: 750px !important;
+  }
+
+  footer {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+
+/* Final Salsa Instrumental background centering fix */
+.song-description::before {
+  left: 50% !important;
+  right: auto !important;
+  width: min(1120px, 94vw) !important;
+  max-width: none !important;
+  transform: translateX(-50%) !important;
+  background-size: contain !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+}
+
+@media (max-width: 700px) {
+  .song-description::before {
+    left: 50% !important;
+    right: auto !important;
+    width: 94vw !important;
+    max-width: none !important;
+    transform: translateX(-50%) !important;
+    background-size: contain !important;
+    background-position: center top !important;
+  }
 }
 
 </style>
