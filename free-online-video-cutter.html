@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Free Online Video Cutter & MP4 Cutter | ALSBKIN Tools</title>
-<meta name="description" content="Free online video cutter and MP4 cutter by ALSBKIN. Trim video files in your browser, preview the exact selection and export for free. Your video stays on your device."/>
+<title>Free Online Video Cutter | Trim Video Safely | ALSBKIN Tools</title>
+<meta name="description" content="Free online video cutter by ALSBKIN. Trim video files safely in your browser, preview the exact selection and export for free. No upload: your video stays on your device."/>
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1"/>
 <link rel="canonical" href="https://alsbkin.ro/free-online-video-cutter.html"/>
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
@@ -207,12 +207,12 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 {
   "@context":"https://schema.org",
   "@type":"WebApplication",
-  "name":"Free Online Video Cutter & MP4 Cutter",
+  "name":"Free Online Video Cutter",
   "url":"https://alsbkin.ro/free-online-video-cutter.html",
   "applicationCategory":"MultimediaApplication",
   "operatingSystem":"Any",
   "browserRequirements":"Requires a modern browser with WebAssembly support",
-  "description":"Free online video cutter and MP4 cutter that processes video locally in the browser."
+  "description":"Free online video cutter that processes video locally in the browser without uploading it to any server."
 }
 </script>
 </head>
@@ -221,36 +221,354 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <main>
 <h1>Free Online Video Cutter</h1>
 <p class="subtitle">Cut MP4, WebM, MOV and other browser-supported video files online for free. Select the exact section you want, preview it and export the result directly from your browser.</p>
-<div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
+<div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to ALSBKIN servers, so your video data stays on your device.</div>
 <section class="panel"><div class="drop-zone" id="dropZone"><div class="drop-title">Select a video file</div><div class="drop-sub">Click here or drag &amp; drop • MP4, WebM, MOV and other video formats supported by your browser</div><input class="file-input" id="fileInput" type="file" accept="video/*"/></div><div class="file-meta" id="fileMeta"></div></section>
 <section class="panel editor" id="editor">
 <video id="video" class="video-preview" controls playsinline></video>
 <div class="timeline" id="timeline"><div class="timeline-track"></div><div class="selection" id="selection"></div><div class="handle" id="startHandle" aria-label="Start selection"></div><div class="handle" id="endHandle" aria-label="End selection"></div></div>
 <div class="time-grid"><div class="field"><label for="startTime">START</label><input id="startTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label for="endTime">END</label><input id="endTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label>SELECTION LENGTH</label><input id="selectionDuration" type="text" readonly/></div></div>
 <div class="controls"><button class="btn-main" id="playSelection">▶ Preview selection</button><button class="btn-secondary" id="stopPreview" disabled>■ Stop</button><button class="btn-secondary" id="selectAll">Select all</button></div>
-<div class="controls" style="margin-top:22px"><button class="btn-main" id="exportBtn">✂ Cut and export MP4</button></div>
+<div class="controls" style="margin-top:22px"><button class="btn-main" id="exportBtn">✂ Cut and export</button></div>
 <div class="status" id="status"></div><div class="progress" id="progress"><span id="progressBar"></span></div><div class="result" id="result"><div style="margin-bottom:12px;font-weight:800">Your video is ready.</div><a class="download-link" id="downloadLink" href="#" download>DOWNLOAD</a></div>
-<p class="ffmpeg-note">The video processing engine is loaded only when you export. The first export may take a little longer while the browser loads the local processing engine.</p>
+<p class="ffmpeg-note">Export is processed entirely in your browser. No external processing engine or server upload is used.</p>
 </section>
-<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Preview the selected section.</p><p>4. Click Cut and export MP4.</p><p>5. Download the finished video.</p></div><p class="small">Note: input playback support depends on your browser and device. Export uses FFmpeg WebAssembly locally in your browser. Large or high-resolution videos can require significant memory and processing time.</p></section>
+<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Preview the selected section.</p><p>4. Click Cut and export.</p><p>5. Download the finished video in the format supported by your browser.</p></div><p class="small">Note: input playback and export formats depend on your browser and device. The selected section is processed locally in real time, so exporting a 30-second selection takes about 30 seconds. Chrome and Edge usually export WebM; browsers with MP4 MediaRecorder support can export MP4.</p></section>
 </main><footer>© 2026 ALSBKIN. All rights reserved.</footer>
-<script type="module">
-import { FFmpeg } from 'https://esm.sh/@ffmpeg/ffmpeg@0.12.15';
-import { fetchFile, toBlobURL } from 'https://esm.sh/@ffmpeg/util@0.12.2';
-const $=id=>document.getElementById(id), fileInput=$('fileInput'),dropZone=$('dropZone'),fileMeta=$('fileMeta'),editor=$('editor'),video=$('video'),timeline=$('timeline'),selection=$('selection'),startHandle=$('startHandle'),endHandle=$('endHandle'),startInput=$('startTime'),endInput=$('endTime'),selDur=$('selectionDuration'),playBtn=$('playSelection'),stopBtn=$('stopPreview'),selectAll=$('selectAll'),exportBtn=$('exportBtn'),status=$('status'),progress=$('progress'),bar=$('progressBar'),result=$('result'),download=$('downloadLink');
-let file=null,srcUrl=null,downloadUrl=null,duration=0,start=0,end=0,ffmpeg=null,ffmpegLoaded=false,previewTimer=null;
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-function fmt(sec){sec=Math.max(0,sec||0);const t=Math.round(sec*1000),m=Math.floor(t/60000),s=Math.floor((t%60000)/1000),ms=t%1000;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0')}`}
-function parse(v){v=String(v||'').trim();let m=v.match(/^(\d+):(\d{1,2})\.(\d{1,3})$/);if(m)return +m[1]*60 + +m[2] + +(m[3].padEnd(3,'0'))/1000;let n=Number(v.replace(',','.'));return Number.isFinite(n)?n:NaN}
-function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function update(){if(!duration)return;start=clamp(start,0,Math.max(0,duration-.01));end=clamp(end,start+.01,duration);let l=start/duration*100,r=end/duration*100;selection.style.left=l+'%';selection.style.width=(r-l)+'%';startHandle.style.left=l+'%';endHandle.style.left=r+'%';startInput.value=fmt(start);endInput.value=fmt(end);selDur.value=fmt(end-start)}
-async function loadFile(f){if(!f)return;file=f;result.style.display='none';if(srcUrl)URL.revokeObjectURL(srcUrl);srcUrl=URL.createObjectURL(f);video.src=srcUrl;video.style.display='block';status.style.display='block';status.textContent='Reading video metadata...';await new Promise((res,rej)=>{video.onloadedmetadata=res;video.onerror=()=>rej(new Error('This browser could not open the selected video.'))});duration=video.duration;start=0;end=duration;fileMeta.style.display='block';fileMeta.innerHTML=`<strong>${esc(f.name)}</strong><br>Duration: ${fmt(duration)} • ${(f.size/(1024*1024)).toFixed(2)} MB${video.videoWidth?` • ${video.videoWidth}×${video.videoHeight}`:''}`;editor.style.display='block';update();status.style.display='none';editor.scrollIntoView({behavior:'smooth',block:'start'})}
-['dragenter','dragover'].forEach(n=>dropZone.addEventListener(n,e=>{e.preventDefault();dropZone.classList.add('dragover')}));['dragleave','drop'].forEach(n=>dropZone.addEventListener(n,e=>{e.preventDefault();dropZone.classList.remove('dragover')}));dropZone.addEventListener('drop',e=>loadFile(e.dataTransfer.files?.[0]).catch(showErr));fileInput.addEventListener('change',()=>loadFile(fileInput.files[0]).catch(showErr));
-function bind(h,isStart){h.addEventListener('pointerdown',e=>{e.preventDefault();h.setPointerCapture?.(e.pointerId);const move=ev=>{let r=timeline.getBoundingClientRect(),ratio=clamp((ev.clientX-r.left)/r.width,0,1),t=ratio*duration;if(isStart)start=Math.min(t,end-.01);else end=Math.max(t,start+.01);update()};const up=()=>{window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)})}bind(startHandle,true);bind(endHandle,false);
-startInput.addEventListener('change',()=>{let v=parse(startInput.value);start=Number.isFinite(v)?clamp(v,0,end-.01):start;update()});endInput.addEventListener('change',()=>{let v=parse(endInput.value);end=Number.isFinite(v)?clamp(v,start+.01,duration):end;update()});selectAll.onclick=()=>{start=0;end=duration;update()};
-function stopPreview(){clearTimeout(previewTimer);video.pause();playBtn.disabled=false;stopBtn.disabled=true}stopBtn.onclick=stopPreview;playBtn.onclick=async()=>{stopPreview();video.currentTime=start;await video.play();playBtn.disabled=true;stopBtn.disabled=false;previewTimer=setTimeout(stopPreview,Math.max(1,(end-start)*1000));};video.addEventListener('timeupdate',()=>{if(!video.paused&&video.currentTime>=end)stopPreview()});
-function showErr(e){status.style.display='block';status.textContent='Error: '+(e.message||e)}
-async function ensureFFmpeg(){if(ffmpegLoaded)return;status.textContent='Loading the video processing engine...';bar.style.width='8%';ffmpeg=new FFmpeg();ffmpeg.on('progress',({progress:p})=>{if(Number.isFinite(p))bar.style.width=(15+Math.min(80,p*80))+'%'});const base='https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd';await ffmpeg.load({coreURL:await toBlobURL(`${base}/ffmpeg-core.js`,'text/javascript'),wasmURL:await toBlobURL(`${base}/ffmpeg-core.wasm`,'application/wasm')});ffmpegLoaded=true}
-exportBtn.onclick=async()=>{if(!file)return;stopPreview();exportBtn.disabled=true;result.style.display='none';status.style.display='block';progress.style.display='block';bar.style.width='4%';try{await ensureFFmpeg();status.textContent='Cutting your video locally in the browser...';const ext=(file.name.split('.').pop()||'mp4').replace(/[^a-z0-9]/gi,'').toLowerCase()||'mp4',input=`input.${ext}`,output='output.mp4';await ffmpeg.writeFile(input,await fetchFile(file));bar.style.width='18%';const dur=end-start;let code=await ffmpeg.exec(['-ss',start.toFixed(3),'-i',input,'-t',dur.toFixed(3),'-map','0:v:0?','-map','0:a:0?','-c','copy','-avoid_negative_ts','make_zero',output]);if(code!==0){status.textContent='Fast cut was not compatible with this video. Re-encoding locally...';await ffmpeg.deleteFile(output).catch(()=>{});code=await ffmpeg.exec(['-ss',start.toFixed(3),'-i',input,'-t',dur.toFixed(3),'-c:v','libx264','-preset','ultrafast','-c:a','aac','-movflags','+faststart',output])}if(code!==0)throw new Error('The browser video engine could not export this file.');const data=await ffmpeg.readFile(output);const blob=new Blob([data.buffer],{type:'video/mp4'});if(downloadUrl)URL.revokeObjectURL(downloadUrl);downloadUrl=URL.createObjectURL(blob);download.href=downloadUrl;download.download=(file.name.replace(/\.[^.]+$/,'')||'video')+'-cut.mp4';bar.style.width='100%';status.textContent=`Ready • ${(blob.size/(1024*1024)).toFixed(2)} MB • ${fmt(dur)}`;result.style.display='block';result.scrollIntoView({behavior:'smooth',block:'center'});await ffmpeg.deleteFile(input).catch(()=>{});await ffmpeg.deleteFile(output).catch(()=>{})}catch(e){showErr(e)}finally{exportBtn.disabled=false}};
-window.addEventListener('beforeunload',()=>{if(srcUrl)URL.revokeObjectURL(srcUrl);if(downloadUrl)URL.revokeObjectURL(downloadUrl)});
+<script>
+(() => {
+  const fileInput = document.getElementById("fileInput");
+  const dropZone = document.getElementById("dropZone");
+  const fileMeta = document.getElementById("fileMeta");
+  const editor = document.getElementById("editor");
+  const video = document.getElementById("videoPreview");
+  const timeline = document.getElementById("timeline");
+  const selection = document.getElementById("selection");
+  const startHandle = document.getElementById("startHandle");
+  const endHandle = document.getElementById("endHandle");
+  const startInput = document.getElementById("startTime");
+  const endInput = document.getElementById("endTime");
+  const lengthInput = document.getElementById("selectionDuration");
+  const previewBtn = document.getElementById("playSelection");
+  const stopBtn = document.getElementById("stopPreview");
+  const selectAllBtn = document.getElementById("selectAll");
+  const exportBtn = document.getElementById("exportBtn");
+  const status = document.getElementById("status");
+  const progress = document.getElementById("progress");
+  const bar = document.getElementById("progressBar");
+  const result = document.getElementById("result");
+  const download = document.getElementById("downloadLink");
+
+  let file = null;
+  let objectUrl = null;
+  let downloadUrl = null;
+  let duration = 0;
+  let startTime = 0;
+  let endTime = 0;
+  let previewTimer = null;
+  let exportTimer = null;
+  let recorder = null;
+  let recordedChunks = [];
+
+  function fmt(sec) {
+    sec = Math.max(0, sec || 0);
+    const totalMs = Math.round(sec * 1000);
+    const m = Math.floor(totalMs / 60000);
+    const s = Math.floor((totalMs % 60000) / 1000);
+    const ms = totalMs % 1000;
+    return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}.${String(ms).padStart(3,"0")}`;
+  }
+
+  function parseTime(value) {
+    const text = String(value || "").trim();
+    const m = text.match(/^(\d+):(\d{1,2})\.(\d{1,3})$/);
+    if (m) {
+      return parseInt(m[1],10) * 60 +
+             parseInt(m[2],10) +
+             parseInt(m[3].padEnd(3,"0"),10) / 1000;
+    }
+    const n = Number(text.replace(",", "."));
+    return Number.isFinite(n) ? n : NaN;
+  }
+
+  function clamp(v,min,max){ return Math.min(max,Math.max(min,v)); }
+
+  function updateUI() {
+    if (!duration) return;
+    startTime = clamp(startTime, 0, Math.max(0, duration - 0.01));
+    endTime = clamp(endTime, startTime + 0.01, duration);
+    const left = (startTime / duration) * 100;
+    const right = (endTime / duration) * 100;
+    selection.style.left = left + "%";
+    selection.style.width = (right - left) + "%";
+    startHandle.style.left = left + "%";
+    endHandle.style.left = right + "%";
+    startInput.value = fmt(startTime);
+    endInput.value = fmt(endTime);
+    lengthInput.value = fmt(endTime - startTime);
+  }
+
+  function supportedRecorderType() {
+    const types = [
+      'video/mp4;codecs="avc1.42E01E,mp4a.40.2"',
+      'video/mp4',
+      'video/webm;codecs=vp9,opus',
+      'video/webm;codecs=vp8,opus',
+      'video/webm'
+    ];
+    for (const t of types) {
+      if (window.MediaRecorder && MediaRecorder.isTypeSupported(t)) return t;
+    }
+    return '';
+  }
+
+  function extensionFor(type) {
+    return type.startsWith('video/mp4') ? 'mp4' : 'webm';
+  }
+
+  function stopPreview() {
+    if (previewTimer) {
+      clearInterval(previewTimer);
+      previewTimer = null;
+    }
+    video.pause();
+    previewBtn.disabled = false;
+    stopBtn.disabled = true;
+  }
+
+  async function seekTo(t) {
+    return new Promise((resolve, reject) => {
+      if (Math.abs(video.currentTime - t) < 0.03) {
+        resolve();
+        return;
+      }
+      const done = () => resolve();
+      const fail = () => reject(new Error("Could not seek in this video."));
+      video.addEventListener("seeked", done, {once:true});
+      video.addEventListener("error", fail, {once:true});
+      video.currentTime = t;
+    });
+  }
+
+  async function loadVideo(selected) {
+    if (!selected) return;
+    stopPreview();
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+    if (downloadUrl) {
+      URL.revokeObjectURL(downloadUrl);
+      downloadUrl = null;
+    }
+    file = selected;
+    objectUrl = URL.createObjectURL(file);
+    result.style.display = "none";
+    status.style.display = "block";
+    status.textContent = "Loading video...";
+    editor.style.display = "none";
+    video.style.display = "none";
+    video.src = objectUrl;
+    video.load();
+
+    try {
+      await new Promise((resolve, reject) => {
+        video.addEventListener("loadedmetadata", resolve, {once:true});
+        video.addEventListener("error", () => reject(new Error("This browser cannot play the selected video file.")), {once:true});
+      });
+      duration = video.duration;
+      if (!Number.isFinite(duration) || duration <= 0) throw new Error("Could not read the video duration.");
+      startTime = 0;
+      endTime = duration;
+      fileMeta.style.display = "block";
+      fileMeta.innerHTML =
+        `<strong>${escapeHtml(file.name)}</strong><br>` +
+        `Duration: ${fmt(duration)} • Size: ${(file.size/(1024*1024)).toFixed(2)} MB` +
+        (video.videoWidth ? ` • ${video.videoWidth}×${video.videoHeight}` : "");
+      video.style.display = "block";
+      editor.style.display = "block";
+      status.style.display = "none";
+      updateUI();
+      editor.scrollIntoView({behavior:"smooth", block:"start"});
+    } catch (e) {
+      status.style.display = "block";
+      status.textContent = e.message || String(e);
+      editor.style.display = "block";
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    })[ch]);
+  }
+
+  ["dragenter","dragover"].forEach(n => dropZone.addEventListener(n, e => {
+    e.preventDefault(); dropZone.classList.add("dragover");
+  }));
+  ["dragleave","drop"].forEach(n => dropZone.addEventListener(n, e => {
+    e.preventDefault(); dropZone.classList.remove("dragover");
+  }));
+  dropZone.addEventListener("drop", e => {
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) loadVideo(f);
+  });
+  fileInput.addEventListener("change", () => loadVideo(fileInput.files[0]));
+
+  function bindHandle(handle, isStart) {
+    const move = e => {
+      if (!duration) return;
+      e.preventDefault();
+      const r = timeline.getBoundingClientRect();
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const t = clamp((x-r.left)/r.width,0,1) * duration;
+      if (isStart) startTime = Math.min(t, endTime-0.01);
+      else endTime = Math.max(t, startTime+0.01);
+      updateUI();
+    };
+    const up = () => {
+      window.removeEventListener("pointermove",move);
+      window.removeEventListener("pointerup",up);
+      window.removeEventListener("touchmove",move);
+      window.removeEventListener("touchend",up);
+    };
+    handle.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      window.addEventListener("pointermove",move);
+      window.addEventListener("pointerup",up);
+    });
+    handle.addEventListener("touchstart", e => {
+      e.preventDefault();
+      window.addEventListener("touchmove",move,{passive:false});
+      window.addEventListener("touchend",up);
+    },{passive:false});
+  }
+
+  bindHandle(startHandle,true);
+  bindHandle(endHandle,false);
+
+  startInput.addEventListener("change", () => {
+    const v = parseTime(startInput.value);
+    startTime = Number.isFinite(v) ? v : 0;
+    updateUI();
+  });
+  endInput.addEventListener("change", () => {
+    const v = parseTime(endInput.value);
+    endTime = Number.isFinite(v) ? v : duration;
+    updateUI();
+  });
+
+  selectAllBtn.addEventListener("click", () => {
+    startTime = 0; endTime = duration; updateUI();
+  });
+
+  previewBtn.addEventListener("click", async () => {
+    if (!file) return;
+    stopPreview();
+    await seekTo(startTime);
+    await video.play();
+    previewBtn.disabled = true;
+    stopBtn.disabled = false;
+    previewTimer = setInterval(() => {
+      if (video.currentTime >= endTime || video.ended) stopPreview();
+    }, 25);
+  });
+
+  stopBtn.addEventListener("click", stopPreview);
+
+  exportBtn.addEventListener("click", async () => {
+    if (!file) return;
+    stopPreview();
+
+    if (!window.MediaRecorder) {
+      status.style.display = "block";
+      status.textContent = "Your browser does not support local video export with MediaRecorder.";
+      return;
+    }
+
+    const mimeType = supportedRecorderType();
+    if (!mimeType) {
+      status.style.display = "block";
+      status.textContent = "This browser does not provide a supported local video export format.";
+      return;
+    }
+
+    const capture = video.captureStream || video.mozCaptureStream;
+    if (!capture) {
+      status.style.display = "block";
+      status.textContent = "This browser cannot capture a local video stream. Please use a current version of Chrome or Edge.";
+      return;
+    }
+
+    exportBtn.disabled = true;
+    result.style.display = "none";
+    status.style.display = "block";
+    progress.style.display = "block";
+    bar.style.width = "0%";
+    recordedChunks = [];
+
+    try {
+      await seekTo(startTime);
+      video.playbackRate = 1;
+      const stream = capture.call(video);
+      recorder = new MediaRecorder(stream, {
+        mimeType,
+        videoBitsPerSecond: 6000000,
+        audioBitsPerSecond: 192000
+      });
+
+      recorder.ondataavailable = e => {
+        if (e.data && e.data.size) recordedChunks.push(e.data);
+      };
+
+      const stopped = new Promise((resolve, reject) => {
+        recorder.addEventListener("stop", resolve, {once:true});
+        recorder.addEventListener("error", e => reject(e.error || new Error("Video export failed.")), {once:true});
+      });
+
+      const clipDuration = endTime - startTime;
+      const startedAt = performance.now();
+      status.textContent = `Exporting locally as ${extensionFor(mimeType).toUpperCase()}... Keep this tab open.`;
+      recorder.start(250);
+      await video.play();
+
+      exportTimer = setInterval(() => {
+        const elapsed = (performance.now() - startedAt) / 1000;
+        const pct = Math.min(99, Math.max(1, (elapsed / clipDuration) * 100));
+        bar.style.width = pct.toFixed(1) + "%";
+        if (video.currentTime >= endTime || video.ended || elapsed >= clipDuration + 0.25) {
+          clearInterval(exportTimer);
+          exportTimer = null;
+          video.pause();
+          if (recorder && recorder.state !== "inactive") recorder.stop();
+        }
+      }, 50);
+
+      await stopped;
+      const blob = new Blob(recordedChunks, {type:mimeType});
+      if (!blob.size) throw new Error("The browser produced an empty video file.");
+
+      if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+      downloadUrl = URL.createObjectURL(blob);
+      const ext = extensionFor(mimeType);
+      download.href = downloadUrl;
+      download.download = `${(file.name.replace(/\.[^.]+$/,"") || "video")}-cut.${ext}`;
+      bar.style.width = "100%";
+      status.textContent = `Ready • ${(blob.size/(1024*1024)).toFixed(2)} MB • ${fmt(clipDuration)} • ${ext.toUpperCase()}`;
+      result.style.display = "block";
+      result.scrollIntoView({behavior:"smooth", block:"center"});
+    } catch (e) {
+      status.textContent = "Export error: " + (e.message || e);
+    } finally {
+      if (exportTimer) {
+        clearInterval(exportTimer);
+        exportTimer = null;
+      }
+      video.pause();
+      exportBtn.disabled = false;
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    stopPreview();
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+  });
+})();
 </script></body></html>
