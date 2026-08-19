@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Free Online Video Cutter & MP4 Cutter | ALSBKIN Tools</title>
+<meta name="description" content="Free online video cutter and MP4 cutter by ALSBKIN. Trim video files in your browser, preview the exact selection and export for free. Your video stays on your device."/>
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1"/>
+<link rel="canonical" href="https://alsbkin.ro/free-online-video-cutter.html"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box}
+:root{
+  --green:#39ff14;
+  --cyan:#8fd8ff;
+  --orange1:#170800;
+  --orange2:#3d1600;
+  --orange3:#6c2f00;
+  --orange4:#804e11;
+  --panel:rgba(20,7,1,.88);
+  --panel2:rgba(42,14,2,.82);
+}
+html{scroll-behavior:smooth}
+body, body *{text-shadow:0 2px 4px rgba(0,0,0,.92),0 0 8px rgba(0,0,0,.55)}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:"Exo 2",sans-serif;
+  color:var(--green);
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(128,98,52,.24),transparent 34%),
+    linear-gradient(145deg,var(--orange1) 0%,var(--orange2) 34%,var(--orange3) 68%,var(--orange4) 100%);
+}
+nav{
+  position:sticky;top:0;z-index:1000;
+  display:flex;justify-content:center;align-items:center;gap:14px;
+  padding:12px 14px;
+  background:rgba(12,4,0,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(255,255,255,.16);
+}
+nav a{
+  display:inline-block;
+  padding:10px 20px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:800;
+  border-radius:28px;
+  border:2px solid rgba(255,255,255,.34);
+  transition:.25s ease;
+}
+nav .home{background:linear-gradient(135deg,#3a0000,#680000 48%,#801818)}
+nav .tools{background:linear-gradient(135deg,#451a00,#733400 48%,#804f11)}
+nav .songs{background:linear-gradient(135deg,#102639,#123c5c 52%,#315f79)}
+nav a:hover{transform:translateY(-2px) scale(1.04)}
+main{width:min(1120px,94%);margin:0 auto;padding:44px 0 72px}
+h1{
+  margin:0 0 10px;
+  font-family:"Marck Script",cursive;
+  font-size:clamp(46px,7vw,78px);
+  color:var(--green);
+  text-shadow:0 0 18px rgba(57,255,20,.18),0 3px 18px rgba(0,0,0,.5);
+}
+.subtitle{max-width:830px;margin:0 auto 28px;font-size:18px;line-height:1.65;color:var(--green)}
+.privacy-note{
+  max-width:850px;margin:0 auto 28px;padding:12px 16px;
+  border:1px solid rgba(57,255,20,.38);border-radius:16px;
+  background:rgba(20,49,8,.32);font-weight:700;color:var(--green)
+}
+.panel{
+  margin:0 auto 24px;padding:24px;
+  background:linear-gradient(145deg,var(--panel),var(--panel2));
+  border:1px solid rgba(255,230,196,.28);
+  border-radius:22px;
+  box-shadow:0 18px 42px rgba(41,10,0,.34),0 0 30px rgba(57,255,20,.08);
+}
+.drop-zone{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:190px;padding:28px;
+  border:2px solid #e00000;
+  border-radius:20px;
+  background:linear-gradient(135deg,#8f0000,#c40000 55%,#e00000);
+  color:#ffffff;
+  cursor:pointer;
+  transition:.25s ease;
+  animation:selectAudioPulse 1.8s ease-in-out infinite;
+  box-shadow:0 0 12px rgba(255,0,0,.42);
+}
+.drop-zone.dragover{background:linear-gradient(135deg,#b00000,#ef2020);transform:scale(1.02)}
+@keyframes selectAudioPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(255,0,0,.38)}
+  50%{transform:scale(1.025);box-shadow:0 0 28px rgba(255,48,48,.82)}
+}
+.drop-title{font-size:25px;font-weight:800;margin-bottom:8px}
+.drop-sub{font-size:15px;opacity:.9}
+.file-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.file-meta{
+  display:none;
+  margin:18px 0 0;padding:12px 14px;
+  border-radius:14px;background:rgba(0,0,0,.22);
+  font-size:15px;line-height:1.5
+}
+.editor{display:none}
+.wave-wrap{
+  position:relative;
+  height:220px;
+  margin:4px 0 18px;
+  background:rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:16px;
+  overflow:hidden;
+  user-select:none;
+  touch-action:none;
+}
+#waveform{width:100%;height:100%;display:block}
+.selection{
+  position:absolute;top:0;bottom:0;
+  background:rgba(255,0,0,.20);
+  border-left:3px solid #ff3030;
+  border-right:3px solid #ff3030;
+  pointer-events:none
+}
+.handle{
+  position:absolute;top:0;bottom:0;width:22px;
+  transform:translateX(-50%);
+  cursor:ew-resize;z-index:5;touch-action:none
+}
+.handle::after{
+  content:"";position:absolute;top:50%;left:50%;
+  width:7px;height:54px;transform:translate(-50%,-50%);
+  border-radius:7px;background:#ff3030;
+  box-shadow:0 0 16px rgba(255,48,48,.88)
+}
+.time-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
+  margin:0 0 18px
+}
+.field{padding:14px;background:rgba(0,0,0,.2);border-radius:14px}
+.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:800}
+.field input,.field select{
+  width:100%;padding:11px 10px;border:1px solid rgba(255,255,255,.24);
+  border-radius:10px;background:#0b0500;color:#fff;font:inherit;text-align:center
+}
+.controls,.export-grid{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px
+}
+button,.download-link{
+  border:0;border-radius:28px;padding:12px 22px;
+  font-family:"Exo 2",sans-serif;font-size:15px;font-weight:800;
+  cursor:pointer;text-decoration:none;transition:.23s ease
+}
+.btn-main{background:linear-gradient(135deg,#146c00,#20a000 55%,#39ff14);color:#fff}
+.btn-secondary{background:#c00000;color:#fff}
+button:hover,.download-link:hover{transform:translateY(-2px) scale(1.02)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.options{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+  margin-top:20px
+}
+.option{
+  padding:14px;background:rgba(0,0,0,.2);border-radius:14px
+}
+.option label{display:block;margin-bottom:8px;font-size:13px;font-weight:800}
+.option input[type="checkbox"]{transform:scale(1.25)}
+.status{
+  display:none;margin-top:18px;padding:12px 14px;border-radius:14px;
+  background:rgba(0,0,0,.22);line-height:1.5
+}
+.progress{
+  display:none;height:12px;margin-top:12px;background:rgba(0,0,0,.32);border-radius:999px;overflow:hidden
+}
+.progress > span{display:block;width:0;height:100%;background:linear-gradient(90deg,#167b00,#39ff14);transition:width .2s ease}
+.result{
+  display:none;margin-top:20px;padding:18px;border-radius:16px;
+  border:1px solid rgba(57,255,20,.38);background:rgba(12,40,4,.26)
+}
+.download-link{display:inline-block;background:#c00000;color:#fff}
+.small{font-size:13px;opacity:.85;line-height:1.55}
+footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
+@media(max-width:780px){
+  main{padding-top:32px}
+  .panel{padding:16px}
+  .wave-wrap{height:170px}
+  .time-grid{grid-template-columns:1fr}
+  .options{grid-template-columns:repeat(2,1fr)}
+  nav{gap:7px;padding:9px 6px}
+  nav a{padding:8px 11px;font-size:12px}
+  .subtitle{font-size:16px}
+}
+@media(max-width:460px){
+  .options{grid-template-columns:1fr}
+  .wave-wrap{height:150px}
+}
+
+.video-preview{display:none;width:100%;max-height:520px;margin:0 auto 20px;background:#000;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.timeline{position:relative;height:86px;margin:4px 0 18px;background:rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;user-select:none;touch-action:none}
+.timeline-track{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.10) 0 1px,transparent 1px 10%)}
+.selection{background:rgba(255,0,0,.20)}
+.ffmpeg-note{margin-top:14px;font-size:13px;opacity:.86;line-height:1.55}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Free Online Video Cutter & MP4 Cutter",
+  "url":"https://alsbkin.ro/free-online-video-cutter.html",
+  "applicationCategory":"MultimediaApplication",
+  "operatingSystem":"Any",
+  "browserRequirements":"Requires a modern browser with WebAssembly support",
+  "description":"Free online video cutter and MP4 cutter that processes video locally in the browser."
+}
+</script>
+</head>
+<body>
+<nav><a class="home" href="index.html">HOME</a><a class="tools" href="tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav>
+<main>
+<h1>Free Online Video Cutter</h1>
+<p class="subtitle">Cut MP4, WebM, MOV and other browser-supported video files online for free. Select the exact section you want, preview it and export the result directly from your browser.</p>
+<div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
+<section class="panel"><div class="drop-zone" id="dropZone"><div class="drop-title">Select a video file</div><div class="drop-sub">Click here or drag &amp; drop • MP4, WebM, MOV and other video formats supported by your browser</div><input class="file-input" id="fileInput" type="file" accept="video/*"/></div><div class="file-meta" id="fileMeta"></div></section>
+<section class="panel editor" id="editor">
+<video id="video" class="video-preview" controls playsinline></video>
+<div class="timeline" id="timeline"><div class="timeline-track"></div><div class="selection" id="selection"></div><div class="handle" id="startHandle" aria-label="Start selection"></div><div class="handle" id="endHandle" aria-label="End selection"></div></div>
+<div class="time-grid"><div class="field"><label for="startTime">START</label><input id="startTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label for="endTime">END</label><input id="endTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label>SELECTION LENGTH</label><input id="selectionDuration" type="text" readonly/></div></div>
+<div class="controls"><button class="btn-main" id="playSelection">▶ Preview selection</button><button class="btn-secondary" id="stopPreview" disabled>■ Stop</button><button class="btn-secondary" id="selectAll">Select all</button></div>
+<div class="controls" style="margin-top:22px"><button class="btn-main" id="exportBtn">✂ Cut and export MP4</button></div>
+<div class="status" id="status"></div><div class="progress" id="progress"><span id="progressBar"></span></div><div class="result" id="result"><div style="margin-bottom:12px;font-weight:800">Your video is ready.</div><a class="download-link" id="downloadLink" href="#" download>DOWNLOAD</a></div>
+<p class="ffmpeg-note">The video processing engine is loaded only when you export. The first export may take a little longer while the browser loads the local processing engine.</p>
+</section>
+<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Preview the selected section.</p><p>4. Click Cut and export MP4.</p><p>5. Download the finished video.</p></div><p class="small">Note: input playback support depends on your browser and device. Export uses FFmpeg WebAssembly locally in your browser. Large or high-resolution videos can require significant memory and processing time.</p></section>
+</main><footer>© 2026 ALSBKIN. All rights reserved.</footer>
+<script type="module">
+import { FFmpeg } from 'https://esm.sh/@ffmpeg/ffmpeg@0.12.15';
+import { fetchFile, toBlobURL } from 'https://esm.sh/@ffmpeg/util@0.12.2';
+const $=id=>document.getElementById(id), fileInput=$('fileInput'),dropZone=$('dropZone'),fileMeta=$('fileMeta'),editor=$('editor'),video=$('video'),timeline=$('timeline'),selection=$('selection'),startHandle=$('startHandle'),endHandle=$('endHandle'),startInput=$('startTime'),endInput=$('endTime'),selDur=$('selectionDuration'),playBtn=$('playSelection'),stopBtn=$('stopPreview'),selectAll=$('selectAll'),exportBtn=$('exportBtn'),status=$('status'),progress=$('progress'),bar=$('progressBar'),result=$('result'),download=$('downloadLink');
+let file=null,srcUrl=null,downloadUrl=null,duration=0,start=0,end=0,ffmpeg=null,ffmpegLoaded=false,previewTimer=null;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+function fmt(sec){sec=Math.max(0,sec||0);const t=Math.round(sec*1000),m=Math.floor(t/60000),s=Math.floor((t%60000)/1000),ms=t%1000;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0')}`}
+function parse(v){v=String(v||'').trim();let m=v.match(/^(\d+):(\d{1,2})\.(\d{1,3})$/);if(m)return +m[1]*60 + +m[2] + +(m[3].padEnd(3,'0'))/1000;let n=Number(v.replace(',','.'));return Number.isFinite(n)?n:NaN}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function update(){if(!duration)return;start=clamp(start,0,Math.max(0,duration-.01));end=clamp(end,start+.01,duration);let l=start/duration*100,r=end/duration*100;selection.style.left=l+'%';selection.style.width=(r-l)+'%';startHandle.style.left=l+'%';endHandle.style.left=r+'%';startInput.value=fmt(start);endInput.value=fmt(end);selDur.value=fmt(end-start)}
+async function loadFile(f){if(!f)return;file=f;result.style.display='none';if(srcUrl)URL.revokeObjectURL(srcUrl);srcUrl=URL.createObjectURL(f);video.src=srcUrl;video.style.display='block';status.style.display='block';status.textContent='Reading video metadata...';await new Promise((res,rej)=>{video.onloadedmetadata=res;video.onerror=()=>rej(new Error('This browser could not open the selected video.'))});duration=video.duration;start=0;end=duration;fileMeta.style.display='block';fileMeta.innerHTML=`<strong>${esc(f.name)}</strong><br>Duration: ${fmt(duration)} • ${(f.size/(1024*1024)).toFixed(2)} MB${video.videoWidth?` • ${video.videoWidth}×${video.videoHeight}`:''}`;editor.style.display='block';update();status.style.display='none';editor.scrollIntoView({behavior:'smooth',block:'start'})}
+['dragenter','dragover'].forEach(n=>dropZone.addEventListener(n,e=>{e.preventDefault();dropZone.classList.add('dragover')}));['dragleave','drop'].forEach(n=>dropZone.addEventListener(n,e=>{e.preventDefault();dropZone.classList.remove('dragover')}));dropZone.addEventListener('drop',e=>loadFile(e.dataTransfer.files?.[0]).catch(showErr));fileInput.addEventListener('change',()=>loadFile(fileInput.files[0]).catch(showErr));
+function bind(h,isStart){h.addEventListener('pointerdown',e=>{e.preventDefault();h.setPointerCapture?.(e.pointerId);const move=ev=>{let r=timeline.getBoundingClientRect(),ratio=clamp((ev.clientX-r.left)/r.width,0,1),t=ratio*duration;if(isStart)start=Math.min(t,end-.01);else end=Math.max(t,start+.01);update()};const up=()=>{window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)};window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)})}bind(startHandle,true);bind(endHandle,false);
+startInput.addEventListener('change',()=>{let v=parse(startInput.value);start=Number.isFinite(v)?clamp(v,0,end-.01):start;update()});endInput.addEventListener('change',()=>{let v=parse(endInput.value);end=Number.isFinite(v)?clamp(v,start+.01,duration):end;update()});selectAll.onclick=()=>{start=0;end=duration;update()};
+function stopPreview(){clearTimeout(previewTimer);video.pause();playBtn.disabled=false;stopBtn.disabled=true}stopBtn.onclick=stopPreview;playBtn.onclick=async()=>{stopPreview();video.currentTime=start;await video.play();playBtn.disabled=true;stopBtn.disabled=false;previewTimer=setTimeout(stopPreview,Math.max(1,(end-start)*1000));};video.addEventListener('timeupdate',()=>{if(!video.paused&&video.currentTime>=end)stopPreview()});
+function showErr(e){status.style.display='block';status.textContent='Error: '+(e.message||e)}
+async function ensureFFmpeg(){if(ffmpegLoaded)return;status.textContent='Loading the video processing engine...';bar.style.width='8%';ffmpeg=new FFmpeg();ffmpeg.on('progress',({progress:p})=>{if(Number.isFinite(p))bar.style.width=(15+Math.min(80,p*80))+'%'});const base='https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd';await ffmpeg.load({coreURL:await toBlobURL(`${base}/ffmpeg-core.js`,'text/javascript'),wasmURL:await toBlobURL(`${base}/ffmpeg-core.wasm`,'application/wasm')});ffmpegLoaded=true}
+exportBtn.onclick=async()=>{if(!file)return;stopPreview();exportBtn.disabled=true;result.style.display='none';status.style.display='block';progress.style.display='block';bar.style.width='4%';try{await ensureFFmpeg();status.textContent='Cutting your video locally in the browser...';const ext=(file.name.split('.').pop()||'mp4').replace(/[^a-z0-9]/gi,'').toLowerCase()||'mp4',input=`input.${ext}`,output='output.mp4';await ffmpeg.writeFile(input,await fetchFile(file));bar.style.width='18%';const dur=end-start;let code=await ffmpeg.exec(['-ss',start.toFixed(3),'-i',input,'-t',dur.toFixed(3),'-map','0:v:0?','-map','0:a:0?','-c','copy','-avoid_negative_ts','make_zero',output]);if(code!==0){status.textContent='Fast cut was not compatible with this video. Re-encoding locally...';await ffmpeg.deleteFile(output).catch(()=>{});code=await ffmpeg.exec(['-ss',start.toFixed(3),'-i',input,'-t',dur.toFixed(3),'-c:v','libx264','-preset','ultrafast','-c:a','aac','-movflags','+faststart',output])}if(code!==0)throw new Error('The browser video engine could not export this file.');const data=await ffmpeg.readFile(output);const blob=new Blob([data.buffer],{type:'video/mp4'});if(downloadUrl)URL.revokeObjectURL(downloadUrl);downloadUrl=URL.createObjectURL(blob);download.href=downloadUrl;download.download=(file.name.replace(/\.[^.]+$/,'')||'video')+'-cut.mp4';bar.style.width='100%';status.textContent=`Ready • ${(blob.size/(1024*1024)).toFixed(2)} MB • ${fmt(dur)}`;result.style.display='block';result.scrollIntoView({behavior:'smooth',block:'center'});await ffmpeg.deleteFile(input).catch(()=>{});await ffmpeg.deleteFile(output).catch(()=>{})}catch(e){showErr(e)}finally{exportBtn.disabled=false}};
+window.addEventListener('beforeunload',()=>{if(srcUrl)URL.revokeObjectURL(srcUrl);if(downloadUrl)URL.revokeObjectURL(downloadUrl)});
+</script></body></html>

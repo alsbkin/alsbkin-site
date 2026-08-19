@@ -183,7 +183,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alsbkin.ro/utilitare.html</loc>
+    <loc>https://alsbkin.ro/tools.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -220,6 +220,12 @@
   </url>
   <url>
     <loc>https://alsbkin.ro/free-online-audio-cutter.html</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alsbkin.ro/free-online-video-cutter.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
