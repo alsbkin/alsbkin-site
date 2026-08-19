@@ -645,7 +645,8 @@ footer {
   ],
   "sameAs": [
     "https://open.spotify.com/track/7hnQ5b8kJTJ2c7mgwmjtWB",
-    "https://open.spotify.com/track/5oShFJbZEggnVPTsvVNgPb"
+    "https://open.spotify.com/track/5oShFJbZEggnVPTsvVNgPb",
+    "https://open.spotify.com/track/5umkofSSbipMeEQ05wAU56"
   ],
   "image": "https://alsbkin.ro/images/covers/broken-wall.jpg"
 }</script><meta content="https://alsbkin.ro/images/covers/broken-wall.jpg" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="1200" property="og:image:height"/><meta content="https://alsbkin.ro/images/covers/broken-wall.jpg" name="twitter:image"/></head>
@@ -656,7 +657,7 @@ footer {
 <h2 class="section-title versions-title">Ascultă variantele piesei</h2>
 <div class="version-buttons">
 <button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/7hnQ5b8kJTJ2c7mgwmjtWB?utm_source=generator&amp;si=80a22fd394154016" type="button">Folk/Metal/Rock</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5oShFJbZEggnVPTsvVNgPb?utm_source=generator&amp;si=01a7013a39024182" type="button">EDM/Dance/House</button>
+<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5oShFJbZEggnVPTsvVNgPb?utm_source=generator&amp;si=01a7013a39024182" data-src2="https://open.spotify.com/embed/track/5umkofSSbipMeEQ05wAU56?utm_source=generator&amp;si=499ee32c61f14be2" type="button">EDM/Dance/House</button>
 <button class="version-btn" data-src="" type="button">Balkan Pop-Folk</button>
 <button class="version-btn" data-src="" type="button">Bachata</button>
 <button class="version-btn" data-src="" type="button">Salsa</button>
@@ -665,6 +666,7 @@ footer {
 <div class="player-area" id="playerArea">
 <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" title="Broken Wall — ALSBKIN">
 </iframe>
+<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer2" loading="lazy" style="display:none; margin-top:12px;" title="broken-wall — ALSBKIN additional EDM version"></iframe>
 </div>
 <h2 class="section-title lyrics-title">Lyrics / Versuri</h2><div class="lyrics-credit">Versuri scrise de Alin Pop</div>
 <div class="lyrics">I woke up mean
@@ -736,9 +738,11 @@ We're the lock-off shock</div><section class="song-description"><h2>About the so
     const versionButtons = document.querySelectorAll(".version-btn");
     const playerArea = document.getElementById("playerArea");
     const variantPlayer = document.getElementById("variantPlayer");
+    const variantPlayer2 = document.getElementById("variantPlayer2");
 
     versionButtons.forEach((button) => {
       const source = button.dataset.src.trim();
+      const source2 = (button.dataset.src2 || "").trim();
 
       if (source) {
         button.classList.add("has-player");
@@ -751,6 +755,13 @@ We're the lock-off shock</div><section class="song-description"><h2>About the so
         button.classList.add("active");
 
         variantPlayer.src = source;
+        if (source2) {
+          variantPlayer2.src = source2;
+          variantPlayer2.style.display = "block";
+        } else {
+          variantPlayer2.removeAttribute("src");
+          variantPlayer2.style.display = "none";
+        }
         playerArea.style.display = "block";
         playerArea.scrollIntoView({ behavior: "smooth", block: "center" });
       });

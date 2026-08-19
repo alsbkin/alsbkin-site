@@ -643,7 +643,8 @@ footer {
     "https://open.spotify.com/track/1ZoBmswVxhJqHZ60abU8zF",
     "https://open.spotify.com/track/2TxiOju7yGQu9W5orjdJes",
     "https://open.spotify.com/track/2lC13aswZqpyhg5S8mzFDC",
-    "https://open.spotify.com/track/05a5t7ijQkAl9qCrMff697"
+    "https://open.spotify.com/track/05a5t7ijQkAl9qCrMff697",
+    "https://open.spotify.com/track/2De9qpTU70Lujq8UTK8VZg"
   ]
 }</script><meta content="https://alsbkin.ro/images/covers/the-storm-will-pass.jpg" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="1200" property="og:image:height"/><meta content="https://alsbkin.ro/images/covers/the-storm-will-pass.jpg" name="twitter:image"/></head>
 <body>
@@ -653,7 +654,7 @@ footer {
 <h2 class="section-title versions-title">Listen to the song versions</h2>
 <div class="version-buttons">
 <button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/2UNagzyNzSdjoyH9TlOQXJ?utm_source=generator&amp;si=23502acf71204d68" type="button">Folk/Metal/Rock</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/1ZoBmswVxhJqHZ60abU8zF?utm_source=generator&amp;si=0b400eaef31246ec" type="button">EDM/Dance/House</button>
+<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/1ZoBmswVxhJqHZ60abU8zF?utm_source=generator&amp;si=0b400eaef31246ec" data-src2="https://open.spotify.com/embed/track/2De9qpTU70Lujq8UTK8VZg?utm_source=generator&amp;si=a75e940780d64d93" type="button">EDM/Dance/House</button>
 <button class="version-btn" data-src="" type="button">Balkan Pop-Folk</button>
 <button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/2TxiOju7yGQu9W5orjdJes?utm_source=generator&amp;si=e010ca41738947a8" type="button">Bachata</button>
 <button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/05a5t7ijQkAl9qCrMff697?utm_source=generator&amp;si=957461f8214a48f1" type="button">Salsa</button>
@@ -662,6 +663,7 @@ footer {
 <div class="player-area" id="playerArea">
 <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" title="The Storm Will Pass — ALSBKIN">
 </iframe>
+<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer2" loading="lazy" style="display:none; margin-top:12px;" title="the-storm-will-pass — ALSBKIN additional EDM version"></iframe>
 </div>
 <h2 class="section-title lyrics-title">Lyrics</h2><p class="lyrics-credit">Lyrics by Cristina Vlăduț</p>
 <div class="lyrics">Please stop the voices in your head
@@ -702,9 +704,11 @@ Just stand, and learn to face the fear</div><section class="song-description"><h
     const versionButtons = document.querySelectorAll(".version-btn");
     const playerArea = document.getElementById("playerArea");
     const variantPlayer = document.getElementById("variantPlayer");
+    const variantPlayer2 = document.getElementById("variantPlayer2");
 
     versionButtons.forEach((button) => {
       const source = button.dataset.src.trim();
+      const source2 = (button.dataset.src2 || "").trim();
 
       if (source) {
         button.classList.add("has-player");
@@ -717,6 +721,13 @@ Just stand, and learn to face the fear</div><section class="song-description"><h
         button.classList.add("active");
 
         variantPlayer.src = source;
+        if (source2) {
+          variantPlayer2.src = source2;
+          variantPlayer2.style.display = "block";
+        } else {
+          variantPlayer2.removeAttribute("src");
+          variantPlayer2.style.display = "none";
+        }
         playerArea.style.display = "block";
         playerArea.scrollIntoView({ behavior: "smooth", block: "center" });
       });
