@@ -54,10 +54,40 @@ footer {
   color: #8fd8ff !important;
 }
 
+
+.tool-card-active{
+  border-color:rgba(57,255,20,.58);
+  box-shadow:0 18px 40px rgba(38,9,0,.35),0 0 30px rgba(57,255,20,.18);
+}
+.tool-open-button{
+  display:inline-block;
+  align-self:center;
+  margin-top:22px;
+  padding:12px 24px;
+  color:#ffffff !important;
+  background:linear-gradient(135deg,#146c00,#20a000 55%,#39ff14);
+  border:1px solid rgba(255,255,255,.38);
+  border-radius:28px;
+  text-decoration:none;
+  font-weight:800;
+  letter-spacing:.5px;
+  transition:.25s ease;
+  box-shadow:0 8px 20px rgba(0,0,0,.28),0 0 20px rgba(57,255,20,.22);
+}
+.tool-open-button:hover{
+  color:#000000 !important;
+  background:linear-gradient(135deg,#b7ff9d,#39ff14);
+  transform:translateY(-3px) scale(1.03);
+}
+
 </style>
 </head>
 <body>
 <nav><a class="home-nav" href="index.html"><span class="nav-main">ACASĂ</span><span class="nav-sub">HOME</span></a><a class="songs-nav" href="songs.html">SONGS</a></nav>
-<main><h1>UTILITARE / TOOLS</h1><p class="intro">Aplicații și utilitare marca ALSBKIN vor fi reunite aici. Pagina este pregătită pentru instrumentele care vor fi adăugate ulterior.</p><div class="tools-grid"><section class="tool-card"><h2>ALSBKIN Tools</h2><p class="coming">În curând / Coming soon</p></section><section class="tool-card"><h2>More utilities</h2><p class="coming">În curând / Coming soon</p></section></div><div class="contact-tools"><a class="email-button" href="mailto:alsbkin@gmail.com">Trimite email</a></div></main>
+<main><h1>UTILITARE / TOOLS</h1><p class="intro">Aplicații și utilitare marca ALSBKIN, reunite într-un singur loc. Începem cu Audio Cutter, iar alte instrumente vor fi adăugate treptat.</p><div class="tools-grid"><section class="tool-card tool-card-active">
+<h2>Audio Cutter</h2>
+<p>Taie rapid fișiere audio direct în browser. Selectează porțiunea dorită, previzualizează și exportă rezultatul local, fără upload pe server.</p>
+<a class="tool-open-button" href="audio-cutter.html">DESCHIDE / OPEN</a>
+</section><section class="tool-card"><h2>More utilities</h2><p class="coming">În curând / Coming soon</p></section></div><div class="contact-tools"><a class="email-button" href="mailto:alsbkin@gmail.com">Trimite email</a></div></main>
 <footer>© 2026 ALSBKIN. All rights reserved.</footer>
 </body></html>
