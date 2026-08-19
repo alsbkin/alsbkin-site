@@ -83,11 +83,20 @@ h1{
   position:relative;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   min-height:190px;padding:28px;
-  border:2px dashed rgba(57,255,20,.62);
-  border-radius:20px;background:rgba(12,25,5,.22);
-  cursor:pointer;transition:.25s ease;
+  border:2px solid #e00000;
+  border-radius:20px;
+  background:linear-gradient(135deg,#8f0000,#c40000 55%,#e00000);
+  color:#ffffff;
+  cursor:pointer;
+  transition:.25s ease;
+  animation:selectAudioPulse 1.8s ease-in-out infinite;
+  box-shadow:0 0 12px rgba(255,0,0,.42);
 }
-.drop-zone.dragover{background:rgba(57,255,20,.12);transform:scale(1.01)}
+.drop-zone.dragover{background:linear-gradient(135deg,#b00000,#ef2020);transform:scale(1.02)}
+@keyframes selectAudioPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(255,0,0,.38)}
+  50%{transform:scale(1.025);box-shadow:0 0 28px rgba(255,48,48,.82)}
+}
 .drop-title{font-size:25px;font-weight:800;margin-bottom:8px}
 .drop-sub{font-size:15px;opacity:.9}
 .file-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
@@ -212,7 +221,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <main>
 <h1>Free Online Audio Cutter</h1>
 <p class="subtitle">Cut MP3, WAV and supported audio files online for free. Select the exact section you want, preview it, add optional fades and export the result directly from your browser.</p>
-<div class="privacy-note">🔒 100% free. Your audio is processed locally in your browser and is not uploaded to ALSBKIN servers.</div>
+<div class="privacy-note">🔒 100% free and safe. Your audio is processed locally in your browser and is not uploaded to ALSBKIN servers, so your audio data stays on your device.</div>
 
 <section class="panel">
   <div class="drop-zone" id="dropZone">
