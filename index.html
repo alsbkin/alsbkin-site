@@ -891,6 +891,113 @@ header {
   }
 }
 
+
+/* ALSBKIN Utilities / Tools animated navigation button */
+.tools-nav {
+  position: relative;
+  display: inline-block;
+  padding: 11px 20px;
+  font-family: "Exo 2", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  text-decoration: none;
+  text-align: center;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #8a3300 0%, #e56700 48%, #ff9d22 100%);
+  border: 2px solid rgba(255,255,255,.35);
+  border-radius: 30px;
+  box-shadow:
+    0 4px 0 #642400,
+    0 9px 18px rgba(0,0,0,.42),
+    0 0 16px rgba(255,126,25,.60),
+    0 0 34px rgba(255,126,25,.34);
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  animation:
+    songsMove 6s ease-in-out infinite,
+    toolsPulse 1.25s ease-in-out infinite;
+  z-index: 10;
+}
+.tools-nav::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: -1;
+  border: 2px solid rgba(255,143,45,.55);
+  border-radius: 38px;
+  box-shadow:
+    0 0 16px rgba(255,126,25,.65),
+    inset 0 0 16px rgba(255,126,25,.22);
+  animation: songsHalo 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+.tools-nav::after {
+  content: "⚙";
+  position: absolute;
+  top: -15px;
+  right: -12px;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: bold;
+  text-shadow: 0 0 8px #ff7e19, 0 0 18px #ff7e19;
+  animation: musicNote 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.tools-nav:hover {
+  color: #000000 !important;
+  background: linear-gradient(135deg, #ffb347, #ffe0a3);
+  border-color: rgba(255,255,255,.8);
+  box-shadow:
+    0 4px 0 #9a4b00,
+    0 11px 24px rgba(0,0,0,.48),
+    0 0 26px rgba(255,139,35,.95),
+    0 0 54px rgba(255,139,35,.52);
+  animation-play-state: paused;
+  transform: scale(1.12) translateY(-4px);
+}
+@keyframes toolsPulse {
+  0%, 100% {
+    box-shadow:
+      0 4px 0 #642400,
+      0 9px 18px rgba(0,0,0,.42),
+      0 0 12px rgba(255,126,25,.42),
+      0 0 26px rgba(255,126,25,.22);
+  }
+  50% {
+    box-shadow:
+      0 4px 0 #642400,
+      0 11px 23px rgba(0,0,0,.48),
+      0 0 28px rgba(255,126,25,1),
+      0 0 60px rgba(255,126,25,.68);
+  }
+}
+.nav-right-group {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-right-group .about-nav {
+  margin-left: 0;
+  margin-right: 0;
+}
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
+  .nav-right-group { gap: 5px; }
+  .tools-nav {
+    padding: 8px 10px;
+    font-size: .72rem;
+    letter-spacing: .5px;
+  }
+  .tools-nav::before { inset: -5px; }
+  .tools-nav::after { display:none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tools-nav, .tools-nav::before, .tools-nav::after { animation:none; }
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet"/>
 </head>
@@ -898,7 +1005,10 @@ header {
 <nav>
 <a class="nav-left" href="#video">Video</a>
 <a class="songs-nav" href="songs.html">Songs</a>
-<a class="about-nav nav-right" href="#despre"><span class="nav-main">Despre</span><span class="nav-sub">About</span></a>
+<div class="nav-right-group">
+<a class="about-nav" href="#despre"><span class="nav-main">Despre</span><span class="nav-sub">About</span></a>
+<a class="tools-nav" href="utilitare.html"><span class="nav-main">UTILITARE</span><span class="nav-sub">Tools</span></a>
+</div>
 </nav>
 <header>
 <div class="banner-wrap">
