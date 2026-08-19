@@ -112,9 +112,9 @@ h1{
 #waveform{width:100%;height:100%;display:block}
 .selection{
   position:absolute;top:0;bottom:0;
-  background:rgba(0,217,255,.22);
-  border-left:3px solid #00d9ff;
-  border-right:3px solid #00d9ff;
+  background:rgba(255,0,0,.20);
+  border-left:3px solid #ff3030;
+  border-right:3px solid #ff3030;
   pointer-events:none
 }
 .handle{
@@ -125,8 +125,8 @@ h1{
 .handle::after{
   content:"";position:absolute;top:50%;left:50%;
   width:7px;height:54px;transform:translate(-50%,-50%);
-  border-radius:7px;background:#00d9ff;
-  box-shadow:0 0 16px rgba(0,217,255,.88)
+  border-radius:7px;background:#ff3030;
+  box-shadow:0 0 16px rgba(255,48,48,.88)
 }
 .time-grid{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
@@ -423,7 +423,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const step = Math.max(1, Math.floor(data.length / width));
     const amp = height / 2;
 
-    ctx.strokeStyle = "#39ff14";
+    ctx.strokeStyle = "#ffffff";
     ctx.lineWidth = 1;
     ctx.globalAlpha = 0.9;
     ctx.beginPath();
