@@ -213,7 +213,25 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 .thumbnail-strip{position:absolute;inset:0;display:flex;z-index:0;background:#090909}
 .thumbnail-strip canvas{height:100%;flex:1 1 0;min-width:0;object-fit:cover;display:block;opacity:.82}
 .timeline-track{position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 1px,transparent 1px 10%)}
-.playhead{position:absolute;top:0;bottom:0;width:2px;left:0;background:#ffffff;box-shadow:0 0 8px rgba(255,255,255,.9);z-index:4;pointer-events:none}
+.playhead{
+  position:absolute;top:0;bottom:0;width:22px;left:0;z-index:6;
+  pointer-events:auto;cursor:ew-resize;touch-action:none;transform:translateX(-50%)
+}
+.playhead::before{
+  content:"";position:absolute;top:0;bottom:0;left:50%;width:3px;
+  transform:translateX(-50%);background:#fff;
+  box-shadow:0 0 8px rgba(255,255,255,.95),0 0 16px rgba(255,255,255,.55),0 2px 5px rgba(0,0,0,.85)
+}
+.timeline-play-toggle{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:40px;height:40px;padding:0;border:2px solid rgba(255,255,255,.9);
+  border-radius:50%;background:linear-gradient(135deg,#1f5f9f 0%,#2d7ddc 52%,#4f9bea 100%);
+  color:#fff;font-size:17px;font-weight:900;line-height:1;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.58),0 0 16px rgba(45,125,220,.85);
+  z-index:7;text-shadow:none
+}
+.timeline-play-toggle:hover{transform:translate(-50%,-50%) scale(1.08)}
 .selection{background:rgba(45,125,220,.50)}
 .ffmpeg-note{margin-top:14px;font-size:13px;opacity:.86;line-height:1.55}
 
@@ -336,7 +354,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <div class="timeline-track"></div>
     <div class="time-ruler" id="timeRuler"></div>
     <div class="selection" id="selection"></div>
-    <div class="playhead" id="playhead"></div>
+    <div class="playhead" id="playhead"><button class="timeline-play-toggle" id="timelinePlayToggle" type="button" aria-label="Play">▶</button></div>
     <div class="handle" id="startHandle" aria-label="Start selection"></div>
     <div class="handle" id="endHandle" aria-label="End selection"></div>
   </div>
@@ -387,6 +405,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const thumbnailStrip = document.getElementById("thumbnailStrip");
   const selection = document.getElementById("selection");
   const playhead = document.getElementById("playhead");
+  const timelinePlayToggle = document.getElementById("timelinePlayToggle");
   const startHandle = document.getElementById("startHandle");
   const endHandle = document.getElementById("endHandle");
   const startInput = document.getElementById("startTime");
@@ -420,7 +439,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let zoomLevel = 1;
 
   const requiredElements = {
-    fileInput, dropZone, fileMeta, editor, video, timeline, timelineContent, timeRuler, thumbnailStrip, selection, playhead,
+    fileInput, dropZone, fileMeta, editor, video, timeline, timelineContent, timeRuler, thumbnailStrip, selection, playhead, timelinePlayToggle,
     startHandle, endHandle, startInput, endInput, lengthInput,
     previewBtn, stopBtn, selectAllBtn, exportBtn, status, progress, bar,
     result, download
@@ -472,6 +491,30 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if (!duration || !playhead) return;
     const pct = clamp(time / duration, 0, 1) * 100;
     playhead.style.left = pct + "%";
+  }
+
+  function setTimelinePlaybackUI() {
+    const isPlaying = !video.paused && !video.ended;
+    timelinePlayToggle.textContent = isPlaying ? "❚❚" : "▶";
+    timelinePlayToggle.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+  }
+
+  async function toggleTimelinePlayback() {
+    if (!duration || !file) return;
+
+    if (!video.paused && !video.ended) {
+      video.pause();
+      return;
+    }
+
+    // Keep playback inside the selected clip, like the audio cutter.
+    if (video.currentTime < startTime || video.currentTime >= endTime - 0.01) {
+      await seekTo(startTime);
+    }
+
+    try {
+      await video.play();
+    } catch (_) {}
   }
 
   function seekVideo(time) {
@@ -610,6 +653,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     video.pause();
     previewBtn.disabled = false;
     stopBtn.disabled = true;
+    setTimelinePlaybackUI();
   }
 
   async function seekTo(t) {
@@ -664,6 +708,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       applyZoom(1, startTime);
       updateUI();
       seekVideo(startTime);
+      setTimelinePlaybackUI();
       buildTimeRuler();
       generateThumbnails().catch(err => console.warn("Timeline thumbnails:", err));
       editor.scrollIntoView({behavior:"smooth", block:"start"});
@@ -746,13 +791,84 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   });
 
 
-  timeline.addEventListener("click", (e) => {
-    if (!duration) return;
-    if (e.target === startHandle || e.target === endHandle) return;
+  function timelineTimeFromPointer(e) {
     const rect = timelineContent.getBoundingClientRect();
-    const t = clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration;
+    return clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration;
+  }
+
+  let isDraggingPlayhead = false;
+  let resumeAfterPlayheadDrag = false;
+
+  playhead.addEventListener("pointerdown", e => {
+    if (!duration || e.target === timelinePlayToggle) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    isDraggingPlayhead = true;
+    resumeAfterPlayheadDrag = !video.paused;
     video.pause();
+
+    try { playhead.setPointerCapture(e.pointerId); } catch (_) {}
+
+    const move = ev => {
+      if (!isDraggingPlayhead) return;
+      ev.preventDefault();
+      const t = clamp(timelineTimeFromPointer(ev), startTime, endTime);
+      seekVideo(t);
+    };
+
+    const up = async ev => {
+      if (!isDraggingPlayhead) return;
+      isDraggingPlayhead = false;
+      try { playhead.releasePointerCapture(ev.pointerId); } catch (_) {}
+      playhead.removeEventListener("pointermove", move);
+      playhead.removeEventListener("pointerup", up);
+      playhead.removeEventListener("pointercancel", up);
+
+      if (resumeAfterPlayheadDrag) {
+        resumeAfterPlayheadDrag = false;
+        try { await video.play(); } catch (_) {}
+      }
+    };
+
+    const firstTime = clamp(timelineTimeFromPointer(e), startTime, endTime);
+    seekVideo(firstTime);
+    playhead.addEventListener("pointermove", move);
+    playhead.addEventListener("pointerup", up);
+    playhead.addEventListener("pointercancel", up);
+  });
+
+  timeline.addEventListener("pointerdown", async e => {
+    if (!duration) return;
+    if (e.target === startHandle || e.target === endHandle ||
+        e.target === playhead || playhead.contains(e.target)) return;
+
+    const wasPlaying = !video.paused;
+    video.pause();
+    const t = clamp(timelineTimeFromPointer(e), startTime, endTime);
     seekVideo(t);
+
+    if (wasPlaying) {
+      try { await video.play(); } catch (_) {}
+    }
+  });
+
+  timelinePlayToggle.addEventListener("click", async e => {
+    e.preventDefault();
+    e.stopPropagation();
+    await toggleTimelinePlayback();
+  });
+
+  document.addEventListener("keydown", async e => {
+    if (e.code !== "Space" || e.repeat || !duration || !file) return;
+
+    const active = document.activeElement;
+    const tag = active && active.tagName ? active.tagName.toLowerCase() : "";
+    if (tag === "input" || tag === "select" || tag === "textarea" ||
+        tag === "button" || (active && active.isContentEditable)) return;
+
+    e.preventDefault();
+    await toggleTimelinePlayback();
   });
 
 
@@ -774,6 +890,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 
   video.addEventListener("play", () => {
+    setTimelinePlaybackUI();
     if ("requestVideoFrameCallback" in video) {
       if (frameCallbackId !== null && "cancelVideoFrameCallback" in video) {
         try { video.cancelVideoFrameCallback(frameCallbackId); } catch (_) {}
@@ -781,7 +898,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       frameCallbackId = video.requestVideoFrameCallback(syncFrame);
     }
   });
-  video.addEventListener("pause", () => updatePlayhead(video.currentTime));
+  video.addEventListener("pause", () => {
+    updatePlayhead(video.currentTime);
+    setTimelinePlaybackUI();
+  });
+  video.addEventListener("ended", () => {
+    updatePlayhead(video.currentTime);
+    setTimelinePlaybackUI();
+  });
 
 
   timeline.addEventListener("dblclick", (e) => {
@@ -795,7 +919,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     seekVideo(t);
   });
 
-  video.addEventListener("timeupdate", () => updatePlayhead(video.currentTime));
+  video.addEventListener("timeupdate", () => {
+    updatePlayhead(video.currentTime);
+    if (!recorder && !video.paused && endTime > startTime && video.currentTime >= endTime) {
+      video.pause();
+      seekVideo(endTime);
+    }
+  });
   video.addEventListener("seeked", () => updatePlayhead(video.currentTime));
 
   function stepOneFrame(direction) {
@@ -823,6 +953,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     stopPreview();
     await seekTo(startTime);
     await video.play();
+    setTimelinePlaybackUI();
     previewBtn.disabled = true;
     stopBtn.disabled = false;
     previewTimer = setInterval(() => {
