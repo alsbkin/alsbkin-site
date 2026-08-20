@@ -227,6 +227,45 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 }
 
+
+/* Zoomable waveform */
+.wave-wrap{
+  position:relative;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  touch-action:pan-x !important;
+  scrollbar-color:#2d7ddc #160900;
+  scrollbar-width:thin;
+}
+.wave-content{
+  position:relative;
+  width:100%;
+  min-width:100%;
+  height:100%;
+}
+#waveform{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.wave-zoom-control{
+  width:min(520px,92%);
+  margin:0 auto 18px;
+  padding:12px 16px;
+  border-radius:14px;
+  background:rgba(0,0,0,.20);
+}
+.wave-zoom-control label{
+  display:block;
+  margin-bottom:8px;
+  font-size:13px;
+  font-weight:800;
+}
+.wave-zoom-control input{
+  width:100%;
+  accent-color:#2d7ddc;
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -264,10 +303,17 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
 <section class="panel editor" id="editor">
   <div class="wave-wrap" id="waveWrap">
-    <canvas id="waveform"></canvas>
-    <div class="selection" id="selection"></div>
-    <div class="handle" id="startHandle" aria-label="Start selection"></div>
-    <div class="handle" id="endHandle" aria-label="End selection"></div>
+    <div class="wave-content" id="waveContent">
+      <canvas id="waveform"></canvas>
+      <div class="selection" id="selection"></div>
+      <div class="handle" id="startHandle" aria-label="Start selection"></div>
+      <div class="handle" id="endHandle" aria-label="End selection"></div>
+    </div>
+  </div>
+
+  <div class="wave-zoom-control">
+    <label for="waveZoom">WAVEFORM ZOOM <span id="waveZoomValue">1×</span></label>
+    <input id="waveZoom" type="range" min="1" max="16" value="1" step="1"/>
   </div>
 
   <div class="time-grid">
@@ -354,6 +400,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const canvas = document.getElementById("waveform");
   const ctx = canvas.getContext("2d");
   const waveWrap = document.getElementById("waveWrap");
+  const waveContent = document.getElementById("waveContent");
+  const waveZoom = document.getElementById("waveZoom");
+  const waveZoomValue = document.getElementById("waveZoomValue");
   const selection = document.getElementById("selection");
   const startHandle = document.getElementById("startHandle");
   const endHandle = document.getElementById("endHandle");
@@ -381,6 +430,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let endTime = 0;
   let previewSource = null;
   let downloadUrl = null;
+  let zoomLevel = 1;
 
   function getAudioContext() {
     if (!audioContext) {
@@ -427,6 +477,32 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     return Math.min(max, Math.max(min, v));
   }
 
+  function applyWaveZoom(level, preserveCenter = true) {
+    if (!waveContent) return;
+
+    let focusRatio = 0.5;
+    if (audioBuffer && preserveCenter) {
+      const oldWidth = Math.max(1, waveContent.scrollWidth);
+      const centerPx = waveWrap.scrollLeft + waveWrap.clientWidth / 2;
+      focusRatio = clamp(centerPx / oldWidth, 0, 1);
+    } else if (audioBuffer) {
+      focusRatio = clamp(((startTime + endTime) / 2) / audioBuffer.duration, 0, 1);
+    }
+
+    zoomLevel = clamp(Number(level) || 1, 1, 16);
+    waveContent.style.width = (zoomLevel * 100) + "%";
+    waveZoomValue.textContent = zoomLevel + "×";
+
+    requestAnimationFrame(() => {
+      drawWaveform();
+      updateSelectionUI();
+
+      const totalWidth = waveContent.scrollWidth;
+      const target = focusRatio * totalWidth - waveWrap.clientWidth / 2;
+      waveWrap.scrollLeft = clamp(target, 0, Math.max(0, totalWidth - waveWrap.clientWidth));
+    });
+  }
+
   function updateSelectionUI() {
     if (!audioBuffer) return;
     const duration = audioBuffer.duration;
@@ -448,7 +524,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   function drawWaveform() {
     if (!audioBuffer) return;
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.max(1, Math.floor(rect.width * dpr));
     canvas.height = Math.max(1, Math.floor(rect.height * dpr));
@@ -519,6 +595,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         `Channels: ${audioBuffer.numberOfChannels}`;
 
       editor.style.display = "block";
+      waveWrap.scrollLeft = 0;
+      waveZoom.value = "1";
+      zoomLevel = 1;
+      waveContent.style.width = "100%";
+      waveZoomValue.textContent = "1×";
       updateSelectionUI();
       setTimeout(drawWaveform, 0);
       status.style.display = "none";
@@ -554,7 +635,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const move = ev => {
       if (!audioBuffer) return;
       ev.preventDefault();
-      const rect = waveWrap.getBoundingClientRect();
+      const rect = waveContent.getBoundingClientRect();
       const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
       const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
       const t = ratio * audioBuffer.duration;
@@ -582,6 +663,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   bindHandle(startHandle, true);
   bindHandle(endHandle, false);
+
+  waveZoom.addEventListener("input", () => {
+    applyWaveZoom(waveZoom.value, true);
+  });
 
   startTimeInput.addEventListener("change", () => {
     if (!audioBuffer) return;
@@ -804,7 +889,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   });
 
   window.addEventListener("resize", () => {
-    if (audioBuffer) drawWaveform();
+    if (audioBuffer) {
+      drawWaveform();
+      updateSelectionUI();
+    }
   });
 
   window.addEventListener("beforeunload", () => {
