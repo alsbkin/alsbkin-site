@@ -289,15 +289,50 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   top:0;
   bottom:0;
   left:0;
+  width:22px;
+  z-index:6;
+  pointer-events:auto;
+  cursor:ew-resize;
+  opacity:0;
+  transform:translateX(-50%);
+  touch-action:none;
+}
+.audio-playhead::before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
   width:3px;
+  transform:translateX(-50%);
   background:#ffffff;
   box-shadow:0 0 8px rgba(255,255,255,.95),0 0 16px rgba(255,255,255,.55),0 2px 5px rgba(0,0,0,.85);
-  z-index:4;
-  pointer-events:none;
-  opacity:0;
-  transform:translateX(-1.5px);
 }
-
+.wave-play-toggle{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:42px;
+  height:42px;
+  padding:0;
+  border:2px solid rgba(255,255,255,.88);
+  border-radius:50%;
+  background:linear-gradient(135deg,#1f5f9f 0%,#2d7ddc 52%,#4f9bea 100%);
+  color:#ffffff;
+  font-size:18px;
+  font-weight:900;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.55),0 0 16px rgba(45,125,220,.85);
+  z-index:7;
+}
+.wave-play-toggle:hover{
+  transform:translate(-50%,-50%) scale(1.08);
+}
 </style>
 <script type="application/ld+json">
 {
@@ -386,7 +421,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <div class="wave-content" id="waveContent">
       <canvas id="waveform"></canvas>
       <div class="selection" id="selection"></div>
-      <div class="audio-playhead" id="audioPlayhead" aria-hidden="true"></div>
+      <div class="audio-playhead" id="audioPlayhead"><button class="wave-play-toggle" id="wavePlayToggle" type="button" aria-label="Play">▶</button></div>
       <div class="handle" id="startHandle" aria-label="Start selection"></div>
       <div class="handle" id="endHandle" aria-label="End selection"></div>
     </div>
@@ -493,6 +528,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const waveZoomValue = document.getElementById("waveZoomValue");
   const selection = document.getElementById("selection");
   const audioPlayhead = document.getElementById("audioPlayhead");
+  const wavePlayToggle = document.getElementById("wavePlayToggle");
   const startHandle = document.getElementById("startHandle");
   const endHandle = document.getElementById("endHandle");
   const startTimeInput = document.getElementById("startTime");
@@ -523,6 +559,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let previewStartedAt = 0;
   let previewOffset = 0;
   let playheadRaf = null;
+  let currentPlayheadTime = 0;
+  let isScrubbingPlayhead = false;
+  let resumeAfterScrub = false;
 
   function getAudioContext() {
     if (!audioContext) {
@@ -597,8 +636,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   function updateAudioPlayhead(time) {
     if (!audioBuffer || !audioPlayhead) return;
-    const ratio = clamp(time / audioBuffer.duration, 0, 1);
+    currentPlayheadTime = clamp(time, startTime, endTime);
+    const ratio = clamp(currentPlayheadTime / audioBuffer.duration, 0, 1);
     audioPlayhead.style.left = (ratio * 100) + "%";
+  }
+
+  function setPlaybackUI(isPlaying) {
+    wavePlayToggle.textContent = isPlaying ? "❚❚" : "▶";
+    wavePlayToggle.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
   }
 
   function stopPlayheadAnimation(hide = false) {
@@ -609,11 +654,111 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if (hide && audioPlayhead) audioPlayhead.style.opacity = "0";
   }
 
+  function getCurrentPlaybackTime() {
+    if (!previewSource) return currentPlayheadTime;
+    const ac = getAudioContext();
+    return clamp(previewOffset + Math.max(0, ac.currentTime - previewStartedAt), startTime, endTime);
+  }
+
+  function stopSourceSilently() {
+    if (!previewSource) return;
+    const source = previewSource;
+    previewSource = null;
+    source.onended = null;
+    try { source.stop(); } catch (_) {}
+    try { source.disconnect(); } catch (_) {}
+  }
+
+  function pausePlayback() {
+    if (!previewSource) {
+      setPlaybackUI(false);
+      return;
+    }
+    const current = getCurrentPlaybackTime();
+    stopPlayheadAnimation(false);
+    stopSourceSilently();
+    updateAudioPlayhead(current);
+    audioPlayhead.style.opacity = "1";
+    playSelection.disabled = false;
+    stopPreview.disabled = true;
+    setPlaybackUI(false);
+  }
+
+  async function startPlayback(fromTime = currentPlayheadTime) {
+    if (!audioBuffer) return;
+
+    stopPlayheadAnimation(false);
+    stopSourceSilently();
+
+    const ac = getAudioContext();
+    if (ac.state === "suspended") await ac.resume();
+
+    let from = clamp(fromTime, startTime, endTime);
+    if (from >= endTime - 0.005) from = startTime;
+
+    const source = ac.createBufferSource();
+    const gain = ac.createGain();
+    source.buffer = audioBuffer;
+    source.connect(gain);
+    gain.connect(ac.destination);
+
+    const now = ac.currentTime;
+    const dur = endTime - from;
+    const fullSelectionDuration = endTime - startTime;
+    const fadeSec = Math.min(1.5, fullSelectionDuration / 4);
+
+    gain.gain.setValueAtTime(1, now);
+
+    // Fade In only when playback actually starts from the beginning of the selection.
+    if (fadeIn.checked && Math.abs(from - startTime) < 0.01) {
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(1, now + Math.min(fadeSec, dur));
+    }
+
+    // Preserve Fade Out near the selected end, including after resume.
+    if (fadeOut.checked && dur > 0) {
+      const fadeStart = Math.max(now, now + dur - Math.min(fadeSec, dur));
+      gain.gain.setValueAtTime(1, fadeStart);
+      gain.gain.linearRampToValueAtTime(0, now + dur);
+    }
+
+    previewSource = source;
+    previewOffset = from;
+    previewStartedAt = ac.currentTime;
+
+    audioPlayhead.style.opacity = "1";
+    updateAudioPlayhead(from);
+    setPlaybackUI(true);
+    playSelection.disabled = true;
+    stopPreview.disabled = false;
+
+    source.start(0, from, dur);
+    animateAudioPlayhead();
+
+    source.onended = () => {
+      if (previewSource !== source) return;
+      previewSource = null;
+      stopPlayheadAnimation(false);
+      updateAudioPlayhead(endTime);
+      audioPlayhead.style.opacity = "1";
+      playSelection.disabled = false;
+      stopPreview.disabled = true;
+      setPlaybackUI(false);
+    };
+  }
+
+  async function togglePlayback() {
+    if (!audioBuffer) return;
+    if (previewSource) {
+      pausePlayback();
+    } else {
+      await startPlayback(currentPlayheadTime);
+    }
+  }
+
   function animateAudioPlayhead() {
     if (!audioBuffer || !previewSource) return;
-    const ac = getAudioContext();
-    const elapsed = Math.max(0, ac.currentTime - previewStartedAt);
-    const current = Math.min(endTime, previewOffset + elapsed);
+    const current = getCurrentPlaybackTime();
 
     audioPlayhead.style.opacity = "1";
     updateAudioPlayhead(current);
@@ -656,6 +801,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     startTimeInput.value = formatEditorTime(startTime);
     endTimeInput.value = formatEditorTime(endTime);
     selectionDuration.value = formatEditorTime(endTime - startTime);
+
+    if (audioPlayhead && audioPlayhead.style.opacity !== "0") {
+      updateAudioPlayhead(clamp(currentPlayheadTime, startTime, endTime));
+    }
   }
 
   function drawWaveform() {
@@ -737,7 +886,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       waveContent.style.width = "100%";
       waveZoomValue.textContent = "1×";
       stopPlayheadAnimation(true);
+      currentPlayheadTime = startTime;
       updateAudioPlayhead(startTime);
+      setPlaybackUI(false);
       updateSelectionUI();
       setTimeout(drawWaveform, 0);
       status.style.display = "none";
@@ -780,6 +931,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       if (isStart) startTime = Math.min(t, endTime - 0.01);
       else endTime = Math.max(t, startTime + 0.01);
       updateSelectionUI();
+      if (!previewSource) {
+        audioPlayhead.style.opacity = "1";
+        updateAudioPlayhead(clamp(currentPlayheadTime, startTime, endTime));
+      }
     };
     const up = () => {
       window.removeEventListener("pointermove", move);
@@ -837,63 +992,90 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   });
 
   function stopPlayback() {
-    stopPlayheadAnimation(false);
-    if (previewSource) {
-      try { previewSource.stop(); } catch (_) {}
-      previewSource.disconnect();
-      previewSource = null;
-    }
-    playSelection.disabled = false;
-    stopPreview.disabled = true;
+    pausePlayback();
   }
 
   playSelection.addEventListener("click", async () => {
     if (!audioBuffer) return;
-    stopPlayback();
-    const ac = getAudioContext();
-    if (ac.state === "suspended") await ac.resume();
-
-    const source = ac.createBufferSource();
-    const gain = ac.createGain();
-    source.buffer = audioBuffer;
-    source.connect(gain);
-    gain.connect(ac.destination);
-
-    const now = ac.currentTime;
-    const dur = endTime - startTime;
-    const fadeSec = Math.min(1.5, dur / 4);
-
-    gain.gain.setValueAtTime(1, now);
-    if (fadeIn.checked) {
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(1, now + fadeSec);
-    }
-    if (fadeOut.checked) {
-      gain.gain.setValueAtTime(1, Math.max(now, now + dur - fadeSec));
-      gain.gain.linearRampToValueAtTime(0, now + dur);
-    }
-
-    previewOffset = startTime;
-    previewStartedAt = ac.currentTime;
-    audioPlayhead.style.opacity = "1";
+    pausePlayback();
+    currentPlayheadTime = startTime;
     updateAudioPlayhead(startTime);
-
-    source.start(0, startTime, dur);
-    previewSource = source;
-    playSelection.disabled = true;
-    stopPreview.disabled = false;
-    animateAudioPlayhead();
-
-    source.onended = () => {
-      stopPlayheadAnimation(false);
-      updateAudioPlayhead(endTime);
-      previewSource = null;
-      playSelection.disabled = false;
-      stopPreview.disabled = true;
-    };
+    await startPlayback(startTime);
   });
 
-  stopPreview.addEventListener("click", stopPlayback);
+  stopPreview.addEventListener("click", pausePlayback);
+
+
+  function pointerTimeFromEvent(ev) {
+    const rect = waveContent.getBoundingClientRect();
+    const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+    const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
+    return clamp(ratio * audioBuffer.duration, startTime, endTime);
+  }
+
+  function beginPlayheadScrub(ev) {
+    if (!audioBuffer) return;
+    if (ev.target === wavePlayToggle) return;
+    ev.preventDefault();
+
+    resumeAfterScrub = !!previewSource;
+    if (previewSource) pausePlayback();
+    isScrubbingPlayhead = true;
+
+    const move = moveEv => {
+      if (!isScrubbingPlayhead) return;
+      moveEv.preventDefault();
+      audioPlayhead.style.opacity = "1";
+      updateAudioPlayhead(pointerTimeFromEvent(moveEv));
+    };
+
+    const up = async () => {
+      isScrubbingPlayhead = false;
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      if (resumeAfterScrub) {
+        resumeAfterScrub = false;
+        await startPlayback(currentPlayheadTime);
+      }
+    };
+
+    updateAudioPlayhead(pointerTimeFromEvent(ev));
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+  }
+
+  // Drag the white playhead directly.
+  audioPlayhead.addEventListener("pointerdown", beginPlayheadScrub);
+
+  // Clicking anywhere on the waveform moves the playhead.
+  waveContent.addEventListener("pointerdown", async ev => {
+    if (!audioBuffer) return;
+    if (ev.target === startHandle || ev.target === endHandle || ev.target === audioPlayhead || ev.target === wavePlayToggle || audioPlayhead.contains(ev.target)) return;
+
+    const wasPlaying = !!previewSource;
+    if (wasPlaying) pausePlayback();
+    audioPlayhead.style.opacity = "1";
+    updateAudioPlayhead(pointerTimeFromEvent(ev));
+    if (wasPlaying) await startPlayback(currentPlayheadTime);
+  });
+
+  // Moving play/pause button.
+  wavePlayToggle.addEventListener("click", async ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    await togglePlayback();
+  });
+
+  // SPACE toggles play/pause unless the user is typing in a form control.
+  document.addEventListener("keydown", async ev => {
+    if (ev.code !== "Space" || ev.repeat || !audioBuffer) return;
+    const active = document.activeElement;
+    const tag = active && active.tagName ? active.tagName.toLowerCase() : "";
+    if (tag === "input" || tag === "select" || tag === "textarea" || (active && active.isContentEditable)) return;
+
+    ev.preventDefault();
+    await togglePlayback();
+  });
 
   format.addEventListener("change", () => {
     bitrate.disabled = format.value !== "mp3";
@@ -1056,7 +1238,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   });
 
   window.addEventListener("beforeunload", () => {
-    stopPlayback();
+    pausePlayback();
     if (downloadUrl) URL.revokeObjectURL(downloadUrl);
   });
 })();
