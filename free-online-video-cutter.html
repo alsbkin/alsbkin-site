@@ -199,7 +199,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
 .video-preview{display:none;width:100%;max-height:520px;margin:0 auto 20px;background:#000;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
 .timeline{position:relative;height:86px;margin:4px 0 18px;background:rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;user-select:none;touch-action:none}
-.timeline-track{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.10) 0 1px,transparent 1px 10%)}
+.thumbnail-strip{position:absolute;inset:0;display:flex;z-index:0;background:#090909}
+.thumbnail-strip canvas{height:100%;flex:1 1 0;min-width:0;object-fit:cover;display:block;opacity:.82}
+.timeline-track{position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 1px,transparent 1px 10%)}
 .playhead{position:absolute;top:0;bottom:0;width:2px;left:0;background:#ffffff;box-shadow:0 0 8px rgba(255,255,255,.9);z-index:4;pointer-events:none}
 .selection{background:rgba(255,0,0,.20)}
 .ffmpeg-note{margin-top:14px;font-size:13px;opacity:.86;line-height:1.55}
@@ -226,7 +228,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <section class="panel"><div class="drop-zone" id="dropZone"><div class="drop-title">Select a video file</div><div class="drop-sub">Click here or drag &amp; drop • MP4, WebM, MOV and other video formats supported by your browser</div><input class="file-input" id="fileInput" type="file" accept="video/*"/></div><div class="file-meta" id="fileMeta"></div></section>
 <section class="panel editor" id="editor">
 <video id="video" class="video-preview" controls playsinline></video>
-<div class="timeline" id="timeline"><div class="timeline-track"></div><div class="selection" id="selection"></div><div class="playhead" id="playhead"></div><div class="handle" id="startHandle" aria-label="Start selection"></div><div class="handle" id="endHandle" aria-label="End selection"></div></div>
+<div class="timeline" id="timeline"><div class="thumbnail-strip" id="thumbnailStrip"></div><div class="timeline-track"></div><div class="selection" id="selection"></div><div class="playhead" id="playhead"></div><div class="handle" id="startHandle" aria-label="Start selection"></div><div class="handle" id="endHandle" aria-label="End selection"></div></div>
 <div class="time-grid"><div class="field"><label for="startTime">START</label><input id="startTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label for="endTime">END</label><input id="endTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label>SELECTION LENGTH</label><input id="selectionDuration" type="text" readonly/></div></div>
 <div class="controls"><button class="btn-main" id="playSelection">▶ Preview selection</button><button class="btn-secondary" id="stopPreview" disabled>■ Stop</button><button class="btn-secondary" id="selectAll">Select all</button></div>
 <div class="controls" style="margin-top:22px"><button class="btn-main" id="exportBtn">✂ Cut and export</button></div>
@@ -243,6 +245,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const editor = document.getElementById("editor");
   const video = document.getElementById("video");
   const timeline = document.getElementById("timeline");
+  const thumbnailStrip = document.getElementById("thumbnailStrip");
   const selection = document.getElementById("selection");
   const playhead = document.getElementById("playhead");
   const startHandle = document.getElementById("startHandle");
@@ -272,7 +275,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let recordedChunks = [];
 
   const requiredElements = {
-    fileInput, dropZone, fileMeta, editor, video, timeline, selection, playhead,
+    fileInput, dropZone, fileMeta, editor, video, timeline, thumbnailStrip, selection, playhead,
     startHandle, endHandle, startInput, endInput, lengthInput,
     previewBtn, stopBtn, selectAllBtn, exportBtn, status, progress, bar,
     result, download
@@ -333,6 +336,60 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       video.currentTime = target;
       updatePlayhead(target);
     } catch (_) {}
+  }
+
+  async function waitForSeek(targetVideo, time) {
+    return new Promise((resolve, reject) => {
+      const safeTime = clamp(time, 0, Math.max(0, duration - 0.001));
+      if (Math.abs(targetVideo.currentTime - safeTime) < 0.025 && targetVideo.readyState >= 2) {
+        resolve();
+        return;
+      }
+      const onSeeked = () => { cleanup(); resolve(); };
+      const onError = () => { cleanup(); reject(new Error("Could not read a video frame.")); };
+      const cleanup = () => {
+        targetVideo.removeEventListener("seeked", onSeeked);
+        targetVideo.removeEventListener("error", onError);
+      };
+      targetVideo.addEventListener("seeked", onSeeked, {once:true});
+      targetVideo.addEventListener("error", onError, {once:true});
+      targetVideo.currentTime = safeTime;
+    });
+  }
+
+  async function generateThumbnails() {
+    if (!file || !duration || !thumbnailStrip) return;
+    thumbnailStrip.innerHTML = "";
+    const count = Math.max(8, Math.min(14, Math.round(timeline.clientWidth / 120) || 10));
+    const thumbVideo = document.createElement("video");
+    thumbVideo.muted = true;
+    thumbVideo.playsInline = true;
+    thumbVideo.preload = "auto";
+    thumbVideo.src = objectUrl;
+
+    await new Promise((resolve, reject) => {
+      thumbVideo.addEventListener("loadedmetadata", resolve, {once:true});
+      thumbVideo.addEventListener("error", () => reject(new Error("Could not prepare timeline thumbnails.")), {once:true});
+      thumbVideo.load();
+    });
+
+    const aspect = (thumbVideo.videoWidth && thumbVideo.videoHeight) ? thumbVideo.videoWidth / thumbVideo.videoHeight : 16/9;
+    for (let i = 0; i < count; i++) {
+      const t = count === 1 ? 0 : (duration * i / (count - 1));
+      try { await waitForSeek(thumbVideo, t); } catch (_) { continue; }
+      const canvas = document.createElement("canvas");
+      canvas.width = 240;
+      canvas.height = 126;
+      const ctx = canvas.getContext("2d");
+      const cw = canvas.width, ch = canvas.height;
+      const vw = thumbVideo.videoWidth || 16, vh = thumbVideo.videoHeight || 9;
+      const scale = Math.max(cw / vw, ch / vh);
+      const dw = vw * scale, dh = vh * scale;
+      ctx.drawImage(thumbVideo, (cw - dw)/2, (ch - dh)/2, dw, dh);
+      thumbnailStrip.appendChild(canvas);
+    }
+    thumbVideo.removeAttribute("src");
+    thumbVideo.load();
   }
 
   function updateUI() {
@@ -429,6 +486,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       status.style.display = "none";
       updateUI();
       seekVideo(startTime);
+      generateThumbnails().catch(err => console.warn("Timeline thumbnails:", err));
       editor.scrollIntoView({behavior:"smooth", block:"start"});
     } catch (e) {
       status.style.display = "block";
@@ -514,6 +572,37 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if (e.target === startHandle || e.target === endHandle) return;
     const rect = timeline.getBoundingClientRect();
     const t = clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration;
+    video.pause();
+    seekVideo(t);
+  });
+
+
+  let frameCallbackId = null;
+  function syncFrame(_now, metadata) {
+    updatePlayhead(metadata && Number.isFinite(metadata.mediaTime) ? metadata.mediaTime : video.currentTime);
+    if (!video.paused && !video.ended && "requestVideoFrameCallback" in video) {
+      frameCallbackId = video.requestVideoFrameCallback(syncFrame);
+    }
+  }
+
+  video.addEventListener("play", () => {
+    if ("requestVideoFrameCallback" in video) {
+      if (frameCallbackId !== null && "cancelVideoFrameCallback" in video) {
+        try { video.cancelVideoFrameCallback(frameCallbackId); } catch (_) {}
+      }
+      frameCallbackId = video.requestVideoFrameCallback(syncFrame);
+    }
+  });
+  video.addEventListener("pause", () => updatePlayhead(video.currentTime));
+
+
+  timeline.addEventListener("dblclick", (e) => {
+    if (!duration) return;
+    const rect = timeline.getBoundingClientRect();
+    const t = clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration;
+    if (Math.abs(t - startTime) <= Math.abs(t - endTime)) startTime = Math.min(t, endTime - 0.01);
+    else endTime = Math.max(t, startTime + 0.01);
+    updateUI();
     video.pause();
     seekVideo(t);
   });
