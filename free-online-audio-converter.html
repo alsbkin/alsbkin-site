@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Free Online Audio Converter | Convert Audio in Browser | ALSBKIN</title>
+<meta name="description" content="Convert audio files online for free in your browser. Convert supported audio to WAV, WebM audio or OGG where supported, with local processing and no server upload."/>
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+<link rel="canonical" href="https://alsbkin.ro/free-online-audio-converter.html"/>
+<meta name="author" content="ALSBKIN"/>
+<meta name="theme-color" content="#170800"/>
+<meta property="og:type" content="website"/><meta property="og:site_name" content="ALSBKIN"/>
+<meta property="og:title" content="Free Online Audio Converter | Convert Audio in Browser | ALSBKIN"/><meta property="og:description" content="Convert audio files online for free in your browser. Convert supported audio to WAV, WebM audio or OGG where supported, with local processing and no server upload."/><meta property="og:url" content="https://alsbkin.ro/free-online-audio-converter.html"/>
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Free Online Audio Converter | Convert Audio in Browser | ALSBKIN"/><meta name="twitter:description" content="Convert audio files online for free in your browser. Convert supported audio to WAV, WebM audio or OGG where supported, with local processing and no server upload."/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box}
+:root{
+  --green:#39ff14;--cyan:#8fd8ff;--blue:#2d7ddc;--blue2:#4f9bea;
+  --orange1:#170800;--orange2:#3d1600;--orange3:#6c2f00;--orange4:#804e11;
+  --panel:rgba(20,7,1,.88);--panel2:rgba(42,14,2,.82);
+}
+html{scroll-behavior:smooth}
+body,body *{text-shadow:0 2px 4px rgba(0,0,0,.92),0 0 8px rgba(0,0,0,.55)}
+body{
+  margin:0;min-height:100vh;font-family:"Exo 2",sans-serif;color:var(--green);text-align:center;
+  background:radial-gradient(circle at 50% 8%,rgba(128,98,52,.24),transparent 34%),
+  linear-gradient(145deg,var(--orange1) 0%,var(--orange2) 34%,var(--orange3) 68%,var(--orange4) 100%);
+}
+nav{position:sticky;top:0;z-index:1000;display:flex;justify-content:center;gap:14px;padding:12px 14px;background:rgba(12,4,0,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.16)}
+nav a{display:inline-block;padding:10px 20px;color:#fff;text-decoration:none;font-weight:800;border-radius:28px;border:2px solid rgba(255,255,255,.34);transition:.25s ease}
+nav .home{background:linear-gradient(135deg,#3a0000,#680000 48%,#801818)}
+nav .tools{background:linear-gradient(135deg,#451a00,#733400 48%,#804f11)}
+nav .songs{background:linear-gradient(135deg,#102639,#123c5c 52%,#315f79)}
+nav a:hover{transform:translateY(-2px) scale(1.04)}
+main{width:min(1120px,94%);margin:0 auto;padding:44px 0 72px}
+h1{margin:0 0 10px;font-family:"Marck Script",cursive;font-size:clamp(46px,7vw,78px);color:var(--green)}
+.subtitle{max-width:860px;margin:0 auto 24px;font-size:18px;line-height:1.65}
+.privacy-note{max-width:860px;margin:0 auto 28px;padding:12px 16px;border:1px solid rgba(45,125,220,.55);border-radius:16px;background:rgba(20,58,105,.30);font-weight:700;color:var(--blue2);text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 9px rgba(45,125,220,.62)!important}
+.panel{margin:0 auto 24px;padding:24px;background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid rgba(255,230,196,.28);border-radius:22px;box-shadow:0 18px 42px rgba(41,10,0,.34),0 0 30px rgba(57,255,20,.08)}
+.drop-zone{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;padding:28px;border:2px solid #e00000;border-radius:20px;background:linear-gradient(135deg,#8f0000,#c40000 55%,#e00000);color:#fff;cursor:pointer;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(255,0,0,.38)}50%{transform:scale(1.018);box-shadow:0 0 28px rgba(255,48,48,.82)}}
+.drop-title{font-size:24px;font-weight:800;margin-bottom:8px}.drop-sub{font-size:14px;opacity:.92}
+.file-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.file-meta{margin-top:16px;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.22);font-size:14px;line-height:1.5;display:none}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{padding:14px;background:rgba(0,0,0,.2);border-radius:14px}
+.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:800}
+.field input,.field select{width:100%;padding:11px 10px;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:#0b0500;color:#fff;font:inherit;text-align:center}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:18px}
+button,.download-link{border:0;border-radius:28px;padding:12px 22px;font-family:"Exo 2",sans-serif;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:.23s ease}
+.btn-main{background:linear-gradient(135deg,#1f5f9f 0%,#2d7ddc 52%,#4f9bea 100%);color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.35),0 0 20px rgba(45,125,220,.48)}
+.btn-secondary{background:#c00000;color:#fff}
+button:hover,.download-link:hover{transform:translateY(-2px) scale(1.02)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.status{display:none;margin-top:18px;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.22);line-height:1.5}
+.result{display:none;margin-top:18px;padding:18px;border-radius:16px;border:1px solid rgba(45,125,220,.55);background:rgba(20,58,105,.22)}
+.download-link{display:inline-block;background:linear-gradient(135deg,#1f5f9f,#2d7ddc 55%,#4f9bea);color:#fff}
+.preview{width:100%;margin-top:16px}
+.small{font-size:13px;line-height:1.55;opacity:.9}
+.seo-info{margin:24px auto 0;padding:24px;max-width:900px;background:rgba(0,0,0,.18);border:1px solid rgba(79,155,234,.28);border-radius:18px}
+.seo-info h2{margin:0 0 12px;color:#4f9bea}.seo-info p{margin:8px auto;max-width:800px;line-height:1.65}.seo-info a{color:#8fd8ff;font-weight:700}
+.file-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.file-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:rgba(0,0,0,.23);text-align:left}
+.file-row .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-row button{padding:7px 11px;font-size:12px}
+footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}.panel{padding:16px}.subtitle{font-size:16px}}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://alsbkin.ro/free-online-audio-converter.html#app",
+      "name": "ALSBKIN Free Online Audio Converter",
+      "url": "https://alsbkin.ro/free-online-audio-converter.html",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "A modern browser with Web Audio API support",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free browser-based audio converter with local processing and no server upload.",
+      "featureList": [
+        "Convert supported audio to WAV",
+        "Convert to WebM audio where supported",
+        "Convert to OGG where supported",
+        "Local browser processing"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ALSBKIN",
+        "url": "https://alsbkin.ro/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://alsbkin.ro/free-online-audio-converter.html#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://alsbkin.ro/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Free Online Tools",
+          "item": "https://alsbkin.ro/free-online-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Free Online Audio Converter",
+          "item": "https://alsbkin.ro/free-online-audio-converter.html"
+        }
+      ]
+    }
+  ]
+}</script>
+</head>
+<body>
+<nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav>
+<main>
+<h1>Free Online Audio Converter</h1>
+<p class="subtitle">Convert supported audio files directly in your browser. Choose an output format and export locally without uploading your file.</p>
+<div class="privacy-note">🔒 100% free and safe. Your audio is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
+
+<section class="panel">
+  <div class="drop-zone"><div class="drop-title">Select an audio file</div><div class="drop-sub">MP3, WAV, M4A/AAC, OGG and other browser-supported audio formats</div><input id="fileInput" class="file-input" type="file" accept="audio/*"/></div>
+  <div id="fileMeta" class="file-meta"></div>
+</section>
+<section class="panel">
+  <div class="grid">
+    <div class="field"><label for="format">OUTPUT FORMAT</label><select id="format"><option value="wav">WAV (lossless PCM)</option><option value="webm">WebM audio (browser support required)</option><option value="ogg">OGG audio (browser support required)</option></select></div>
+    <div class="field"><label>OUTPUT NOTE</label><div class="small">WAV works in modern browsers. WebM/OGG availability depends on MediaRecorder support.</div></div>
+  </div>
+  <div class="controls"><button id="convertBtn" class="btn-main" disabled>CONVERT</button></div>
+  <div id="status" class="status"></div><div id="result" class="result"><a id="download" class="download-link">DOWNLOAD</a></div>
+</section>
+<section class="seo-info"><h2>Convert Audio Online Without Uploading</h2><p>This free online audio converter decodes your audio locally and creates a new output file in your browser. WAV export is broadly supported; WebM and OGG output depend on your browser's MediaRecorder capabilities.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a> or use the <a href="free-online-audio-cutter.html">Free Online Audio Cutter</a>.</p></section>
+</main>
+<footer>© 2026 ALSBKIN. All rights reserved.</footer>
+<script>
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[ch]))}
+function formatTime(sec){sec=Math.max(0,sec||0);const m=Math.floor(sec/60);const s=Math.floor(sec%60);return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+function audioContext(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error("Your browser does not support the Web Audio API.");return new AC()}
+async function decodeFile(file,ctx){const arr=await file.arrayBuffer();return await ctx.decodeAudioData(arr.slice(0))}
+function audioBufferToWav(buffer){
+  const channels=buffer.numberOfChannels,sampleRate=buffer.sampleRate,length=buffer.length;
+  const bytesPerSample=2,blockAlign=channels*bytesPerSample,dataSize=length*blockAlign;
+  const ab=new ArrayBuffer(44+dataSize),view=new DataView(ab);
+  const ws=(o,s)=>{for(let i=0;i<s.length;i++)view.setUint8(o+i,s.charCodeAt(i))};
+  ws(0,"RIFF");view.setUint32(4,36+dataSize,true);ws(8,"WAVE");ws(12,"fmt ");
+  view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,channels,true);
+  view.setUint32(24,sampleRate,true);view.setUint32(28,sampleRate*blockAlign,true);
+  view.setUint16(32,blockAlign,true);view.setUint16(34,16,true);ws(36,"data");view.setUint32(40,dataSize,true);
+  const ch=[];for(let c=0;c<channels;c++)ch.push(buffer.getChannelData(c));
+  let off=44;
+  for(let i=0;i<length;i++){for(let c=0;c<channels;c++){let s=Math.max(-1,Math.min(1,ch[c][i]));view.setInt16(off,s<0?s*0x8000:s*0x7fff,true);off+=2}}
+  return new Blob([ab],{type:"audio/wav"});
+}
+function makeDownload(blob,base,link,result){
+  const url=URL.createObjectURL(blob);
+  link.href=url;link.download=`${base}.wav`;result.style.display="block";return url;
+}
+function baseName(name){return (name||"audio").replace(/\.[^.]+$/,"")||"audio"}
+
+
+const fi=document.getElementById("fileInput"),meta=document.getElementById("fileMeta"),fmt=document.getElementById("format"),btn=document.getElementById("convertBtn"),status=document.getElementById("status"),result=document.getElementById("result"),dl=document.getElementById("download");
+let file=null,buf=null,ctx=null,lastUrl=null;
+fi.addEventListener("change",async()=>{file=fi.files[0];if(!file)return;result.style.display="none";status.style.display="block";status.textContent="Reading audio...";try{ctx=ctx||audioContext();buf=await decodeFile(file,ctx);meta.style.display="block";meta.innerHTML=`<strong>${escapeHtml(file.name)}</strong><br>Duration: ${formatTime(buf.duration)} • ${buf.sampleRate} Hz • ${buf.numberOfChannels} channel(s)`;btn.disabled=false;status.style.display="none"}catch(e){status.textContent="Could not decode this audio file: "+e.message}});
+function supportedMime(kind){const arr=kind==="ogg"?["audio/ogg;codecs=opus","audio/ogg"]:["audio/webm;codecs=opus","audio/webm"];return arr.find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||""}
+async function mediaRecordBuffer(buffer,mime){
+  const ac=audioContext();const dest=ac.createMediaStreamDestination();const src=ac.createBufferSource();src.buffer=buffer;src.connect(dest);
+  const rec=new MediaRecorder(dest.stream,{mimeType:mime});const chunks=[];rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  const done=new Promise((res,rej)=>{rec.onstop=res;rec.onerror=e=>rej(e.error||new Error("Recording failed"))});
+  rec.start(250);src.start();src.onended=()=>rec.stop();await done;await ac.close();return new Blob(chunks,{type:mime});
+}
+btn.addEventListener("click",async()=>{if(!buf)return;btn.disabled=true;status.style.display="block";result.style.display="none";try{let blob,ext;if(fmt.value==="wav"){status.textContent="Converting locally to WAV...";blob=audioBufferToWav(buf);ext="wav"}else{const mime=supportedMime(fmt.value);if(!mime)throw new Error(`${fmt.value.toUpperCase()} export is not supported by this browser.`);status.textContent=`Converting locally to ${fmt.value.toUpperCase()}...`;blob=await mediaRecordBuffer(buf,mime);ext=fmt.value==="ogg"?"ogg":"webm"}if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(blob);dl.href=lastUrl;dl.download=`${baseName(file.name)}-converted.${ext}`;status.textContent=`Ready • ${(blob.size/1024/1024).toFixed(2)} MB`;result.style.display="block"}catch(e){status.textContent="Conversion error: "+e.message}finally{btn.disabled=false}});
+
+</script>
+</body></html>
