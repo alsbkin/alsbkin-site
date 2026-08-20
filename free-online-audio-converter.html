@@ -88,7 +88,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       },
       "description": "Free browser-based audio converter with local processing and no server upload.",
       "featureList": [
-        "Convert supported audio to WAV",
+        "Convert supported audio to MP3","Convert supported audio to WAV",
         "Convert to WebM audio where supported",
         "Convert to OGG where supported",
         "Local browser processing"
@@ -125,6 +125,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     }
   ]
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 </head>
 <body>
 <nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav>
@@ -139,13 +140,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 </section>
 <section class="panel">
   <div class="grid">
-    <div class="field"><label for="format">OUTPUT FORMAT</label><select id="format"><option value="wav">WAV (lossless PCM)</option><option value="webm">WebM audio (browser support required)</option><option value="ogg">OGG audio (browser support required)</option></select></div>
-    <div class="field"><label>OUTPUT NOTE</label><div class="small">WAV works in modern browsers. WebM/OGG availability depends on MediaRecorder support.</div></div>
+    <div class="field"><label for="format">OUTPUT FORMAT</label><select id="format"><option value="mp3" selected>MP3</option><option value="wav">WAV (lossless PCM)</option><option value="webm">WebM audio (browser support required)</option><option value="ogg">OGG audio (browser support required)</option></select></div>
+    <div class="field" id="bitrateField"><label for="bitrate">MP3 BITRATE</label><select id="bitrate"><option value="128">128 kbps</option><option value="192" selected>192 kbps</option><option value="256">256 kbps</option><option value="320">320 kbps</option></select></div>
   </div>
   <div class="controls"><button id="convertBtn" class="btn-main" disabled>CONVERT</button></div>
   <div id="status" class="status"></div><div id="result" class="result"><a id="download" class="download-link">DOWNLOAD</a></div>
 </section>
-<section class="seo-info"><h2>Convert Audio Online Without Uploading</h2><p>This free online audio converter decodes your audio locally and creates a new output file in your browser. WAV export is broadly supported; WebM and OGG output depend on your browser's MediaRecorder capabilities.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a> or use the <a href="free-online-audio-cutter.html">Free Online Audio Cutter</a>.</p></section>
+<section class="seo-info"><h2>Convert Audio Online Without Uploading</h2><p>This free online audio converter decodes your audio locally and creates a new output file in your browser. MP3 and WAV export are available directly in the tool; WebM and OGG output depend on your browser's MediaRecorder capabilities.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a> or use the <a href="free-online-audio-cutter.html">Free Online Audio Cutter</a>.</p></section>
 </main>
 <footer>© 2026 ALSBKIN. All rights reserved.</footer>
 <script>
@@ -173,10 +174,42 @@ function makeDownload(blob,base,link,result){
 }
 function baseName(name){return (name||"audio").replace(/\.[^.]+$/,"")||"audio"}
 
+function floatToInt16(channel){
+  const out=new Int16Array(channel.length);
+  for(let i=0;i<channel.length;i++){
+    const s=Math.max(-1,Math.min(1,channel[i]));
+    out[i]=s<0?s*32768:s*32767;
+  }
+  return out;
+}
+function audioBufferToMp3(buffer,bitrate=192){
+  if(typeof lamejs==="undefined") throw new Error("MP3 encoder could not be loaded.");
+  const channels=Math.min(2,buffer.numberOfChannels);
+  const sampleRate=buffer.sampleRate;
+  const enc=new lamejs.Mp3Encoder(channels,sampleRate,bitrate);
+  const left=floatToInt16(buffer.getChannelData(0));
+  const right=channels>1?floatToInt16(buffer.getChannelData(1)):null;
+  const block=1152,parts=[];
+  for(let i=0;i<left.length;i+=block){
+    const l=left.subarray(i,i+block);
+    const mp3=right?enc.encodeBuffer(l,right.subarray(i,i+block)):enc.encodeBuffer(l);
+    if(mp3.length)parts.push(mp3);
+  }
+  const end=enc.flush();
+  if(end.length)parts.push(end);
+  return new Blob(parts,{type:"audio/mpeg"});
+}
+function exportAudioBuffer(buffer,format,bitrate){
+  if(format==="mp3") return {blob:audioBufferToMp3(buffer,bitrate),ext:"mp3"};
+  return {blob:audioBufferToWav(buffer),ext:"wav"};
+}
 
-const fi=document.getElementById("fileInput"),meta=document.getElementById("fileMeta"),fmt=document.getElementById("format"),btn=document.getElementById("convertBtn"),status=document.getElementById("status"),result=document.getElementById("result"),dl=document.getElementById("download");
+
+
+const fi=document.getElementById("fileInput"),meta=document.getElementById("fileMeta"),fmt=document.getElementById("format"),bitrate=document.getElementById("bitrate"),bitrateField=document.getElementById("bitrateField"),btn=document.getElementById("convertBtn"),status=document.getElementById("status"),result=document.getElementById("result"),dl=document.getElementById("download");
 let file=null,buf=null,ctx=null,lastUrl=null;
 fi.addEventListener("change",async()=>{file=fi.files[0];if(!file)return;result.style.display="none";status.style.display="block";status.textContent="Reading audio...";try{ctx=ctx||audioContext();buf=await decodeFile(file,ctx);meta.style.display="block";meta.innerHTML=`<strong>${escapeHtml(file.name)}</strong><br>Duration: ${formatTime(buf.duration)} • ${buf.sampleRate} Hz • ${buf.numberOfChannels} channel(s)`;btn.disabled=false;status.style.display="none"}catch(e){status.textContent="Could not decode this audio file: "+e.message}});
+fmt.addEventListener("change",()=>{bitrateField.style.display=fmt.value==="mp3"?"block":"none"});
 function supportedMime(kind){const arr=kind==="ogg"?["audio/ogg;codecs=opus","audio/ogg"]:["audio/webm;codecs=opus","audio/webm"];return arr.find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||""}
 async function mediaRecordBuffer(buffer,mime){
   const ac=audioContext();const dest=ac.createMediaStreamDestination();const src=ac.createBufferSource();src.buffer=buffer;src.connect(dest);
@@ -184,7 +217,29 @@ async function mediaRecordBuffer(buffer,mime){
   const done=new Promise((res,rej)=>{rec.onstop=res;rec.onerror=e=>rej(e.error||new Error("Recording failed"))});
   rec.start(250);src.start();src.onended=()=>rec.stop();await done;await ac.close();return new Blob(chunks,{type:mime});
 }
-btn.addEventListener("click",async()=>{if(!buf)return;btn.disabled=true;status.style.display="block";result.style.display="none";try{let blob,ext;if(fmt.value==="wav"){status.textContent="Converting locally to WAV...";blob=audioBufferToWav(buf);ext="wav"}else{const mime=supportedMime(fmt.value);if(!mime)throw new Error(`${fmt.value.toUpperCase()} export is not supported by this browser.`);status.textContent=`Converting locally to ${fmt.value.toUpperCase()}...`;blob=await mediaRecordBuffer(buf,mime);ext=fmt.value==="ogg"?"ogg":"webm"}if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(blob);dl.href=lastUrl;dl.download=`${baseName(file.name)}-converted.${ext}`;status.textContent=`Ready • ${(blob.size/1024/1024).toFixed(2)} MB`;result.style.display="block"}catch(e){status.textContent="Conversion error: "+e.message}finally{btn.disabled=false}});
+btn.addEventListener("click",async()=>{
+  if(!buf)return;
+  btn.disabled=true;status.style.display="block";result.style.display="none";
+  try{
+    let blob,ext;
+    if(fmt.value==="mp3"){
+      status.textContent="Encoding locally to MP3...";
+      blob=audioBufferToMp3(buf,+bitrate.value);ext="mp3";
+    }else if(fmt.value==="wav"){
+      status.textContent="Converting locally to WAV...";
+      blob=audioBufferToWav(buf);ext="wav";
+    }else{
+      const mime=supportedMime(fmt.value);
+      if(!mime)throw new Error(`${fmt.value.toUpperCase()} export is not supported by this browser.`);
+      status.textContent=`Converting locally to ${fmt.value.toUpperCase()}...`;
+      blob=await mediaRecordBuffer(buf,mime);ext=fmt.value==="ogg"?"ogg":"webm";
+    }
+    if(lastUrl)URL.revokeObjectURL(lastUrl);
+    lastUrl=URL.createObjectURL(blob);dl.href=lastUrl;dl.download=`${baseName(file.name)}-converted.${ext}`;
+    status.textContent=`Ready • ${ext.toUpperCase()} • ${(blob.size/1024/1024).toFixed(2)} MB`;result.style.display="block";
+  }catch(e){status.textContent="Conversion error: "+e.message}
+  finally{btn.disabled=false}
+});
 
 </script>
 </body></html>

@@ -91,7 +91,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         "Audio speed from 0.50x to 2.00x",
         "Slow down audio",
         "Speed up audio",
-        "WAV export",
+        "MP3 and WAV export",
         "Local browser processing"
       ],
       "publisher": {
@@ -126,18 +126,23 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     }
   ]
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 </head>
 <body>
 <nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav>
 <main>
 <h1>Free Online Audio Speed Changer</h1>
-<p class="subtitle">Slow down or speed up an audio file from 0.50× to 2.00× and export the result locally as WAV.</p>
+<p class="subtitle">Slow down or speed up an audio file from 0.50× to 2.00× and export the result locally as MP3 or WAV.</p>
 <div class="privacy-note">🔒 100% free and safe. Your audio is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
 
 <section class="panel"><div class="drop-zone"><div class="drop-title">Select an audio file</div><div class="drop-sub">Choose a browser-supported audio file</div><input id="fileInput" class="file-input" type="file" accept="audio/*"/></div><div id="fileMeta" class="file-meta"></div></section>
 <section class="panel">
 <div class="grid"><div class="field"><label for="speed">SPEED</label><input id="speed" type="range" min="50" max="200" value="100" step="5"/><div id="speedValue">1.00×</div></div><div class="field"><label>NOTE</label><div class="small">This changes playback speed and pitch together. 50% is half speed; 200% is double speed.</div></div></div>
-<div class="controls"><button id="processBtn" class="btn-main" disabled>CHANGE SPEED & EXPORT WAV</button></div>
+<div class="grid" style="margin-top:16px">
+<div class="field"><label for="format">OUTPUT FORMAT</label><select id="format"><option value="mp3" selected>MP3</option><option value="wav">WAV</option></select></div>
+<div class="field" id="bitrateField"><label for="bitrate">MP3 BITRATE</label><select id="bitrate"><option value="128">128 kbps</option><option value="192" selected>192 kbps</option><option value="256">256 kbps</option><option value="320">320 kbps</option></select></div>
+</div>
+<div class="controls"><button id="processBtn" class="btn-main" disabled>CHANGE SPEED & EXPORT</button></div>
 <audio id="preview" class="preview" controls></audio>
 <div id="status" class="status"></div><div id="result" class="result"><a id="download" class="download-link">DOWNLOAD</a></div>
 </section>
@@ -169,11 +174,56 @@ function makeDownload(blob,base,link,result){
 }
 function baseName(name){return (name||"audio").replace(/\.[^.]+$/,"")||"audio"}
 
+function floatToInt16(channel){
+  const out=new Int16Array(channel.length);
+  for(let i=0;i<channel.length;i++){
+    const s=Math.max(-1,Math.min(1,channel[i]));
+    out[i]=s<0?s*32768:s*32767;
+  }
+  return out;
+}
+function audioBufferToMp3(buffer,bitrate=192){
+  if(typeof lamejs==="undefined") throw new Error("MP3 encoder could not be loaded.");
+  const channels=Math.min(2,buffer.numberOfChannels);
+  const sampleRate=buffer.sampleRate;
+  const enc=new lamejs.Mp3Encoder(channels,sampleRate,bitrate);
+  const left=floatToInt16(buffer.getChannelData(0));
+  const right=channels>1?floatToInt16(buffer.getChannelData(1)):null;
+  const block=1152,parts=[];
+  for(let i=0;i<left.length;i+=block){
+    const l=left.subarray(i,i+block);
+    const mp3=right?enc.encodeBuffer(l,right.subarray(i,i+block)):enc.encodeBuffer(l);
+    if(mp3.length)parts.push(mp3);
+  }
+  const end=enc.flush();
+  if(end.length)parts.push(end);
+  return new Blob(parts,{type:"audio/mpeg"});
+}
+function exportAudioBuffer(buffer,format,bitrate){
+  if(format==="mp3") return {blob:audioBufferToMp3(buffer,bitrate),ext:"mp3"};
+  return {blob:audioBufferToWav(buffer),ext:"wav"};
+}
 
-const fi=document.getElementById("fileInput"),meta=document.getElementById("fileMeta"),speed=document.getElementById("speed"),sv=document.getElementById("speedValue"),btn=document.getElementById("processBtn"),preview=document.getElementById("preview"),status=document.getElementById("status"),result=document.getElementById("result"),dl=document.getElementById("download");
-let file=null,buf=null,ctx=null,lastUrl=null;speed.addEventListener("input",()=>sv.textContent=(+speed.value/100).toFixed(2)+"×");
+
+
+const fi=document.getElementById("fileInput"),meta=document.getElementById("fileMeta"),speed=document.getElementById("speed"),sv=document.getElementById("speedValue"),btn=document.getElementById("processBtn"),preview=document.getElementById("preview"),status=document.getElementById("status"),result=document.getElementById("result"),dl=document.getElementById("download"),format=document.getElementById("format"),bitrate=document.getElementById("bitrate"),bitrateField=document.getElementById("bitrateField");
+let file=null,buf=null,ctx=null,lastUrl=null,previewUrl=null;format.addEventListener("change",()=>{bitrateField.style.display=format.value==="mp3"?"block":"none"});speed.addEventListener("input",()=>sv.textContent=(+speed.value/100).toFixed(2)+"×");
 fi.addEventListener("change",async()=>{file=fi.files[0];if(!file)return;status.style.display="block";status.textContent="Reading audio...";try{ctx=ctx||audioContext();buf=await decodeFile(file,ctx);meta.style.display="block";meta.innerHTML=`<strong>${escapeHtml(file.name)}</strong><br>Duration: ${formatTime(buf.duration)}`;btn.disabled=false;status.style.display="none"}catch(e){status.textContent="Could not decode this file: "+e.message}});
-btn.addEventListener("click",async()=>{if(!buf)return;btn.disabled=true;status.style.display="block";result.style.display="none";try{const rate=+speed.value/100;const outLen=Math.max(1,Math.ceil(buf.length/rate));const offline=new OfflineAudioContext(buf.numberOfChannels,outLen,buf.sampleRate);const src=offline.createBufferSource();src.buffer=buf;src.playbackRate.value=rate;src.connect(offline.destination);src.start();status.textContent="Changing speed locally...";const out=await offline.startRendering();const blob=audioBufferToWav(out);if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(blob);dl.href=lastUrl;dl.download=`${baseName(file.name)}-speed-${rate.toFixed(2)}x.wav`;preview.src=lastUrl;status.textContent=`Ready • ${(rate).toFixed(2)}× • ${formatTime(out.duration)}`;result.style.display="block"}catch(e){status.textContent="Speed change error: "+e.message}finally{btn.disabled=false}});
+btn.addEventListener("click",async()=>{
+  if(!buf)return;btn.disabled=true;status.style.display="block";result.style.display="none";
+  try{
+    const rate=+speed.value/100,outLen=Math.max(1,Math.ceil(buf.length/rate));
+    const offline=new OfflineAudioContext(buf.numberOfChannels,outLen,buf.sampleRate);
+    const src=offline.createBufferSource();src.buffer=buf;src.playbackRate.value=rate;src.connect(offline.destination);src.start();
+    status.textContent="Changing speed locally...";
+    const out=await offline.startRendering(),ex=exportAudioBuffer(out,format.value,+bitrate.value);
+    if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(ex.blob);dl.href=lastUrl;
+    dl.download=`${baseName(file.name)}-speed-${rate.toFixed(2)}x.${ex.ext}`;
+    if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=URL.createObjectURL(audioBufferToWav(out));preview.src=previewUrl;
+    status.textContent=`Ready • ${rate.toFixed(2)}× • ${formatTime(out.duration)} • ${ex.ext.toUpperCase()}`;result.style.display="block";
+  }catch(e){status.textContent="Speed change error: "+e.message}
+  finally{btn.disabled=false}
+});
 
 </script>
 </body></html>
