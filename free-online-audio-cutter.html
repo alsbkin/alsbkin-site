@@ -3,10 +3,21 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Free Online Audio Cutter & MP3 Cutter | ALSBKIN Tools</title>
-<meta name="description" content="Free online audio cutter and MP3 cutter by ALSBKIN. Trim MP3, WAV and supported audio files in your browser, preview the selection, add fade in/out and export for free. No upload required."/>
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1"/>
+<title>Free Online Audio Cutter & MP3 Cutter | ALSBKIN</title>
+<meta name="description" content="Cut MP3, WAV and supported audio files online for free. Trim audio in your browser, preview selections, add fades, zoom the waveform and export without uploading your file."/>
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
 <link rel="canonical" href="https://alsbkin.ro/free-online-audio-cutter.html"/>
+
+<meta name="author" content="ALSBKIN"/>
+<meta name="theme-color" content="#170800"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="ALSBKIN"/>
+<meta property="og:title" content="Free Online Audio Cutter & MP3 Cutter | ALSBKIN"/>
+<meta property="og:description" content="Cut MP3, WAV and supported audio files online for free. Trim audio in your browser, preview selections, add fades, zoom the waveform and export without uploading your file."/>
+<meta property="og:url" content="https://alsbkin.ro/free-online-audio-cutter.html"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Free Online Audio Cutter & MP3 Cutter | ALSBKIN"/>
+<meta name="twitter:description" content="Cut MP3, WAV and supported audio files online for free. Trim audio in your browser, preview selections, add fades, zoom the waveform and export without uploading your file."/>
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -266,17 +277,86 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   accent-color:#2d7ddc;
 }
 
+
+.seo-info{margin:24px auto 0;padding:24px;max-width:900px;background:rgba(0,0,0,.18);border:1px solid rgba(79,155,234,.28);border-radius:18px}
+.seo-info h2{margin:0 0 12px;color:#4f9bea;text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(45,125,220,.55)}
+.seo-info p{margin:8px auto;max-width:800px;line-height:1.65}
+.seo-info a{color:#8fd8ff;font-weight:700}
+
+
+.audio-playhead{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  width:3px;
+  background:#ffffff;
+  box-shadow:0 0 8px rgba(255,255,255,.95),0 0 16px rgba(255,255,255,.55),0 2px 5px rgba(0,0,0,.85);
+  z-index:4;
+  pointer-events:none;
+  opacity:0;
+  transform:translateX(-1.5px);
+}
+
 </style>
 <script type="application/ld+json">
 {
-  "@context":"https://schema.org",
-  "@type":"WebApplication",
-  "name":"Free Online Audio Cutter & MP3 Cutter",
-  "url":"https://alsbkin.ro/free-online-audio-cutter.html",
-  "applicationCategory":"MultimediaApplication",
-  "operatingSystem":"Any",
-  "browserRequirements":"Requires a modern browser with Web Audio API support",
-  "description":"Free online audio cutter and MP3 cutter that processes files locally in the browser and exports WAV or MP3."
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://alsbkin.ro/free-online-audio-cutter.html#app",
+      "name": "ALSBKIN Free Online Audio Cutter",
+      "url": "https://alsbkin.ro/free-online-audio-cutter.html",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "A modern browser with Web Audio API support",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free browser-based audio cutter for trimming MP3, WAV and supported audio files locally without uploading the audio file.",
+      "featureList": [
+        "Trim audio by start and end time",
+        "Waveform preview with up to 8x zoom",
+        "Fade in and fade out",
+        "WAV export",
+        "MP3 export",
+        "Local browser processing"
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "ALSBKIN",
+        "url": "https://alsbkin.ro/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://alsbkin.ro/free-online-audio-cutter.html#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://alsbkin.ro/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Free Online Tools",
+          "item": "https://alsbkin.ro/free-online-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Free Online Audio Cutter",
+          "item": "https://alsbkin.ro/free-online-audio-cutter.html"
+        }
+      ]
+    }
+  ]
 }
 </script>
 </head>
@@ -306,6 +386,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <div class="wave-content" id="waveContent">
       <canvas id="waveform"></canvas>
       <div class="selection" id="selection"></div>
+      <div class="audio-playhead" id="audioPlayhead" aria-hidden="true"></div>
       <div class="handle" id="startHandle" aria-label="Start selection"></div>
       <div class="handle" id="endHandle" aria-label="End selection"></div>
     </div>
@@ -313,7 +394,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   <div class="wave-zoom-control">
     <label for="waveZoom">WAVEFORM ZOOM <span id="waveZoomValue">1×</span></label>
-    <input id="waveZoom" type="range" min="1" max="16" value="1" step="1"/>
+    <input id="waveZoom" type="range" min="1" max="8" value="1" step="1"/>
   </div>
 
   <div class="time-grid">
@@ -387,6 +468,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 </div>
   <p class="small">Note: supported input formats depend on your browser and device. WAV export is generated natively. MP3 export is encoded locally in your browser using lame.js.</p>
 </section>
+
+<section class="seo-info" aria-labelledby="audio-cutter-info">
+  <h2 id="audio-cutter-info">Free MP3 and Audio Cutter in Your Browser</h2>
+  <p>Use this free online audio cutter to trim MP3, WAV and other browser-supported audio files with precise start and end points. Zoom the waveform up to 8×, preview your selection, add optional fade in or fade out, and export the result as WAV or MP3.</p>
+  <p>Your audio is processed locally in the browser, so the file stays on your device instead of being uploaded for processing. Need to trim a video instead? Try the <a href="free-online-video-cutter.html">Free Online Video Cutter</a>, or browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a>.</p>
+</section>
+
 </main>
 
 <footer>© 2026 ALSBKIN. All rights reserved.</footer>
@@ -404,6 +492,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const waveZoom = document.getElementById("waveZoom");
   const waveZoomValue = document.getElementById("waveZoomValue");
   const selection = document.getElementById("selection");
+  const audioPlayhead = document.getElementById("audioPlayhead");
   const startHandle = document.getElementById("startHandle");
   const endHandle = document.getElementById("endHandle");
   const startTimeInput = document.getElementById("startTime");
@@ -431,6 +520,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let previewSource = null;
   let downloadUrl = null;
   let zoomLevel = 1;
+  let previewStartedAt = 0;
+  let previewOffset = 0;
+  let playheadRaf = null;
 
   function getAudioContext() {
     if (!audioContext) {
@@ -489,7 +581,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       focusRatio = clamp(((startTime + endTime) / 2) / audioBuffer.duration, 0, 1);
     }
 
-    zoomLevel = clamp(Number(level) || 1, 1, 16);
+    zoomLevel = clamp(Number(level) || 1, 1, 8);
     waveContent.style.width = (zoomLevel * 100) + "%";
     waveZoomValue.textContent = zoomLevel + "×";
 
@@ -501,6 +593,50 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       const target = focusRatio * totalWidth - waveWrap.clientWidth / 2;
       waveWrap.scrollLeft = clamp(target, 0, Math.max(0, totalWidth - waveWrap.clientWidth));
     });
+  }
+
+  function updateAudioPlayhead(time) {
+    if (!audioBuffer || !audioPlayhead) return;
+    const ratio = clamp(time / audioBuffer.duration, 0, 1);
+    audioPlayhead.style.left = (ratio * 100) + "%";
+  }
+
+  function stopPlayheadAnimation(hide = false) {
+    if (playheadRaf !== null) {
+      cancelAnimationFrame(playheadRaf);
+      playheadRaf = null;
+    }
+    if (hide && audioPlayhead) audioPlayhead.style.opacity = "0";
+  }
+
+  function animateAudioPlayhead() {
+    if (!audioBuffer || !previewSource) return;
+    const ac = getAudioContext();
+    const elapsed = Math.max(0, ac.currentTime - previewStartedAt);
+    const current = Math.min(endTime, previewOffset + elapsed);
+
+    audioPlayhead.style.opacity = "1";
+    updateAudioPlayhead(current);
+
+    if (zoomLevel > 1) {
+      const totalWidth = waveContent.scrollWidth;
+      const x = (current / audioBuffer.duration) * totalWidth;
+      const margin = waveWrap.clientWidth * 0.18;
+      if (x < waveWrap.scrollLeft + margin || x > waveWrap.scrollLeft + waveWrap.clientWidth - margin) {
+        waveWrap.scrollLeft = clamp(
+          x - waveWrap.clientWidth / 2,
+          0,
+          Math.max(0, totalWidth - waveWrap.clientWidth)
+        );
+      }
+    }
+
+    if (current < endTime - 0.005) {
+      playheadRaf = requestAnimationFrame(animateAudioPlayhead);
+    } else {
+      updateAudioPlayhead(endTime);
+      playheadRaf = null;
+    }
   }
 
   function updateSelectionUI() {
@@ -600,6 +736,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       zoomLevel = 1;
       waveContent.style.width = "100%";
       waveZoomValue.textContent = "1×";
+      stopPlayheadAnimation(true);
+      updateAudioPlayhead(startTime);
       updateSelectionUI();
       setTimeout(drawWaveform, 0);
       status.style.display = "none";
@@ -674,6 +812,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     startTime = Number.isFinite(parsedStart) ? parsedStart : 0;
     startTime = clamp(startTime, 0, endTime - 0.01);
     updateSelectionUI();
+    if (!previewSource) {
+      audioPlayhead.style.opacity = "1";
+      updateAudioPlayhead(startTime);
+    }
   });
   endTimeInput.addEventListener("change", () => {
     if (!audioBuffer) return;
@@ -688,9 +830,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     startTime = 0;
     endTime = audioBuffer.duration;
     updateSelectionUI();
+    if (!previewSource) {
+      audioPlayhead.style.opacity = "1";
+      updateAudioPlayhead(startTime);
+    }
   });
 
   function stopPlayback() {
+    stopPlayheadAnimation(false);
     if (previewSource) {
       try { previewSource.stop(); } catch (_) {}
       previewSource.disconnect();
@@ -726,11 +873,24 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       gain.gain.linearRampToValueAtTime(0, now + dur);
     }
 
+    previewOffset = startTime;
+    previewStartedAt = ac.currentTime;
+    audioPlayhead.style.opacity = "1";
+    updateAudioPlayhead(startTime);
+
     source.start(0, startTime, dur);
     previewSource = source;
     playSelection.disabled = true;
     stopPreview.disabled = false;
-    source.onended = stopPlayback;
+    animateAudioPlayhead();
+
+    source.onended = () => {
+      stopPlayheadAnimation(false);
+      updateAudioPlayhead(endTime);
+      previewSource = null;
+      playSelection.disabled = false;
+      stopPreview.disabled = true;
+    };
   });
 
   stopPreview.addEventListener("click", stopPlayback);
