@@ -624,6 +624,21 @@ footer {
   .tools-nav, .tools-nav::before, .tools-nav::after { animation:none; }
 }
 
+/* Compact one-line TOOLS button */
+.tools-nav{
+  padding:9px 15px !important;
+  font-size:.82rem !important;
+  letter-spacing:.9px !important;
+  line-height:1 !important;
+}
+@media (max-width:700px), (hover:none) and (pointer:coarse){
+  .tools-nav{
+    padding:7px 9px !important;
+    font-size:.68rem !important;
+    letter-spacing:.5px !important;
+  }
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&amp;display=swap" rel="stylesheet"/>
 <meta property="og:type" content="website"/>
@@ -897,10 +912,7 @@ footer {
 <span class="nav-main" style="text-transform:none;">Despre</span>
 <span class="nav-sub" style="text-transform:none;">About</span>
 </a>
-<a class="tools-nav" href="tools.html">
-<span class="nav-main">UTILITARE</span>
-<span class="nav-sub" style="text-transform:none;">Tools</span>
-</a>
+<a class="tools-nav" href="free-online-tools.html">TOOLS</a>
 </div>
 </nav>
 <main>

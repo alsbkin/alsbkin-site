@@ -121,9 +121,9 @@ h1{
 #waveform{width:100%;height:100%;display:block}
 .selection{
   position:absolute;top:0;bottom:0;
-  background:rgba(255,0,0,.20);
-  border-left:3px solid #ff3030;
-  border-right:3px solid #ff3030;
+  background:rgba(45,125,220,.50);
+  border-left:3px solid #2d7ddc;
+  border-right:3px solid #2d7ddc;
   pointer-events:none
 }
 .handle{
@@ -134,11 +134,8 @@ h1{
 .handle::after{
   content:"";position:absolute;top:50%;left:50%;
   width:7px;height:54px;transform:translate(-50%,-50%);
-  border-radius:7px;background:#ff3030;
-  box-shadow:0 0 16px rgba(255,48,48,.88)
-}
-.time-grid{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
+  border-radius:7px;background:#2d7ddc;
+  box-shadow:0 0 7px rgba(255,255,255,.60),0 0 18px rgba(45,125,220,.95),0 3px 8px rgba(0,0,0,.85);grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
   margin:0 0 18px
 }
 .field{padding:14px;background:rgba(0,0,0,.2);border-radius:14px}
@@ -197,6 +194,25 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   .options{grid-template-columns:1fr}
   .wave-wrap{height:150px}
 }
+
+.privacy-note{
+  color:#4f9bea !important;
+  border-color:rgba(45,125,220,.55) !important;
+  background:rgba(20,58,105,.30) !important;
+  text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 9px rgba(45,125,220,.62) !important;
+}
+
+
+.export-blue{
+  background:linear-gradient(135deg,#1f5f9f 0%,#2d7ddc 52%,#4f9bea 100%) !important;
+  color:#ffffff !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.35),0 0 20px rgba(45,125,220,.48);
+}
+.export-blue:hover{
+  background:linear-gradient(135deg,#2a6eaf 0%,#3d8be8 52%,#70b3ff 100%) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.40),0 0 28px rgba(45,125,220,.68);
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -214,7 +230,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <body>
 <nav>
 <a class="home" href="index.html">HOME</a>
-<a class="tools" href="tools.html">TOOLS</a>
+<a class="tools" href="free-online-tools.html">TOOLS</a>
 <a class="songs" href="songs.html">SONGS</a>
 </nav>
 
@@ -289,7 +305,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   </div>
 
   <div class="controls" style="margin-top:22px">
-    <button class="btn-main" id="exportBtn">✂ Cut and export</button>
+    <button class="btn-main export-blue" id="exportBtn">✂ Cut and export</button>
   </div>
 
   <div class="status" id="status"></div>
