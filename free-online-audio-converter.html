@@ -68,6 +68,16 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .file-row button{padding:7px 11px;font-size:12px}
 footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 @media(max-width:760px){.grid{grid-template-columns:1fr}nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}.panel{padding:16px}.subtitle{font-size:16px}}
+
+.operation-btn{
+  background:linear-gradient(135deg,#8f0000 0%,#c40000 52%,#e00000 100%) !important;
+  color:#fff !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.38),0 0 20px rgba(224,0,0,.46) !important;
+}
+.operation-btn:hover:not(:disabled){
+  box-shadow:0 10px 24px rgba(0,0,0,.42),0 0 26px rgba(255,35,35,.62) !important;
+}
+
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -143,7 +153,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <div class="field"><label for="format">OUTPUT FORMAT</label><select id="format"><option value="mp3" selected>MP3</option><option value="wav">WAV (lossless PCM)</option><option value="webm">WebM audio (browser support required)</option><option value="ogg">OGG audio (browser support required)</option></select></div>
     <div class="field" id="bitrateField"><label for="bitrate">MP3 BITRATE</label><select id="bitrate"><option value="128">128 kbps</option><option value="192" selected>192 kbps</option><option value="256">256 kbps</option><option value="320">320 kbps</option></select></div>
   </div>
-  <div class="controls"><button id="convertBtn" class="btn-main" disabled>CONVERT</button></div>
+  <div class="controls"><button id="convertBtn" class="btn-main operation-btn" disabled>CONVERT</button></div>
   <div id="status" class="status"></div><div id="result" class="result"><a id="download" class="download-link">DOWNLOAD</a></div>
 </section>
 <section class="seo-info"><h2>Convert Audio Online Without Uploading</h2><p>This free online audio converter decodes your audio locally and creates a new output file in your browser. MP3 and WAV export are available directly in the tool; WebM and OGG output depend on your browser's MediaRecorder capabilities.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a> or use the <a href="free-online-audio-cutter.html">Free Online Audio Cutter</a>.</p></section>
