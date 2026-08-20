@@ -82,11 +82,11 @@ const { createFFmpeg, fetchFile } = FFmpeg;
 let ffmpegInstance=null;
 async function getFFmpeg(status,bar){
   if(!ffmpegInstance){
-    ffmpegInstance=createFFmpeg({log:false,corePath:"https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"});
+    ffmpegInstance=createFFmpeg({log:false,mainName:"main",corePath:"https://cdn.jsdelivr.net/npm/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js"});
     ffmpegInstance.setProgress(({ratio})=>{if(bar&&Number.isFinite(ratio))bar.style.width=Math.max(0,Math.min(100,ratio*100))+"%"});
   }
   if(!ffmpegInstance.isLoaded()){
-    if(status)status.textContent="Loading local MP4 processing engine...";
+    if(status)status.textContent="Loading local MP4 processing engine (single-thread)...";
     await ffmpegInstance.load();
   }
   return ffmpegInstance;
