@@ -126,16 +126,22 @@ async function makeEditableTextDocx(){
     if(ocrWorker)return ocrWorker;
     if(!window.Tesseract)throw new Error("OCR engine could not be loaded.");
     status.textContent="Loading OCR engine and English, Romanian and French language data...";
-    ocrWorker=await Tesseract.createWorker(["eng","ron","fra"],1,{
-      workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js",
-      corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5",
-      langPath:"https://cdn.jsdelivr.net/npm/@tesseract.js-data",
-      logger:m=>{
+    // Do not set a generic langPath here. Tesseract.js v5 resolves each language
+    // to its language-specific jsDelivr package, e.g.
+    // @tesseract.js-data/ron/.../ron.traineddata.gz.
+    try{
+      ocrWorker=await Tesseract.createWorker(["eng","ron","fra"],1,{
+        workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js",
+        corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5",
+        logger:m=>{
         if(m&&m.status==="recognizing text"&&Number.isFinite(m.progress)){
           status.textContent=`OCR processing • ${Math.round(m.progress*100)}%`;
+          }
         }
-      }
-    });
+      });
+    }catch(e){
+      throw new Error("OCR engine/language data could not be loaded. Check the browser console and Cloudflare CSP. "+(e&&e.message?e.message:e));
+    }
     return ocrWorker;
   }
 
