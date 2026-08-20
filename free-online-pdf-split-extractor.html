@@ -67,7 +67,18 @@ nav a:hover{
 .pdf-thumb.selected .pdf-thumb-number{color:#8fd8ff}
 @media(max-width:760px){.pdf-page-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:460px){.pdf-page-grid{grid-template-columns:1fr}}
 
-</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "ALSBKIN Free Online PDF Split & Page Extractor", "url": "https://alsbkin.ro/free-online-pdf-split-extractor.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Split PDF files or extract selected pages online for free. Process page ranges locally in your browser with no server upload.", "featureList": ["Extract PDF pages", "Split PDF pages", "Local browser processing"], "publisher": {"@type": "Organization", "name": "ALSBKIN", "url": "https://alsbkin.ro/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://alsbkin.ro/"}, {"@type": "ListItem", "position": 2, "name": "Free Online Tools", "item": "https://alsbkin.ro/free-online-tools.html"}, {"@type": "ListItem", "position": 3, "name": "Free Online PDF Split & Page Extractor", "item": "https://alsbkin.ro/free-online-pdf-split-extractor.html"}]}]}</script></head><body><nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav><main><h1>Free Online PDF Split & Page Extractor</h1><p class="brand-byline">by ALSBKIN</p><p class="subtitle">Extract exact page ranges from a PDF or split every page into its own PDF file.</p><div class="privacy">🔒 100% free and safe. Your PDF files are processed locally in your browser and are not uploaded to any server. Your data stays on your device.</div><section class="panel"><div class="drop"><div class="drop-title">Select a PDF file</div><div>Extract selected pages or split every page</div><input id="fileInput" type="file" accept="application/pdf"/></div><div id="meta" class="meta"></div></section><section class="panel"><div class="grid"><div class="field"><label>PAGE RANGE</label><input id="range" placeholder="Example: 1-3, 5, 8-10"/></div><div class="field"><label>ACTION</label><select id="mode"><option value="range">Extract selected pages</option><option value="each">Split every page into separate PDFs</option></select></div></div><div class="pdf-preview" id="pdfPreview"><div class="pdf-preview-title">PDF PAGE PREVIEW</div><div class="pdf-preview-help">Pages highlighted in blue are included in the current range. Click a page to add or remove it.</div><div class="pdf-page-grid" id="pdfPageGrid"></div></div><div class="controls"><button id="go" class="op" disabled>EXTRACT / SPLIT</button></div><div id="status" class="status"></div><div id="result" class="result"><a id="download" class="download">DOWNLOAD</a></div></section><section class="seo"><h2>Split PDF or Extract Pages Online</h2><p>Choose exact page ranges or split every PDF page into a separate file, entirely in your browser.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a>.</p></section></main><footer>© 2026 ALSBKIN. All rights reserved.</footer><script>
+
+/* Drag-to-reorder PDF pages */
+.pdf-page-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;align-items:start}
+.pdf-thumb{position:relative;cursor:grab!important;user-select:none}
+.pdf-thumb:active{cursor:grabbing!important}
+.pdf-thumb.dragging{opacity:.38;transform:scale(.97)}
+.pdf-thumb.drag-over{outline:3px solid #8fd8ff;outline-offset:3px}
+.pdf-drag-note{margin:0 0 14px;color:#8fd8ff!important;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(45,125,220,.55)!important}
+@media(max-width:760px){.pdf-page-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:460px){.pdf-page-grid{grid-template-columns:1fr}}
+
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "ALSBKIN Free Online PDF Split & Page Extractor", "url": "https://alsbkin.ro/free-online-pdf-split-extractor.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Split PDF files or extract selected pages online for free. Process page ranges locally in your browser with no server upload.", "featureList": ["Extract PDF pages", "Split PDF pages", "Local browser processing"], "publisher": {"@type": "Organization", "name": "ALSBKIN", "url": "https://alsbkin.ro/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://alsbkin.ro/"}, {"@type": "ListItem", "position": 2, "name": "Free Online Tools", "item": "https://alsbkin.ro/free-online-tools.html"}, {"@type": "ListItem", "position": 3, "name": "Free Online PDF Split & Page Extractor", "item": "https://alsbkin.ro/free-online-pdf-split-extractor.html"}]}]}</script></head><body><nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav><main><h1>Free Online PDF Split & Page Extractor</h1><p class="brand-byline">by ALSBKIN</p><p class="subtitle">Extract exact page ranges from a PDF or split every page into its own PDF file.</p><div class="privacy">🔒 100% free and safe. Your PDF files are processed locally in your browser and are not uploaded to any server. Your data stays on your device.</div><section class="panel"><div class="drop"><div class="drop-title">Select a PDF file</div><div>Extract selected pages or split every page</div><input id="fileInput" type="file" accept="application/pdf"/></div><div id="meta" class="meta"></div></section><section class="panel"><div class="grid"><div class="field"><label>PAGE RANGE</label><input id="range" placeholder="Example: 1-3, 5, 8-10"/></div><div class="field"><label>ACTION</label><select id="mode"><option value="range">Extract selected pages</option><option value="each">Split every page into separate PDFs</option></select></div></div><div class="pdf-preview" id="pdfPreview"><div class="pdf-preview-title">PDF PAGE PREVIEW &amp; REARRANGER</div><div class="pdf-drag-note">Drag pages to rearrange the output order. Blue pages are included in the current range.</div><div class="pdf-preview-help">Pages highlighted in blue are included in the current range. Click a page to add or remove it.</div><div class="pdf-page-grid" id="pdfPageGrid"></div></div><div class="controls"><button id="go" class="op" disabled>EXTRACT / SPLIT</button></div><div id="status" class="status"></div><div id="result" class="result"><a id="download" class="download">DOWNLOAD</a></div></section><section class="seo"><h2>Split PDF or Extract Pages Online</h2><p>Choose exact page ranges or split every PDF page into a separate file, entirely in your browser.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a>.</p></section></main><footer>© 2026 ALSBKIN. All rights reserved.</footer><script>
 const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));const base=n=>(n||"document").replace(/\.[^.]+$/,"")||"document";const mb=n=>(n/1048576).toFixed(2)+" MB";function busy(b,s,t){b.disabled=true;b.dataset.old=b.textContent;b.textContent="PROCESSING...";s.style.display="block";s.textContent=t}function done(b){b.disabled=false;b.textContent=b.dataset.old||b.textContent}function dl(blob,name,a,r){const u=URL.createObjectURL(blob);a.href=u;a.download=name;r.style.display="block";return u}
 if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";}
 const fi=$("fileInput"),meta=$("meta"),range=$("range"),mode=$("mode"),go=$("go"),status=$("status"),result=$("result"),a=$("download"),pdfPreview=$("pdfPreview"),pdfPageGrid=$("pdfPageGrid");
@@ -123,7 +134,7 @@ async function renderPreview(){
     const scale=Math.min(1.75,260/vp0.width);
     const vp=page.getViewport({scale});
     const card=document.createElement("div");
-    card.className="pdf-thumb selected";
+    card.className="pdf-thumb selected";card.draggable=true;
     card.dataset.pageIndex=String(n-1);
     const c=document.createElement("canvas");
     c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);
@@ -162,6 +173,30 @@ mode.addEventListener("change",()=>{
   pdfPreview.style.opacity=all?".62":"1";
   refreshSelection();
 });
+
+let draggedThumb=null;
+function getVisualPageOrder(){
+  return [...pdfPageGrid.querySelectorAll(".pdf-thumb")].map(card=>+card.dataset.pageIndex);
+}
+pdfPageGrid.addEventListener("dragstart",e=>{
+  const card=e.target.closest(".pdf-thumb");if(!card)return;
+  draggedThumb=card;card.classList.add("dragging");e.dataTransfer.effectAllowed="move";
+});
+pdfPageGrid.addEventListener("dragend",e=>{
+  const card=e.target.closest(".pdf-thumb");if(card)card.classList.remove("dragging");
+  pdfPageGrid.querySelectorAll(".pdf-thumb").forEach(x=>x.classList.remove("drag-over"));draggedThumb=null;
+});
+pdfPageGrid.addEventListener("dragover",e=>{
+  e.preventDefault();
+  const target=e.target.closest(".pdf-thumb");if(!draggedThumb||!target||target===draggedThumb)return;
+  const r=target.getBoundingClientRect();
+  const before=e.clientY<r.top+r.height/2 || (Math.abs(e.clientY-(r.top+r.height/2))<r.height*.18 && e.clientX<r.left+r.width/2);
+  pdfPageGrid.insertBefore(draggedThumb,before?target:target.nextSibling);
+  pdfPageGrid.querySelectorAll(".pdf-thumb").forEach(x=>x.classList.remove("drag-over"));
+  target.classList.add("drag-over");
+});
+pdfPageGrid.addEventListener("drop",e=>{e.preventDefault();pdfPageGrid.querySelectorAll(".pdf-thumb").forEach(x=>x.classList.remove("drag-over"))});
+
 pdfPageGrid.addEventListener("click",e=>{
   if(mode.value==="each"||!pdf)return;
   const card=e.target.closest(".pdf-thumb");if(!card)return;
@@ -177,16 +212,18 @@ go.onclick=async()=>{
   result.style.display="none";
   try{
     if(mode.value==="each"){
-      const zip=new JSZip(),n=pdf.getPageCount();
+      const zip=new JSZip(),order=getVisualPageOrder(),n=order.length;
       for(let i=0;i<n;i++){
-        const d=await PDFLib.PDFDocument.create(),[p]=await d.copyPages(pdf,[i]);
-        d.addPage(p);zip.file(`${base(file.name)}-page-${i+1}.pdf`,await d.save());
+        const originalIndex=order[i];
+        const d=await PDFLib.PDFDocument.create(),[p]=await d.copyPages(pdf,[originalIndex]);
+        d.addPage(p);zip.file(`${base(file.name)}-page-${i+1}-original-${originalIndex+1}.pdf`,await d.save());
       }
       const blob=await zip.generateAsync({type:"blob"});
       dl(blob,base(file.name)+"-split-pages.zip",a,result);
       status.textContent=`Ready • ${n} PDFs in ZIP`;
     }else{
-      const pages=parse(range.value,pdf.getPageCount());
+      const selected=new Set(parse(range.value,pdf.getPageCount()));
+      const pages=getVisualPageOrder().filter(i=>selected.has(i));
       if(!pages.length)throw new Error("Enter a valid page range.");
       const d=await PDFLib.PDFDocument.create(),ps=await d.copyPages(pdf,pages);
       ps.forEach(p=>d.addPage(p));
