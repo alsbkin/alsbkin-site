@@ -221,7 +221,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <main>
 <h1>Free Online Video Cutter</h1>
 <p class="subtitle">Cut MP4, WebM, MOV and other browser-supported video files online for free. Select the exact section you want, preview it and export the result directly from your browser.</p>
-<div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to ALSBKIN servers, so your video data stays on your device.</div>
+<div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
 <section class="panel"><div class="drop-zone" id="dropZone"><div class="drop-title">Select a video file</div><div class="drop-sub">Click here or drag &amp; drop • MP4, WebM, MOV and other video formats supported by your browser</div><input class="file-input" id="fileInput" type="file" accept="video/*"/></div><div class="file-meta" id="fileMeta"></div></section>
 <section class="panel editor" id="editor">
 <video id="video" class="video-preview" controls playsinline></video>
@@ -240,7 +240,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const dropZone = document.getElementById("dropZone");
   const fileMeta = document.getElementById("fileMeta");
   const editor = document.getElementById("editor");
-  const video = document.getElementById("videoPreview");
+  const video = document.getElementById("video");
   const timeline = document.getElementById("timeline");
   const selection = document.getElementById("selection");
   const startHandle = document.getElementById("startHandle");
@@ -268,6 +268,32 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let exportTimer = null;
   let recorder = null;
   let recordedChunks = [];
+
+  const requiredElements = {
+    fileInput, dropZone, fileMeta, editor, video, timeline, selection,
+    startHandle, endHandle, startInput, endInput, lengthInput,
+    previewBtn, stopBtn, selectAllBtn, exportBtn, status, progress, bar,
+    result, download
+  };
+  const missingElements = Object.entries(requiredElements)
+    .filter(([, element]) => !element)
+    .map(([name]) => name);
+
+  if (missingElements.length) {
+    console.error("Video Cutter initialization error. Missing elements:", missingElements);
+    const message = "Video Cutter initialization error: missing " + missingElements.join(", ");
+    const visibleTarget = document.getElementById("fileMeta") || document.body;
+    if (visibleTarget === document.body) {
+      const errorBox = document.createElement("div");
+      errorBox.style.cssText = "margin:20px;padding:14px;background:#700;color:#fff;font-weight:700";
+      errorBox.textContent = message;
+      document.body.prepend(errorBox);
+    } else {
+      visibleTarget.style.display = "block";
+      visibleTarget.textContent = message;
+    }
+    return;
+  }
 
   function fmt(sec) {
     sec = Math.max(0, sec || 0);
