@@ -214,7 +214,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         "Camelot key display",
         "Confidence estimate",
         "Live current-key tracking during playback",
-        "Key changes and modulation timeline",
+        "Tonal-center and likely key-change timeline",
         "Waveform with up to 8x zoom",
         "Local browser processing"
       ],
@@ -242,7 +242,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <main>
 <h1>Free Online BPM &amp; Key Finder</h1>
 <p class="brand-byline">by ALSBKIN</p>
-<p class="subtitle">Detect a song's BPM, main musical key, Camelot key and key changes directly in your browser. Play the track, follow the current key and review the full key timeline in chronological order.</p>
+<p class="subtitle">Estimate a song's BPM, main musical key, Camelot key and tonal changes directly in your browser. Review alternative tempo candidates, local tonal centers and sustained likely key changes.</p>
 <div class="privacy-note">🔒 100% free and safe. Your audio is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
 
 <section class="panel">
@@ -268,7 +268,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   </div>
 
   <div class="analysis-grid">
-    <div class="metric"><div class="metric-label">BPM</div><div class="metric-value" id="bpmValue">—</div><div class="metric-sub" id="bpmConfidence">Waiting for analysis</div></div>
+    <div class="metric"><div class="metric-label">BPM</div><div class="metric-value" id="bpmValue">—</div><div class="metric-sub" id="bpmConfidence">Waiting for analysis</div><div class="metric-sub" id="bpmAlternative">Alternative tempo: —</div></div>
     <div class="metric"><div class="metric-label">KEY</div><div class="metric-value" id="keyValue">—</div><div class="metric-sub" id="keyConfidence">Waiting for analysis</div></div>
     <div class="metric"><div class="metric-label">CAMELOT</div><div class="metric-value" id="camelotValue">—</div><div class="metric-sub">Harmonic mixing notation</div></div>
     <div class="metric"><div class="metric-label">CURRENT TIME</div><div class="metric-value" id="timeValue">0:00</div><div class="metric-sub">Playback position</div></div>
@@ -281,8 +281,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   </div>
 
   <div class="key-timeline" id="keyTimeline">
-    <div class="key-timeline-title">KEY CHANGES &amp; TIMELINE</div>
-    <div class="key-timeline-help">Estimated tonal sections are consolidated to reduce short false changes. Click any section to jump directly to that point in the song.</div>
+    <div class="key-timeline-title">TONAL CENTERS &amp; KEY CHANGE TIMELINE</div>
+    <div class="key-timeline-help">Local tonal centers are consolidated to reduce short false changes. Sustained stronger changes are marked as likely key changes. Click any section to jump directly to that point.</div>
     <div class="key-timeline-list" id="keyTimelineList"></div>
     <div class="key-summary" id="keyTimelineSummary">Waiting for analysis.</div>
   </div>
@@ -335,6 +335,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const restartBtn = document.getElementById("restartBtn");
   const bpmValue = document.getElementById("bpmValue");
   const bpmConfidence = document.getElementById("bpmConfidence");
+  const bpmAlternative = document.getElementById("bpmAlternative");
   const keyValue = document.getElementById("keyValue");
   const keyConfidence = document.getElementById("keyConfidence");
   const camelotValue = document.getElementById("camelotValue");
@@ -563,19 +564,19 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     return (da>0&&db>0)?num/Math.sqrt(da*db):0;
   }
   function detectKeyFromChroma(chroma){
-    let best={score:-Infinity,root:0,mode:"major"},second=-Infinity;
-    for(let r=0;r<12;r++){
-      for(const mode of ["major","minor"]){
-        const score=corrProfile(chroma,mode==="major"?MAJOR_PROFILE:MINOR_PROFILE,r);
-        if(score>best.score){second=best.score;best={score,root:r,mode}}
-        else if(score>second)second=score;
-      }
+    let best={score:-Infinity,root:0,mode:"major"},second={score:-Infinity};
+    for(let r=0;r<12;r++)for(const mode of ["major","minor"]){
+      const score=corrProfile(chroma,mode==="major"?MAJOR_PROFILE:MINOR_PROFILE,r);
+      if(score>best.score){second=best;best={score,root:r,mode}}
+      else if(score>second.score)second={score};
     }
-    const conf=clamp(50+(best.score-second)*140+(best.score-.35)*35,35,98);
+    const margin=Math.max(0,best.score-second.score);
+    const absolute=Math.max(0,Math.min(1,(best.score-.20)/.55));
+    const confidence=Math.max(0,Math.min(1,.68*Math.min(1,margin/.16)+.32*absolute));
     return {
       name:`${NOTE_NAMES[best.root]} ${best.mode}`,
       camelot:best.mode==="major"?CAMELOT_MAJOR[best.root]:CAMELOT_MINOR[best.root],
-      score:best.score,confidence:Math.round(conf)
+      score:best.score,confidence
     };
   }
 
@@ -597,7 +598,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       const prev=merged[merged.length-1];
       if(prev && prev.name===seg.name && prev.camelot===seg.camelot){
         prev.end=seg.end;
-        prev.confidence=Math.round((prev.confidence+seg.confidence)/2);
+        prev.confidence=(prev.confidence+seg.confidence)/2;
         prev.score=(prev.score+seg.score)/2;
       }else{
         merged.push({...seg});
@@ -608,9 +609,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     for(let i=1;i<merged.length-1;i++){
       const prev=merged[i-1],cur=merged[i],next=merged[i+1];
       const dur=cur.end-cur.start;
-      if(prev.name===next.name && cur.name!==prev.name && dur<=12 && cur.confidence<72){
+      if(prev.name===next.name && cur.name!==prev.name && dur<=12 && cur.confidence<0.46){
         prev.end=next.end;
-        prev.confidence=Math.round((prev.confidence+next.confidence)/2);
+        prev.confidence=(prev.confidence+next.confidence)/2;
         merged.splice(i,2);
         i=Math.max(0,i-2);
       }
@@ -619,7 +620,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     // Third pass: merge short low-confidence sections into the stronger neighbor.
     for(let i=0;i<merged.length;i++){
       const cur=merged[i],dur=cur.end-cur.start;
-      if(dur>6 || cur.confidence>=64 || merged.length===1)continue;
+      if(dur>6 || cur.confidence>=0.46 || merged.length===1)continue;
       const prev=merged[i-1],next=merged[i+1];
       if(prev && next){
         const target=prev.confidence>=next.confidence?prev:next;
@@ -638,7 +639,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       const prev=final[final.length-1];
       if(prev && prev.name===seg.name){
         prev.end=seg.end;
-        prev.confidence=Math.round((prev.confidence+seg.confidence)/2);
+        prev.confidence=(prev.confidence+seg.confidence)/2;
       }else final.push({...seg});
     }
     return final;
@@ -664,7 +665,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         <span class="key-change-time">${formatTime(seg.start)}–${formatTime(seg.end)}</span>
         <span class="key-change-key">${seg.name}</span>
         <span class="key-change-camelot">${seg.camelot}</span>
-        <span class="key-change-confidence">${seg.confidence}% confidence</span>`;
+        <span class="key-change-confidence">${confidenceLabel(seg.confidence)} confidence${(seg.end-seg.start)>=18 && seg.confidence>=0.46 ? " • likely key change" : " • local tonal center"}</span>`;
       row.addEventListener("click",async()=>{
         const target=clamp(seg.start,0,audioBuffer.duration);
         const wasPlaying=playing;
@@ -697,49 +698,56 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 
   // ---------- BPM ----------
+  function confidenceLabel(v){
+    if(v>=0.72)return "High";
+    if(v>=0.46)return "Medium";
+    return "Low";
+  }
   function detectBpm(){
-    const sr=audioBuffer.sampleRate;
-    const targetHz=200;
-    const hop=Math.max(1,Math.floor(sr/targetHz));
-    const len=Math.floor(audioBuffer.length/hop);
-    const env=new Float64Array(len);
-    let prev=0;
-    for(let i=0;i<len;i++){
-      let sum=0,count=0;
-      const start=i*hop,end=Math.min(audioBuffer.length,start+hop);
-      for(let s=start;s<end;s+=2){sum+=Math.abs(monoSample(s));count++}
-      const e=count?sum/count:0;
-      const diff=Math.max(0,e-prev);
-      env[i]=diff;prev=e;
+    const sr=audioBuffer.sampleRate,ch=audioBuffer.getChannelData(0),hop=512,win=1024;
+    const frames=Math.max(1,Math.floor((ch.length-win)/hop)),energy=new Float64Array(frames);
+    for(let f=0;f<frames;f++){
+      let e=0,start=f*hop;
+      for(let i=0;i<win;i++){const x=ch[start+i],w=.5-.5*Math.cos(2*Math.PI*i/(win-1));e+=(x*w)*(x*w)}
+      energy[f]=Math.sqrt(e/win);
     }
-    let mean=0;for(const v of env)mean+=v;mean/=Math.max(1,env.length);
-    for(let i=0;i<env.length;i++)env[i]=Math.max(0,env[i]-mean*.55);
-
-    const minB=60,maxB=200;
-    let bestB=0,best=-Infinity,second=-Infinity;
-    const scores=[];
-    for(let bpm=minB;bpm<=maxB;bpm++){
-      const lag=Math.round(targetHz*60/bpm);
-      let s=0,n=0;
-      for(let i=0;i+lag<env.length;i++){s+=env[i]*env[i+lag];n++}
-      s=n?s/n:0;
-      // Small harmonic support for half/double ambiguity.
-      const lag2=Math.round(lag/2),lagx=lag*2;
-      let h=0;
-      if(lag2>1){let q=0,c=0;for(let i=0;i+lag2<env.length;i+=2){q+=env[i]*env[i+lag2];c++}h+=c?q/c*.22:0}
-      if(lagx<env.length){let q=0,c=0;for(let i=0;i+lagx<env.length;i+=2){q+=env[i]*env[i+lagx];c++}h+=c?q/c*.12:0}
-      const score=s+h;
-      scores.push([bpm,score]);
-      if(score>best){second=best;best=score;bestB=bpm}
-      else if(score>second)second=score;
+    const flux=new Float64Array(frames);
+    for(let i=1;i<frames;i++)flux[i]=Math.max(0,energy[i]-energy[i-1]);
+    const peaks=[],radius=Math.max(3,Math.round(.18*sr/hop));
+    for(let i=radius;i<frames-radius;i++){
+      let mean=0;for(let j=i-radius;j<=i+radius;j++)mean+=flux[j];mean/=2*radius+1;
+      if(flux[i]>mean*1.45&&flux[i]>=flux[i-1]&&flux[i]>flux[i+1])peaks.push({t:i*hop/sr,strength:flux[i]});
     }
-    // Favor musically common double-time if nearly tied with a slow half-time result.
-    if(bestB<90){
-      const dbl=scores.find(x=>x[0]===bestB*2);
-      if(dbl && dbl[1] > best*.88){bestB*=2;best=dbl[1]}
+    const hist=new Map();
+    function add(bpm,w){
+      if(!Number.isFinite(bpm)||bpm<40||bpm>260)return;
+      while(bpm<60)bpm*=2;while(bpm>200)bpm/=2;
+      const q=Math.round(bpm*2)/2;hist.set(q,(hist.get(q)||0)+w);
     }
-    const conf=clamp(45+((best-second)/(Math.abs(best)+1e-9))*160,35,97);
-    return {bpm:bestB,confidence:Math.round(conf)};
+    for(let a=0;a<peaks.length;a++)for(let d=1;d<=4&&a+d<peaks.length;d++){
+      const dt=peaks[a+d].t-peaks[a].t;if(dt>0)add(60*d/dt,Math.sqrt(peaks[a].strength*peaks[a+d].strength)/d);
+    }
+    const ac=[];
+    for(let bpm=60;bpm<=200;bpm+=.5){
+      const lag=Math.round((60/bpm)*sr/hop);if(lag<1||lag>=flux.length)continue;
+      let s=0,n=0;for(let i=lag;i<flux.length;i++){s+=flux[i]*flux[i-lag];n++}
+      ac.push({bpm,score:n?s/n:0});
+    }
+    const maxAc=Math.max(1e-12,...ac.map(x=>x.score));for(const x of ac)add(x.bpm,(x.score/maxAc)*.22);
+    function support(b){let s=hist.get(b)||0;for(const d of [-1,-.5,.5,1])s+=(hist.get(Math.round((b+d)*2)/2)||0)*.35;return s}
+    let cs=[...hist.keys()].map(b=>({bpm:+b,support:support(+b)})).sort((a,b)=>b.support-a.support);
+    if(!cs.length)return {bpm:0,alternative:0,confidence:0,label:"Low"};
+    let best=cs[0];
+    for(const c of cs.slice(1,12)){
+      const ratio=Math.max(best.bpm,c.bpm)/Math.min(best.bpm,c.bpm);
+      if(Math.abs(ratio-2)<.08&&c.support>best.support*.88&&(hist.get(c.bpm)||0)>(hist.get(best.bpm)||0)*1.12)best=c;
+    }
+    let alt=cs.find(c=>c.bpm!==best.bpm&&Math.abs(Math.max(c.bpm,best.bpm)/Math.min(c.bpm,best.bpm)-2)<.08);
+    if(!alt)alt=cs.find(c=>c.bpm!==best.bpm&&Math.abs(c.bpm-best.bpm)>=3);
+    const second=cs.find(c=>c.bpm!==best.bpm),sep=second?Math.max(0,(best.support-second.support)/Math.max(best.support,1e-12)):1;
+    const top=cs.slice(0,8).reduce((s,c)=>s+c.support,0)||1;
+    const confidence=Math.max(0,Math.min(1,.48*(best.support/top)+.34*sep+.18*Math.min(1,peaks.length/48)));
+    return {bpm:Math.round(best.bpm),alternative:alt?Math.round(alt.bpm):0,confidence,label:confidenceLabel(confidence)};
   }
 
   async function analyzeAudio(token){
@@ -749,12 +757,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const bpm=detectBpm();
     if(token!==analysisToken)return;
     bpmValue.textContent=bpm.bpm||"—";
-    bpmConfidence.textContent=`Estimated confidence: ${bpm.confidence}%`;
+    bpmConfidence.textContent=`Confidence: ${bpm.label}`;
+    bpmAlternative.textContent=bpm.alternative?`Alternative tempo candidate: ${bpm.alternative} BPM`:"Alternative tempo: —";
     progressBar.style.width="30%";
 
     status.textContent="Analyzing musical key and harmonic sections...";
     const duration=audioBuffer.duration;
-    const hop=6,win=10;
+    const hop=6,win=12;
     const chromas=[],segments=[];
     const total=Math.max(1,Math.ceil(duration/hop));
     for(let i=0;i<total;i++){
@@ -770,7 +779,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     keySegments=segments;
     const global=detectKeyFromChroma(aggregateChroma(chromas));
     keyValue.textContent=global.name;
-    keyConfidence.textContent=`Estimated confidence: ${global.confidence}%`;
+    keyConfidence.textContent=`Confidence: ${confidenceLabel(global.confidence)}`;
     camelotValue.textContent=global.camelot;
     currentKeyValue.textContent=global.name;
     currentKeyNote.textContent="Press Play to track the estimated key through the song.";
@@ -788,7 +797,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       if(d<bestDist){bestDist=d;seg=s}
     }
     currentKeyValue.textContent=seg.name;
-    currentKeyNote.textContent=`Camelot ${seg.camelot} • local confidence ${seg.confidence}%`;
+    currentKeyNote.textContent=`Camelot ${seg.camelot} • ${confidenceLabel(seg.confidence)} local confidence`;
     highlightTimelineAt(time);
   }
 
@@ -799,7 +808,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     stopSource();offset=0;keySegments=[];
     bpmValue.textContent=keyValue.textContent=camelotValue.textContent="—";
     bpmConfidence.textContent=keyConfidence.textContent="Waiting for analysis";
+    bpmAlternative.textContent="Alternative tempo: —";
     currentKeyValue.textContent="—";currentKeyNote.textContent="Starts updating while the song plays.";
+    bpmAlternative.textContent="Alternative tempo: —";
     keyTimelineList.innerHTML="";
     keyTimelineSummary.textContent="Waiting for analysis.";
     try{
