@@ -205,6 +205,18 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 .playhead{position:absolute;top:0;bottom:0;width:2px;left:0;background:#ffffff;box-shadow:0 0 8px rgba(255,255,255,.9);z-index:4;pointer-events:none}
 .selection{background:rgba(255,0,0,.20)}
 .ffmpeg-note{margin-top:14px;font-size:13px;opacity:.86;line-height:1.55}
+
+.timeline-content{position:relative;height:126px;width:100%;min-width:100%}
+.time-ruler{position:absolute;left:0;right:0;bottom:0;height:24px;z-index:4;pointer-events:none;background:linear-gradient(to top,rgba(0,0,0,.62),transparent)}
+.time-tick{position:absolute;bottom:0;height:22px;border-left:1px solid rgba(255,255,255,.68);font-size:10px;color:#fff;padding-left:4px;white-space:nowrap;text-shadow:0 1px 3px #000}
+.precision-controls{display:flex;flex-wrap:wrap;justify-content:center;align-items:end;gap:12px;margin:0 0 18px}
+.precision-option{min-width:140px;padding:10px 12px;border-radius:14px;background:rgba(0,0,0,.2)}
+.precision-option label{display:block;margin-bottom:7px;font-size:12px;font-weight:800}
+.precision-option select{width:100%;padding:9px;border-radius:9px;background:#0b0500;color:#fff;border:1px solid rgba(255,255,255,.25);font:inherit;text-align:center}
+.zoom-option{min-width:230px}
+.zoom-option input{width:100%;accent-color:#ff3030}
+@media(max-width:780px){.precision-controls{align-items:stretch}.precision-option,.zoom-option{min-width:100%}}
+
 </style>
 <script type="application/ld+json">
 {
@@ -228,14 +240,42 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <section class="panel"><div class="drop-zone" id="dropZone"><div class="drop-title">Select a video file</div><div class="drop-sub">Click here or drag &amp; drop • MP4, WebM, MOV and other video formats supported by your browser</div><input class="file-input" id="fileInput" type="file" accept="video/*"/></div><div class="file-meta" id="fileMeta"></div></section>
 <section class="panel editor" id="editor">
 <video id="video" class="video-preview" controls playsinline></video>
-<div class="timeline" id="timeline"><div class="thumbnail-strip" id="thumbnailStrip"></div><div class="timeline-track"></div><div class="selection" id="selection"></div><div class="playhead" id="playhead"></div><div class="handle" id="startHandle" aria-label="Start selection"></div><div class="handle" id="endHandle" aria-label="End selection"></div></div>
+<div class="timeline" id="timeline">
+  <div class="timeline-content" id="timelineContent">
+    <div class="thumbnail-strip" id="thumbnailStrip"></div>
+    <div class="timeline-track"></div>
+    <div class="time-ruler" id="timeRuler"></div>
+    <div class="selection" id="selection"></div>
+    <div class="playhead" id="playhead"></div>
+    <div class="handle" id="startHandle" aria-label="Start selection"></div>
+    <div class="handle" id="endHandle" aria-label="End selection"></div>
+  </div>
+</div>
 <div class="time-grid"><div class="field"><label for="startTime">START</label><input id="startTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label for="endTime">END</label><input id="endTime" type="text" inputmode="numeric" placeholder="00:00.000"/></div><div class="field"><label>SELECTION LENGTH</label><input id="selectionDuration" type="text" readonly/></div></div>
+<div class="precision-controls">
+  <button class="btn-secondary" id="frameBack" type="button">◀ 1 FRAME</button>
+  <div class="precision-option">
+    <label for="frameRate">FRAME RATE</label>
+    <select id="frameRate">
+      <option value="24">24 fps</option>
+      <option value="25">25 fps</option>
+      <option value="30" selected>30 fps</option>
+      <option value="50">50 fps</option>
+      <option value="60">60 fps</option>
+    </select>
+  </div>
+  <button class="btn-secondary" id="frameForward" type="button">1 FRAME ▶</button>
+  <div class="precision-option zoom-option">
+    <label for="timelineZoom">TIMELINE ZOOM <span id="zoomValue">1×</span></label>
+    <input id="timelineZoom" type="range" min="1" max="8" value="1" step="0.5"/>
+  </div>
+</div>
 <div class="controls"><button class="btn-main" id="playSelection">▶ Preview selection</button><button class="btn-secondary" id="stopPreview" disabled>■ Stop</button><button class="btn-secondary" id="selectAll">Select all</button></div>
 <div class="controls" style="margin-top:22px"><button class="btn-main" id="exportBtn">✂ Cut and export</button></div>
 <div class="status" id="status"></div><div class="progress" id="progress"><span id="progressBar"></span></div><div class="result" id="result"><div style="margin-bottom:12px;font-weight:800">Your video is ready.</div><a class="download-link" id="downloadLink" href="#" download>DOWNLOAD</a></div>
 <p class="ffmpeg-note">Export is processed entirely in your browser. No external processing engine or server upload is used.</p>
 </section>
-<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Preview the selected section.</p><p>4. Click Cut and export.</p><p>5. Download the finished video in the format supported by your browser.</p></div><p class="small">Note: input playback and export formats depend on your browser and device. The selected section is processed locally in real time, so exporting a 30-second selection takes about 30 seconds. Chrome and Edge usually export WebM; browsers with MP4 MediaRecorder support can export MP4.</p></section>
+<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Use 1-frame stepping for fine adjustments and zoom the timeline up to 8× for more precise control.</p><p>4. Preview the selected section, then click Cut and export.</p><p>5. Download the finished video in the format supported by your browser.</p></div><p class="small">Note: input playback and export formats depend on your browser and device. The selected section is processed locally in real time, so exporting a 30-second selection takes about 30 seconds. Chrome and Edge usually export WebM; browsers with MP4 MediaRecorder support can export MP4.</p></section>
 </main><footer>© 2026 ALSBKIN. All rights reserved.</footer>
 <script>
 (() => {
@@ -245,6 +285,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const editor = document.getElementById("editor");
   const video = document.getElementById("video");
   const timeline = document.getElementById("timeline");
+  const timelineContent = document.getElementById("timelineContent");
+  const timeRuler = document.getElementById("timeRuler");
   const thumbnailStrip = document.getElementById("thumbnailStrip");
   const selection = document.getElementById("selection");
   const playhead = document.getElementById("playhead");
@@ -256,6 +298,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const previewBtn = document.getElementById("playSelection");
   const stopBtn = document.getElementById("stopPreview");
   const selectAllBtn = document.getElementById("selectAll");
+  const frameBack = document.getElementById("frameBack");
+  const frameForward = document.getElementById("frameForward");
+  const frameRate = document.getElementById("frameRate");
+  const timelineZoom = document.getElementById("timelineZoom");
+  const zoomValue = document.getElementById("zoomValue");
   const exportBtn = document.getElementById("exportBtn");
   const status = document.getElementById("status");
   const progress = document.getElementById("progress");
@@ -273,9 +320,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let exportTimer = null;
   let recorder = null;
   let recordedChunks = [];
+  let zoomLevel = 1;
 
   const requiredElements = {
-    fileInput, dropZone, fileMeta, editor, video, timeline, thumbnailStrip, selection, playhead,
+    fileInput, dropZone, fileMeta, editor, video, timeline, timelineContent, timeRuler, thumbnailStrip, selection, playhead,
     startHandle, endHandle, startInput, endInput, lengthInput,
     previewBtn, stopBtn, selectAllBtn, exportBtn, status, progress, bar,
     result, download
@@ -357,10 +405,42 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     });
   }
 
+  function buildTimeRuler() {
+    if (!duration || !timeRuler) return;
+    timeRuler.innerHTML = "";
+    const approxTicks = Math.max(6, Math.round((timelineContent.clientWidth || timeline.clientWidth) / 110));
+    const rawStep = duration / approxTicks;
+    const candidates = [0.1,0.25,0.5,1,2,5,10,15,30,60,120,300,600];
+    const step = candidates.find(v => v >= rawStep) || candidates[candidates.length - 1];
+    for (let t = 0; t <= duration + 0.0001; t += step) {
+      const tick = document.createElement("div");
+      tick.className = "time-tick";
+      tick.style.left = (t / duration * 100) + "%";
+      tick.textContent = fmt(t);
+      timeRuler.appendChild(tick);
+    }
+  }
+
+  function applyZoom(newZoom, focusTime = video.currentTime || startTime || 0) {
+    zoomLevel = clamp(Number(newZoom) || 1, 1, 8);
+    timelineContent.style.width = (zoomLevel * 100) + "%";
+    zoomValue.textContent = zoomLevel.toFixed(zoomLevel % 1 ? 1 : 0) + "×";
+    buildTimeRuler();
+    updateUI();
+    updatePlayhead(video.currentTime || 0);
+
+    requestAnimationFrame(() => {
+      const viewport = timeline.clientWidth;
+      const total = timelineContent.scrollWidth;
+      const x = duration ? (focusTime / duration) * total : 0;
+      timeline.scrollLeft = clamp(x - viewport / 2, 0, Math.max(0, total - viewport));
+    });
+  }
+
   async function generateThumbnails() {
     if (!file || !duration || !thumbnailStrip) return;
     thumbnailStrip.innerHTML = "";
-    const count = Math.max(8, Math.min(14, Math.round(timeline.clientWidth / 120) || 10));
+    const count = Math.max(10, Math.min(40, Math.round((timeline.clientWidth * zoomLevel) / 110) || 12));
     const thumbVideo = document.createElement("video");
     thumbVideo.muted = true;
     thumbVideo.playsInline = true;
@@ -484,8 +564,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       video.style.display = "block";
       editor.style.display = "block";
       status.style.display = "none";
+      applyZoom(1, startTime);
       updateUI();
       seekVideo(startTime);
+      buildTimeRuler();
       generateThumbnails().catch(err => console.warn("Timeline thumbnails:", err));
       editor.scrollIntoView({behavior:"smooth", block:"start"});
     } catch (e) {
@@ -517,7 +599,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const move = e => {
       if (!duration) return;
       e.preventDefault();
-      const r = timeline.getBoundingClientRect();
+      const r = timelineContent.getBoundingClientRect();
       const x = e.touches ? e.touches[0].clientX : e.clientX;
       const t = clamp((x-r.left)/r.width,0,1) * duration;
       if (isStart) startTime = Math.min(t, endTime-0.01);
@@ -570,7 +652,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   timeline.addEventListener("click", (e) => {
     if (!duration) return;
     if (e.target === startHandle || e.target === endHandle) return;
-    const rect = timeline.getBoundingClientRect();
+    const rect = timelineContent.getBoundingClientRect();
     const t = clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration;
     video.pause();
     seekVideo(t);
@@ -579,7 +661,16 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   let frameCallbackId = null;
   function syncFrame(_now, metadata) {
-    updatePlayhead(metadata && Number.isFinite(metadata.mediaTime) ? metadata.mediaTime : video.currentTime);
+    const syncTime = metadata && Number.isFinite(metadata.mediaTime) ? metadata.mediaTime : video.currentTime;
+    updatePlayhead(syncTime);
+    if (zoomLevel > 1 && duration) {
+      const total = timelineContent.scrollWidth;
+      const x = (syncTime / duration) * total;
+      const margin = timeline.clientWidth * 0.18;
+      if (x < timeline.scrollLeft + margin || x > timeline.scrollLeft + timeline.clientWidth - margin) {
+        timeline.scrollLeft = clamp(x - timeline.clientWidth / 2, 0, Math.max(0, total - timeline.clientWidth));
+      }
+    }
     if (!video.paused && !video.ended && "requestVideoFrameCallback" in video) {
       frameCallbackId = video.requestVideoFrameCallback(syncFrame);
     }
@@ -598,7 +689,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   timeline.addEventListener("dblclick", (e) => {
     if (!duration) return;
-    const rect = timeline.getBoundingClientRect();
+    const rect = timelineContent.getBoundingClientRect();
     const t = clamp((e.clientX - rect.left) / rect.width, 0, 1) * duration;
     if (Math.abs(t - startTime) <= Math.abs(t - endTime)) startTime = Math.min(t, endTime - 0.01);
     else endTime = Math.max(t, startTime + 0.01);
@@ -610,7 +701,27 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   video.addEventListener("timeupdate", () => updatePlayhead(video.currentTime));
   video.addEventListener("seeked", () => updatePlayhead(video.currentTime));
 
-  previewBtn.addEventListener("click", async () => {
+  function stepOneFrame(direction) {
+    if (!duration) return;
+    const fps = Math.max(1, Number(frameRate.value) || 30);
+    const frame = 1 / fps;
+    video.pause();
+    const target = clamp((video.currentTime || startTime) + direction * frame, 0, duration);
+    seekVideo(target);
+  }
+
+  frameBack.addEventListener("click", () => stepOneFrame(-1));
+  frameForward.addEventListener("click", () => stepOneFrame(1));
+
+  timelineZoom.addEventListener("input", () => {
+    applyZoom(timelineZoom.value, video.currentTime || startTime);
+  });
+
+  timelineZoom.addEventListener("change", () => {
+    generateThumbnails().catch(err => console.warn("Timeline thumbnails:", err));
+  });
+
+    previewBtn.addEventListener("click", async () => {
     if (!file) return;
     stopPreview();
     await seekTo(startTime);
