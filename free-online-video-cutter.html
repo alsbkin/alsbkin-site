@@ -190,7 +190,7 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
   display:none;margin-top:20px;padding:18px;border-radius:16px;
   border:1px solid rgba(57,255,20,.38);background:rgba(12,40,4,.26)
 }
-.download-link{display:inline-block;background:#c00000;color:#fff}
+.download-link{display:inline-block;background:linear-gradient(135deg,#1f5f9f,#2d7ddc 55%,#4f9bea);color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.38),0 0 20px rgba(45,125,220,.46)}
 .small{font-size:13px;opacity:.85;line-height:1.55}
 footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 @media(max-width:780px){
@@ -390,11 +390,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   </div>
 </div>
 <div class="controls"><button class="btn-main" id="playSelection">▶ Preview selection</button><button class="btn-secondary" id="stopPreview" disabled>■ Stop</button><button class="btn-secondary" id="selectAll">Select all</button></div>
-<div class="controls" style="margin-top:22px"><button class="btn-main export-blue" id="exportBtn">✂ Cut and export</button></div>
+<div class="controls" style="margin-top:22px"><button class="btn-main" id="exportBtn">✂ Cut</button></div>
 <div class="status" id="status"></div><div class="progress" id="progress"><span id="progressBar"></span></div><div class="result" id="result"><div style="margin-bottom:12px;font-weight:800">Your video is ready.</div><a class="download-link" id="downloadLink" href="#" download>DOWNLOAD</a></div>
 <p class="ffmpeg-note">Export is processed entirely in your browser. No external processing engine or server upload is used.</p>
 </section>
-<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Use 1-frame stepping for fine adjustments and zoom the timeline up to 8× for more precise control.</p><p>4. Preview the selected section, then click Cut and export.</p><p>5. Download the finished video in the format supported by your browser.</p></div><p class="small">Note: input playback and export formats depend on your browser and device. The selected section is processed locally in real time, so exporting a 30-second selection takes about 30 seconds. Chrome and Edge usually export WebM; browsers with MP4 MediaRecorder support can export MP4.</p></section>
+<section class="panel"><h2 style="margin-top:0">How it works</h2><div class="small" style="text-align:center;max-width:760px;margin:0 auto"><p>1. Select your video file.</p><p>2. Drag the red selection handles or enter START/END times manually.</p><p>3. Use 1-frame stepping for fine adjustments and zoom the timeline up to 8× for more precise control.</p><p>4. Preview the selected section, then click Cut.</p><p>5. Download the finished video in the format supported by your browser.</p></div><p class="small">Note: input playback and export formats depend on your browser and device. The selected section is processed locally in real time, so exporting a 30-second selection takes about 30 seconds. Chrome and Edge usually export WebM; browsers with MP4 MediaRecorder support can export MP4.</p></section>
 
 <section class="seo-info" aria-labelledby="video-cutter-info">
   <h2 id="video-cutter-info">Free Video Cutter with Timeline Preview</h2>

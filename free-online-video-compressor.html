@@ -66,40 +66,45 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}@media(max-width:
       ]
     }
   ]
-}</script></head><body>
+}</script><script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script></head><body>
 <nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav><main><h1>Free Online Video Compressor</h1><p class="brand-byline">by ALSBKIN</p><p class="subtitle">Reduce video file size with selectable resolution and quality while keeping processing on your device.</p><div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div><section class="panel"><div class="drop-zone"><div class="drop-title">Select a video file</div><div class="drop-sub">Choose a browser-supported video file</div><input id="fileInput" class="file-input" type="file" accept="video/*"/></div><div id="fileMeta" class="file-meta"></div></section><section class="panel"><video id="preview" class="preview" controls></video><div class="grid" style="margin-top:16px"><div class="field"><label>OUTPUT RESOLUTION</label><select id="res"><option value="1">Original</option><option value="1080">1080p</option><option value="720" selected>720p</option><option value="480">480p</option></select></div><div class="field"><label>QUALITY</label><select id="quality"><option value="6000000">High</option><option value="3000000" selected>Medium</option><option value="1200000">Smaller file</option></select></div></div><div class="controls"><button id="processBtn" class="operation-btn" disabled>COMPRESS</button></div><div id="status" class="status"></div><div class="progress" id="progress"><span id="bar"></span></div><div id="result" class="result"><div id="stats" class="small"></div><br><a id="download" class="download-link">DOWNLOAD</a></div><canvas id="canvas" hidden></canvas></section><section class="seo-info"><h2>Compress Video Online for Free</h2><p>Reduce video size for sharing or storage by lowering resolution and encoding quality directly in your browser.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a> or use the <a href="free-online-video-cutter.html">Free Online Video Cutter</a>.</p></section></main><footer>© 2026 ALSBKIN. All rights reserved.</footer><script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const base=n=>(n||"video").replace(/\.[^.]+$/,"")||"video";
+const base=n=>(n||"video").replace(/\.[^.]+$/," ").trim()||"video";
 const fmt=s=>{s=Math.max(0,s||0);return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(Math.floor(s%60)).padStart(2,"0")}`};
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function bestVideoMime(){for(const m of["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"]){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(m))return m}return""}
-function bestAudioMime(){for(const m of["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus"]){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(m))return m}return""}
 function setBusy(btn,status,text){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent="PROCESSING...";status.style.display="block";status.textContent=text}
 function clearBusy(btn){btn.disabled=false;btn.textContent=btn.dataset.old||btn.textContent}
 async function loadMeta(file,video){return new Promise((res,rej)=>{const u=URL.createObjectURL(file);video.src=u;video.onloadedmetadata=()=>res({url:u,duration:video.duration,width:video.videoWidth,height:video.videoHeight});video.onerror=()=>rej(new Error("This browser could not open the selected video."));video.load()})}
 function dlBlob(blob,name,link,result){const u=URL.createObjectURL(blob);link.href=u;link.download=name;result.style.display="block";return u}
-function canvasStreamWithAudio(canvas,fps,video,ctx,gainValue=1){
- const stream=canvas.captureStream(fps); const ac=ctx||new (window.AudioContext||window.webkitAudioContext)(); const dest=ac.createMediaStreamDestination();
- try{const src=ac.createMediaElementSource(video);const g=ac.createGain();g.gain.value=gainValue;src.connect(g);g.connect(dest);g.connect(ac.destination);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));return {stream,ac,gain:g}}catch(e){return {stream,ac,gain:null}}
+const { createFFmpeg, fetchFile } = FFmpeg;
+let ffmpegInstance=null;
+async function getFFmpeg(status,bar){
+  if(!ffmpegInstance){
+    ffmpegInstance=createFFmpeg({log:false,corePath:"https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"});
+    ffmpegInstance.setProgress(({ratio})=>{if(bar&&Number.isFinite(ratio))bar.style.width=Math.max(0,Math.min(100,ratio*100))+"%"});
+  }
+  if(!ffmpegInstance.isLoaded()){
+    if(status)status.textContent="Loading local MP4 processing engine...";
+    await ffmpegInstance.load();
+  }
+  return ffmpegInstance;
 }
-async function recordCanvas({video,canvas,draw,fps=30,audio=true,gain=1,playbackRate=1,onProgress}){
- const mime=bestVideoMime();if(!mime)throw new Error("No supported local video export format is available in this browser.");
- video.pause();video.currentTime=0;video.playbackRate=playbackRate;video.muted=false;
- const ctx=canvas.getContext("2d"); let pack=audio?canvasStreamWithAudio(canvas,fps,video,null,gain):{stream:canvas.captureStream(fps),ac:null};
- const chunks=[],rec=new MediaRecorder(pack.stream,{mimeType:mime,videoBitsPerSecond:4500000});
- rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)}; const done=new Promise((r,j)=>{rec.onstop=r;rec.onerror=e=>j(e.error||e)});
- let raf; const paint=()=>{draw(ctx,video,canvas);if(onProgress)onProgress(video.currentTime/video.duration);if(!video.ended)raf=requestAnimationFrame(paint)};
- rec.start(500);paint();await video.play();await new Promise(r=>video.addEventListener("ended",r,{once:true}));cancelAnimationFrame(raf);rec.stop();await done;
- pack.stream.getTracks().forEach(t=>t.stop());if(pack.ac)try{await pack.ac.close()}catch(e){}
- return new Blob(chunks,{type:mime});
+async function ffmpegMP4(file,args,outName,status,bar){
+  const ff=await getFFmpeg(status,bar), ext=(file.name.match(/\.([a-z0-9]+)$/i)||[])[1]||"mp4", input="input."+ext;
+  ff.FS("writeFile",input,await fetchFile(file));
+  try{
+    await ff.run("-i",input,...args,"-movflags","+faststart",outName);
+    const data=ff.FS("readFile",outName);
+    return new Blob([data.buffer],{type:"video/mp4"});
+  } finally { try{ff.FS("unlink",input)}catch(e){} try{ff.FS("unlink",outName)}catch(e){} }
 }
-
 
 const fi=$("fileInput"),v=$("preview"),meta=$("fileMeta"),btn=$("processBtn"),status=$("status"),result=$("result"),dl=$("download"),canvas=$("canvas"),bar=$("bar"),prog=$("progress");let file,info;
 fi.onchange=async()=>{file=fi.files[0];if(!file)return;try{info=await loadMeta(file,v);meta.style.display="block";meta.innerHTML=`<strong>${esc(file.name)}</strong><br>${info.width}×${info.height} • ${(file.size/1048576).toFixed(2)} MB`;btn.disabled=false}catch(e){alert(e.message)}};
-btn.onclick=async()=>{setBusy(btn,status,"Compressing locally in your browser...");result.style.display="none";prog.style.display="block";let target=$("res").value,w=info.width,h=info.height;if(target!=="1"&&h>+target){w=Math.round(w*(+target/h));h=+target}canvas.width=w;canvas.height=h;try{
- const mime=bestVideoMime();const stream=canvas.captureStream(30);const ac=new (window.AudioContext||window.webkitAudioContext)(),dest=ac.createMediaStreamDestination();try{const s=ac.createMediaElementSource(v);s.connect(dest);s.connect(ac.destination);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t))}catch(e){}
- const chunks=[],rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:+$("quality").value});rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);const done=new Promise(r=>rec.onstop=r);v.currentTime=0;const c=canvas.getContext("2d");let raf;const paint=()=>{c.drawImage(v,0,0,w,h);bar.style.width=(v.currentTime/v.duration*100)+"%";if(!v.ended)raf=requestAnimationFrame(paint)};rec.start(500);paint();await v.play();await new Promise(r=>v.addEventListener("ended",r,{once:true}));cancelAnimationFrame(raf);rec.stop();await done;stream.getTracks().forEach(t=>t.stop());await ac.close();const blob=new Blob(chunks,{type:mime});dlBlob(blob,base(file.name)+"-compressed.webm",dl,result);$("stats").textContent=`Original: ${(file.size/1048576).toFixed(2)} MB • Compressed: ${(blob.size/1048576).toFixed(2)} MB • ${w}×${h}`;status.textContent="Compression complete."
+btn.onclick=async()=>{if(!info)return;setBusy(btn,status,"Compressing locally to MP4...");result.style.display="none";prog.style.display="block";bar.style.width="0%";try{
+ let target=$("res").value, vf=[]; if(target!=="1"&&info.height>+target)vf.push(`scale=-2:${+target}`);
+ const bitrate=+$('quality').value, crf=bitrate>=6000000?20:bitrate>=3000000?25:30;
+ const args=[]; if(vf.length)args.push("-vf",vf.join(",")); args.push("-c:v","libx264","-preset","veryfast","-crf",String(crf),"-c:a","aac","-b:a","160k","-pix_fmt","yuv420p");
+ const blob=await ffmpegMP4(file,args,"compressed.mp4",status,bar);dlBlob(blob,base(file.name)+"-compressed.mp4",dl,result);$("stats").textContent=`Original: ${(file.size/1048576).toFixed(2)} MB • Compressed: ${(blob.size/1048576).toFixed(2)} MB`;status.textContent="Compression complete • MP4 ready.";
  }catch(e){status.textContent="Compression error: "+e.message}finally{clearBusy(btn)}};
 </script></body></html>

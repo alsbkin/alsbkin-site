@@ -68,49 +68,54 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}@media(max-width:
       ]
     }
   ]
-}</script></head><body>
+}</script><script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script></head><body>
 <nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav><main><h1>Free Online Video Joiner / Merger</h1><p class="brand-byline">by ALSBKIN</p><p class="subtitle">Join multiple videos in your chosen order and use optional fade or crossfade-style transitions between clips.</p><div class="privacy-note">🔒 100% free and safe. Your video is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div><section class="panel"><div class="drop-zone"><div class="drop-title">Select video files</div><div class="drop-sub">Choose two or more browser-supported videos</div><input id="fileInput" class="file-input" type="file" accept="video/*" multiple/></div><div id="fileList" class="file-list"></div></section><section class="panel"><div class="grid"><div class="field"><label>TRANSITION</label><select id="transition"><option value="none">None</option><option value="fade" selected>Fade</option><option value="crossfade">Crossfade</option></select></div><div class="field"><label>TRANSITION DURATION</label><input id="fade" type="number" min="0" max="3" step="0.1" value="0.5"/></div></div><div class="small">Videos are normalized to the first video's canvas size. Fade and crossfade are rendered locally between clips.</div><div class="controls"><button id="processBtn" class="operation-btn" disabled>MERGE</button></div><div id="status" class="status"></div><div class="progress" id="progress"><span id="bar"></span></div><div id="result" class="result"><a id="download" class="download-link">DOWNLOAD</a></div><canvas id="canvas" hidden></canvas><video id="v1" hidden playsinline></video><video id="v2" hidden playsinline></video></section><section class="seo-info"><h2>Merge Videos Online for Free</h2><p>Combine multiple browser-supported video files, reorder clips and add smooth transition fades without uploading them to a server.</p><p>Browse all <a href="free-online-tools.html">ALSBKIN Free Online Tools</a> or use the <a href="free-online-video-cutter.html">Free Online Video Cutter</a>.</p></section></main><footer>© 2026 ALSBKIN. All rights reserved.</footer><script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const base=n=>(n||"video").replace(/\.[^.]+$/,"")||"video";
+const base=n=>(n||"video").replace(/\.[^.]+$/," ").trim()||"video";
 const fmt=s=>{s=Math.max(0,s||0);return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(Math.floor(s%60)).padStart(2,"0")}`};
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function bestVideoMime(){for(const m of["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"]){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(m))return m}return""}
-function bestAudioMime(){for(const m of["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus"]){if(window.MediaRecorder&&MediaRecorder.isTypeSupported(m))return m}return""}
 function setBusy(btn,status,text){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent="PROCESSING...";status.style.display="block";status.textContent=text}
 function clearBusy(btn){btn.disabled=false;btn.textContent=btn.dataset.old||btn.textContent}
 async function loadMeta(file,video){return new Promise((res,rej)=>{const u=URL.createObjectURL(file);video.src=u;video.onloadedmetadata=()=>res({url:u,duration:video.duration,width:video.videoWidth,height:video.videoHeight});video.onerror=()=>rej(new Error("This browser could not open the selected video."));video.load()})}
 function dlBlob(blob,name,link,result){const u=URL.createObjectURL(blob);link.href=u;link.download=name;result.style.display="block";return u}
-function canvasStreamWithAudio(canvas,fps,video,ctx,gainValue=1){
- const stream=canvas.captureStream(fps); const ac=ctx||new (window.AudioContext||window.webkitAudioContext)(); const dest=ac.createMediaStreamDestination();
- try{const src=ac.createMediaElementSource(video);const g=ac.createGain();g.gain.value=gainValue;src.connect(g);g.connect(dest);g.connect(ac.destination);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));return {stream,ac,gain:g}}catch(e){return {stream,ac,gain:null}}
+const { createFFmpeg, fetchFile } = FFmpeg;
+let ffmpegInstance=null;
+async function getFFmpeg(status,bar){
+  if(!ffmpegInstance){
+    ffmpegInstance=createFFmpeg({log:false,corePath:"https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"});
+    ffmpegInstance.setProgress(({ratio})=>{if(bar&&Number.isFinite(ratio))bar.style.width=Math.max(0,Math.min(100,ratio*100))+"%"});
+  }
+  if(!ffmpegInstance.isLoaded()){
+    if(status)status.textContent="Loading local MP4 processing engine...";
+    await ffmpegInstance.load();
+  }
+  return ffmpegInstance;
 }
-async function recordCanvas({video,canvas,draw,fps=30,audio=true,gain=1,playbackRate=1,onProgress}){
- const mime=bestVideoMime();if(!mime)throw new Error("No supported local video export format is available in this browser.");
- video.pause();video.currentTime=0;video.playbackRate=playbackRate;video.muted=false;
- const ctx=canvas.getContext("2d"); let pack=audio?canvasStreamWithAudio(canvas,fps,video,null,gain):{stream:canvas.captureStream(fps),ac:null};
- const chunks=[],rec=new MediaRecorder(pack.stream,{mimeType:mime,videoBitsPerSecond:4500000});
- rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)}; const done=new Promise((r,j)=>{rec.onstop=r;rec.onerror=e=>j(e.error||e)});
- let raf; const paint=()=>{draw(ctx,video,canvas);if(onProgress)onProgress(video.currentTime/video.duration);if(!video.ended)raf=requestAnimationFrame(paint)};
- rec.start(500);paint();await video.play();await new Promise(r=>video.addEventListener("ended",r,{once:true}));cancelAnimationFrame(raf);rec.stop();await done;
- pack.stream.getTracks().forEach(t=>t.stop());if(pack.ac)try{await pack.ac.close()}catch(e){}
- return new Blob(chunks,{type:mime});
+async function ffmpegMP4(file,args,outName,status,bar){
+  const ff=await getFFmpeg(status,bar), ext=(file.name.match(/\.([a-z0-9]+)$/i)||[])[1]||"mp4", input="input."+ext;
+  ff.FS("writeFile",input,await fetchFile(file));
+  try{
+    await ff.run("-i",input,...args,"-movflags","+faststart",outName);
+    const data=ff.FS("readFile",outName);
+    return new Blob([data.buffer],{type:"video/mp4"});
+  } finally { try{ff.FS("unlink",input)}catch(e){} try{ff.FS("unlink",outName)}catch(e){} }
 }
-
 
 const fi=$("fileInput"),list=$("fileList"),btn=$("processBtn"),status=$("status"),result=$("result"),dl=$("download"),canvas=$("canvas"),v1=$("v1"),v2=$("v2"),bar=$("bar");let files=[];
 function render(){list.innerHTML="";files.forEach((f,i)=>{const r=document.createElement("div");r.className="file-row";r.innerHTML=`<span class="name">${i+1}. ${esc(f.name)}</span><button data-u="${i}">↑</button><button data-d="${i}">↓</button><button data-x="${i}">✕</button>`;list.appendChild(r)});btn.disabled=files.length<2}
 list.onclick=e=>{const b=e.target.closest("button");if(!b)return;let i=+(b.dataset.u??b.dataset.d??b.dataset.x);if(b.dataset.u!==undefined&&i>0)[files[i-1],files[i]]=[files[i],files[i-1]];if(b.dataset.d!==undefined&&i<files.length-1)[files[i+1],files[i]]=[files[i],files[i+1]];if(b.dataset.x!==undefined)files.splice(i,1);render()};
 fi.onchange=()=>{files=[...fi.files];render()};
 async function setFile(v,f){return new Promise((r,j)=>{v.src=URL.createObjectURL(f);v.onloadedmetadata=r;v.onerror=()=>j(new Error("Could not open "+f.name));v.load()})}
-btn.onclick=async()=>{if(files.length<2)return;setBusy(btn,status,"Merging videos locally in your browser...");$("progress").style.display="block";result.style.display="none";try{
- await setFile(v1,files[0]);canvas.width=v1.videoWidth;canvas.height=v1.videoHeight;const c=canvas.getContext("2d"),stream=canvas.captureStream(30),mime=bestVideoMime();if(!mime)throw new Error("No supported local video export format.");
- const ac=new (window.AudioContext||window.webkitAudioContext)(),dest=ac.createMediaStreamDestination(),nodes=new Map();function audioNode(v){if(nodes.has(v))return nodes.get(v);const s=ac.createMediaElementSource(v),g=ac.createGain();s.connect(g);g.connect(dest);g.connect(ac.destination);nodes.set(v,g);return g}audioNode(v1);audioNode(v2);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
- const chunks=[],rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:4500000});rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);const done=new Promise(r=>rec.onstop=r);rec.start(500);
- let completed=0,total=files.length;for(let i=0;i<files.length;i++){const a=i%2?v2:v1;await setFile(a,files[i]);a.currentTime=0;a.playbackRate=1;const g=audioNode(a);g.gain.value=1;const dur=Math.max(0,+$("fade").value||0),tr=$("transition").value;let raf;
- const paint=()=>{let alpha=1;if(tr!=="none"&&dur>0){if(a.currentTime<dur)alpha=Math.min(1,a.currentTime/dur);if(a.duration-a.currentTime<dur)alpha=Math.min(alpha,Math.max(0,(a.duration-a.currentTime)/dur))}c.fillStyle="#000";c.fillRect(0,0,canvas.width,canvas.height);c.globalAlpha=(tr==="none"?1:alpha);c.drawImage(a,0,0,canvas.width,canvas.height);c.globalAlpha=1;bar.style.width=((completed+a.currentTime/a.duration)/total*100)+"%";if(!a.ended)raf=requestAnimationFrame(paint)};
- if(tr!=="none"&&dur>0){g.gain.setValueAtTime(0,ac.currentTime);g.gain.linearRampToValueAtTime(1,ac.currentTime+dur);g.gain.setValueAtTime(1,Math.max(ac.currentTime+dur,ac.currentTime+a.duration-dur));g.gain.linearRampToValueAtTime(0,ac.currentTime+a.duration)}
- paint();await a.play();await new Promise(r=>a.addEventListener("ended",r,{once:true}));cancelAnimationFrame(raf);completed++}
- rec.stop();await done;stream.getTracks().forEach(t=>t.stop());await ac.close();const blob=new Blob(chunks,{type:mime});dlBlob(blob,"merged-video.webm",dl,result);status.textContent=`Ready • ${files.length} videos merged • ${$("transition").value} transition`;
+btn.onclick=async()=>{if(files.length<2)return;setBusy(btn,status,"Merging videos locally to MP4...");$("progress").style.display="block";result.style.display="none";bar.style.width="0%";try{
+ const ff=await getFFmpeg(status,bar), names=[], metas=[];
+ for(let i=0;i<files.length;i++){const ext=(files[i].name.match(/\.([a-z0-9]+)$/i)||[])[1]||"mp4",n=`join${i}.${ext}`;names.push(n);ff.FS("writeFile",n,await fetchFile(files[i]));const tmp=document.createElement("video");metas.push(await loadMeta(files[i],tmp));}
+ const W=Math.round(metas[0].width/2)*2,H=Math.round(metas[0].height/2)*2, dur=Math.max(0,Math.min(3,+$("fade").value||0)), tr=$("transition").value;
+ let args=[];names.forEach(n=>args.push("-i",n));
+ const prepV=metas.map((_,i)=>`[${i}:v]scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2,setsar=1[v${i}];[${i}:a]aresample=async=1:first_pts=0[a${i}]`).join("");
+ let fc=prepV, vout="v0",aout="a0";
+ if(tr==="crossfade"&&dur>0){let elapsed=metas[0].duration;for(let i=1;i<files.length;i++){const nv=`vx${i}`,na=`ax${i}`,off=Math.max(0,elapsed-dur);fc+=`[${vout}][v${i}]xfade=transition=fade:duration=${dur}:offset=${off}[${nv}];[${aout}][a${i}]acrossfade=d=${dur}[${na}];`;vout=nv;aout=na;elapsed+=metas[i].duration-dur}}
+ else {if(tr==="fade"&&dur>0){for(let i=0;i<files.length;i++){const vo=`vf${i}`,ao=`af${i}`,out=Math.max(0,metas[i].duration-dur);fc+=`[v${i}]fade=t=in:st=0:d=${dur},fade=t=out:st=${out}:d=${dur}[${vo}];[a${i}]afade=t=in:st=0:d=${dur},afade=t=out:st=${out}:d=${dur}[${ao}];`;vout=vo;aout=ao}}const pairs=files.map((_,i)=>tr==="fade"&&dur>0?`[vf${i}][af${i}]`:`[v${i}][a${i}]`).join("");fc+=`${pairs}concat=n=${files.length}:v=1:a=1[vcat][acat]`;vout="vcat";aout="acat"}
+ args.push("-filter_complex",fc,"-map",`[${vout}]`,"-map",`[${aout}]`,"-c:v","libx264","-preset","veryfast","-crf","20","-c:a","aac","-b:a","160k","-pix_fmt","yuv420p","-movflags","+faststart","merged.mp4");
+ await ff.run(...args);const data=ff.FS("readFile","merged.mp4"),blob=new Blob([data.buffer],{type:"video/mp4"});dlBlob(blob,"merged-video.mp4",dl,result);status.textContent=`Ready • MP4 • ${files.length} videos merged • ${tr} transition`;try{ff.FS("unlink","merged.mp4")}catch(e){} names.forEach(n=>{try{ff.FS("unlink",n)}catch(e){}})
  }catch(e){status.textContent="Merge error: "+e.message}finally{clearBusy(btn)}};
 </script></body></html>
