@@ -218,15 +218,27 @@ async function mediaRecordBuffer(buffer,mime){
   rec.start(250);src.start();src.onended=()=>rec.stop();await done;await ac.close();return new Blob(chunks,{type:mime});
 }
 btn.addEventListener("click",async()=>{
-  if(!buf)return;
-  btn.disabled=true;status.style.display="block";result.style.display="none";
+  if(!buf || btn.disabled)return;
+  btn.disabled=true;
+  const originalText=btn.textContent;
+  btn.textContent="PROCESSING...";
+  status.style.display="block";
+  status.textContent="Processing locally in your browser...";
+  result.style.display="none";
+
+  // Give the browser one frame to paint the disabled button and status
+  // before CPU-heavy WAV/MP3 processing begins.
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+
   try{
     let blob,ext;
     if(fmt.value==="mp3"){
-      status.textContent="Encoding locally to MP3...";
+      status.textContent="Encoding MP3 locally in your browser...";
+      await new Promise(resolve=>setTimeout(resolve,0));
       blob=audioBufferToMp3(buf,+bitrate.value);ext="mp3";
     }else if(fmt.value==="wav"){
-      status.textContent="Converting locally to WAV...";
+      status.textContent="Creating WAV locally in your browser...";
+      await new Promise(resolve=>setTimeout(resolve,0));
       blob=audioBufferToWav(buf);ext="wav";
     }else{
       const mime=supportedMime(fmt.value);
@@ -235,10 +247,17 @@ btn.addEventListener("click",async()=>{
       blob=await mediaRecordBuffer(buf,mime);ext=fmt.value==="ogg"?"ogg":"webm";
     }
     if(lastUrl)URL.revokeObjectURL(lastUrl);
-    lastUrl=URL.createObjectURL(blob);dl.href=lastUrl;dl.download=`${baseName(file.name)}-converted.${ext}`;
-    status.textContent=`Ready • ${ext.toUpperCase()} • ${(blob.size/1024/1024).toFixed(2)} MB`;result.style.display="block";
-  }catch(e){status.textContent="Conversion error: "+e.message}
-  finally{btn.disabled=false}
+    lastUrl=URL.createObjectURL(blob);
+    dl.href=lastUrl;
+    dl.download=`${baseName(file.name)}-converted.${ext}`;
+    status.textContent=`Ready • ${ext.toUpperCase()} • ${(blob.size/1024/1024).toFixed(2)} MB`;
+    result.style.display="block";
+  }catch(e){
+    status.textContent="Conversion error: "+e.message;
+  }finally{
+    btn.disabled=false;
+    btn.textContent=originalText;
+  }
 });
 
 </script>

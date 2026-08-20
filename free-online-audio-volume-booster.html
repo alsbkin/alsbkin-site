@@ -211,16 +211,41 @@ let file=null,buf=null,ctx=null,lastUrl=null,previewUrl=null;format.addEventList
 fi.addEventListener("change",async()=>{file=fi.files[0];if(!file)return;status.style.display="block";status.textContent="Reading audio...";try{ctx=ctx||audioContext();buf=await decodeFile(file,ctx);meta.style.display="block";meta.innerHTML=`<strong>${escapeHtml(file.name)}</strong><br>Duration: ${formatTime(buf.duration)}`;btn.disabled=false;status.style.display="none"}catch(e){status.textContent="Could not decode this file: "+e.message}});
 function processBuffer(){const mult=+gain.value/100;const out=ctx.createBuffer(buf.numberOfChannels,buf.length,buf.sampleRate);for(let c=0;c<buf.numberOfChannels;c++){const s=buf.getChannelData(c),d=out.getChannelData(c);for(let i=0;i<s.length;i++)d[i]=Math.max(-1,Math.min(1,s[i]*mult))}return out}
 gain.addEventListener("change",()=>{if(!buf)return;const blob=audioBufferToWav(processBuffer());if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=URL.createObjectURL(blob);preview.src=previewUrl});
-btn.addEventListener("click",()=>{
-  if(!buf)return;
+btn.addEventListener("click",async()=>{
+  if(!buf || btn.disabled)return;
+  btn.disabled=true;
+  const originalText=btn.textContent;
+  btn.textContent="PROCESSING...";
+  status.style.display="block";
+  status.textContent="Processing audio locally in your browser...";
+  result.style.display="none";
+
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+
   try{
-    const out=processBuffer(),ex=exportAudioBuffer(out,format.value,+bitrate.value);
-    if(lastUrl)URL.revokeObjectURL(lastUrl);lastUrl=URL.createObjectURL(ex.blob);
-    dl.href=lastUrl;dl.download=`${baseName(file.name)}-volume-${gain.value}pct.${ex.ext}`;
-    status.style.display="block";status.textContent=`Ready • Volume ${gain.value}% • ${ex.ext.toUpperCase()}`;
+    const out=processBuffer();
+    status.textContent=`Encoding ${format.value.toUpperCase()} locally in your browser...`;
+    await new Promise(resolve=>setTimeout(resolve,0));
+    const ex=exportAudioBuffer(out,format.value,+bitrate.value);
+
+    if(lastUrl)URL.revokeObjectURL(lastUrl);
+    lastUrl=URL.createObjectURL(ex.blob);
+    dl.href=lastUrl;
+    dl.download=`${baseName(file.name)}-volume-${gain.value}pct.${ex.ext}`;
+
+    const previewBlob=audioBufferToWav(out);
+    if(previewUrl)URL.revokeObjectURL(previewUrl);
+    previewUrl=URL.createObjectURL(previewBlob);
+    preview.src=previewUrl;
+
+    status.textContent=`Ready • Volume ${gain.value}% • ${ex.ext.toUpperCase()}`;
     result.style.display="block";
-    const previewBlob=audioBufferToWav(out);if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=URL.createObjectURL(previewBlob);preview.src=previewUrl;
-  }catch(e){status.style.display="block";status.textContent="Export error: "+e.message}
+  }catch(e){
+    status.textContent="Export error: "+e.message;
+  }finally{
+    btn.disabled=false;
+    btn.textContent=originalText;
+  }
 });
 
 </script>
