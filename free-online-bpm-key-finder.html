@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Free Online BPM & Key Finder | Detect Tempo & Musical Key | ALSBKIN</title>
-<meta name="description" content="Detect BPM, main musical key, Camelot key and key changes online for free. Analyze audio locally with live current-key tracking and a chronological key timeline."/>
+<meta name="description" content="Estimate BPM, main key, Camelot key and tonal changes online for free. Uses spectral-flux tempo analysis and HPCP-like harmonic analysis locally in your browser."/>
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
 <link rel="canonical" href="https://alsbkin.ro/free-online-bpm-key-finder.html"/>
 <meta name="author" content="ALSBKIN"/>
@@ -209,8 +209,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
       "description":"Free browser-based BPM and musical key detector with local processing and live current-key tracking.",
       "featureList":[
-        "BPM detection",
-        "Major and minor key detection",
+        "Spectral-flux BPM detection",
+        "Tempogram and beat-grid validation",
+        "HPCP-like major and minor key detection",
+        "Temporal key smoothing",
         "Camelot key display",
         "Confidence estimate",
         "Live current-key tracking during playback",
@@ -242,7 +244,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 <main>
 <h1>Free Online BPM &amp; Key Finder</h1>
 <p class="brand-byline">by ALSBKIN</p>
-<p class="subtitle">Estimate a song's BPM, main musical key, Camelot key and tonal changes directly in your browser. BPM analysis now uses onset peaks, periodicity, beat-grid consistency and repeated tempo evidence across the track.</p>
+<p class="subtitle">Estimate a song's BPM, main musical key, Camelot key and tonal changes directly in your browser. BPM uses true spectral flux and tempogram analysis, while key detection uses an HPCP-like chroma model with tuning, bass/root and temporal smoothing.</p>
 <div class="privacy-note">🔒 100% free and safe. Your audio is processed locally in your browser and is not uploaded to any server. Your data stays on your device.</div>
 
 <section class="panel">
@@ -305,7 +307,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <p>4. Drag the white playhead or click anywhere on the waveform to move through the song.</p>
     <p>5. Watch the current-key estimate update during playback and review the detected key changes in chronological order.</p>
   </div>
-  <p class="small" id="bpmMethodNote">BPM is estimated from multiple independent rhythm cues and checked for half-time / double-time ambiguity. Low confidence means the rhythm evidence is conflicting.</p>
+  <p class="small" id="bpmMethodNote">BPM is estimated with true spectral flux, onset peaks, a tempogram, beat-grid validation and half-time / double-time checks. Low confidence means the rhythm evidence is conflicting.</p>
   <p class="small">Note: BPM and musical-key detection are estimates. Complex arrangements, tempo changes, modulation, sparse percussion or ambiguous harmony can reduce accuracy.</p>
 </section>
 
@@ -524,31 +526,94 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     return s/audioBuffer.numberOfChannels;
   }
 
-  function chromaForWindow(startSec,durationSec=8){
-    const sr=audioBuffer.sampleRate,N=4096,hop=2048;
+  function chromaForWindow(startSec,durationSec=12){
+    const sr=audioBuffer.sampleRate;
+    const N=8192;
+    const hop=4096;
     const start=Math.max(0,Math.floor(startSec*sr));
     const end=Math.min(audioBuffer.length,Math.floor((startSec+durationSec)*sr));
     const chroma=new Float64Array(12);
+    const bassChroma=new Float64Array(12);
     if(end-start<N)return chroma;
-    const maxFrames=24;
-    const frameCount=Math.min(maxFrames,Math.floor((end-start-N)/hop)+1);
+
+    const maxFrames=18;
+    const possible=Math.max(1,Math.floor((end-start-N)/hop)+1);
+    const frameCount=Math.min(maxFrames,possible);
     const stride=Math.max(hop,Math.floor((end-start-N)/Math.max(1,frameCount-1)));
-    const win=new Float64Array(N);
+    const frame=new Float64Array(N);
+
+    // Estimate tuning offset very roughly from strong spectral peaks.
+    let tuningNum=0,tuningDen=0;
+    const spectra=[];
     for(let f=0;f<frameCount;f++){
       const pos=Math.min(end-N,start+f*stride);
-      for(let i=0;i<N;i++)win[i]=monoSample(pos+i)*(0.5-0.5*Math.cos(2*Math.PI*i/(N-1)));
-      const {re,im}=fftReal(win);
-      for(let k=2;k<N/2;k++){
+      for(let i=0;i<N;i++){
+        let x=0;
+        for(let c=0;c<audioBuffer.numberOfChannels;c++)x+=audioBuffer.getChannelData(c)[pos+i]||0;
+        x/=audioBuffer.numberOfChannels;
+        frame[i]=x*(0.5-0.5*Math.cos(2*Math.PI*i/(N-1)));
+      }
+      const mag=fftMagnitudeReal(frame);
+      spectra.push(mag);
+
+      // Pick strong bins for tuning-offset estimate.
+      let frameMax=0;
+      for(let k=1;k<mag.length;k++)if(mag[k]>frameMax)frameMax=mag[k];
+      for(let k=2;k<mag.length-2;k++){
         const freq=k*sr/N;
-        if(freq<55||freq>5000)continue;
-        const mag=Math.sqrt(re[k]*re[k]+im[k]*im[k]);
-        if(mag<1e-6)continue;
+        if(freq<70||freq>1800)continue;
+        if(mag[k]<frameMax*.12)continue;
+        if(mag[k]<mag[k-1]||mag[k]<mag[k+1])continue;
         const midi=69+12*Math.log2(freq/440);
-        const pc=((Math.round(midi)%12)+12)%12;
-        const weight=1/Math.sqrt(Math.max(1,freq/440));
-        chroma[pc]+=Math.sqrt(mag)*weight;
+        const frac=midi-Math.round(midi);
+        const w=Math.sqrt(mag[k]);
+        tuningNum+=frac*w;tuningDen+=w;
       }
     }
+    const tuning=tuningDen?tuningNum/tuningDen:0;
+
+    for(const mag of spectra){
+      let frameMax=0;
+      for(let k=1;k<mag.length;k++)if(mag[k]>frameMax)frameMax=mag[k];
+      for(let k=2;k<mag.length-2;k++){
+        const freq=k*sr/N;
+        if(freq<55||freq>5000)continue;
+        if(mag[k]<frameMax*.015)continue;
+
+        // Local peak weighting reduces broad/noisy spectrum contributions.
+        const peakness=mag[k]/(1e-9+(mag[k-1]+mag[k+1])*.5);
+        if(peakness<1.02)continue;
+
+        const midi=69+12*Math.log2(freq/440)-tuning;
+        const nearest=Math.round(midi);
+        const dist=Math.abs(midi-nearest);
+        if(dist>.48)continue;
+        const pc=((nearest%12)+12)%12;
+
+        let w=Math.pow(mag[k],.42);
+        // harmonic/root weighting
+        if(freq<250)w*=1.28;
+        else if(freq<900)w*=1.08;
+        else w*=.88;
+        w*=Math.max(.15,1-dist/.5);
+
+        chroma[pc]+=w;
+        if(freq<300)bassChroma[pc]+=w;
+      }
+    }
+
+    // Blend bass/root evidence with full-spectrum pitch-class evidence.
+    let csum=0,bsum=0;
+    for(const v of chroma)csum+=v;
+    for(const v of bassChroma)bsum+=v;
+    if(csum>0)for(let i=0;i<12;i++)chroma[i]/=csum;
+    if(bsum>0)for(let i=0;i<12;i++)bassChroma[i]/=bsum;
+    for(let i=0;i<12;i++)chroma[i]=.78*chroma[i]+.22*bassChroma[i];
+
+    // Suppress tiny floor energy.
+    const maxC=Math.max(...chroma,1e-12);
+    for(let i=0;i<12;i++)if(chroma[i]<maxC*.08)chroma[i]*=.35;
+
     let sum=0;for(const v of chroma)sum+=v;
     if(sum>0)for(let i=0;i<12;i++)chroma[i]/=sum;
     return chroma;
@@ -566,18 +631,33 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
   function detectKeyFromChroma(chroma){
     let best={score:-Infinity,root:0,mode:"major"},second={score:-Infinity};
-    for(let r=0;r<12;r++)for(const mode of ["major","minor"]){
-      const score=corrProfile(chroma,mode==="major"?MAJOR_PROFILE:MINOR_PROFILE,r);
-      if(score>best.score){second=best;best={score,root:r,mode}}
-      else if(score>second.score)second={score};
+    for(let r=0;r<12;r++){
+      for(const mode of ["major","minor"]){
+        const profile=mode==="major"?MAJOR_PROFILE:MINOR_PROFILE;
+        const corr=corrProfile(chroma,profile,r);
+        const tonic=chroma[r];
+        const fifth=chroma[(r+7)%12];
+        const third=chroma[(r+(mode==="major"?4:3))%12];
+        const secondThird=chroma[(r+(mode==="major"?3:4))%12];
+
+        // Reward the expected tonic/third/fifth and penalize the opposite third.
+        const triadSupport=tonic*1.65+fifth*.82+third*1.05-secondThird*.38;
+        const score=.76*corr+.24*triadSupport;
+
+        if(score>best.score){second=best;best={score,root:r,mode,corr,triadSupport}}
+        else if(score>second.score)second={score};
+      }
     }
+
     const margin=Math.max(0,best.score-second.score);
-    const absolute=Math.max(0,Math.min(1,(best.score-.20)/.55));
-    const confidence=Math.max(0,Math.min(1,.68*Math.min(1,margin/.16)+.32*absolute));
+    const absolute=Math.max(0,Math.min(1,(best.score-.18)/.58));
+    const confidence=Math.max(0,Math.min(1,.64*Math.min(1,margin/.13)+.36*absolute));
+
     return {
       name:`${NOTE_NAMES[best.root]} ${best.mode}`,
       camelot:best.mode==="major"?CAMELOT_MAJOR[best.root]:CAMELOT_MINOR[best.root],
-      score:best.score,confidence
+      score:best.score,
+      confidence
     };
   }
 
@@ -699,6 +779,43 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 
   // ---------- BPM ----------
+  
+  function fftMagnitudeReal(frame){
+    const n=frame.length;
+    const re=new Float64Array(n),im=new Float64Array(n);
+    for(let i=0;i<n;i++)re[i]=frame[i];
+
+    let j=0;
+    for(let i=1;i<n;i++){
+      let bit=n>>1;
+      for(;j&bit;bit>>=1)j^=bit;
+      j^=bit;
+      if(i<j){
+        let t=re[i];re[i]=re[j];re[j]=t;
+        t=im[i];im[i]=im[j];im[j]=t;
+      }
+    }
+    for(let len=2;len<=n;len<<=1){
+      const ang=-2*Math.PI/len,wlenCos=Math.cos(ang),wlenSin=Math.sin(ang);
+      for(let i=0;i<n;i+=len){
+        let wcos=1,wsin=0;
+        for(let k=0;k<len/2;k++){
+          const uRe=re[i+k],uIm=im[i+k];
+          const vRe=re[i+k+len/2]*wcos-im[i+k+len/2]*wsin;
+          const vIm=re[i+k+len/2]*wsin+im[i+k+len/2]*wcos;
+          re[i+k]=uRe+vRe;im[i+k]=uIm+vIm;
+          re[i+k+len/2]=uRe-vRe;im[i+k+len/2]=uIm-vIm;
+          const nwcos=wcos*wlenCos-wsin*wlenSin;
+          wsin=wcos*wlenSin+wsin*wlenCos;
+          wcos=nwcos;
+        }
+      }
+    }
+    const mag=new Float64Array(n/2);
+    for(let i=0;i<n/2;i++)mag[i]=Math.sqrt(re[i]*re[i]+im[i]*im[i]);
+    return mag;
+  }
+
   function confidenceLabel(v){
     if(v>=0.72)return "High";
     if(v>=0.46)return "Medium";
@@ -713,234 +830,264 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   function detectBpm(){
     const sr=audioBuffer.sampleRate;
     const channels=audioBuffer.numberOfChannels;
-    const frameRate=200;
-    const hop=Math.max(1,Math.floor(sr/frameRate));
-    const frameCount=Math.max(1,Math.floor(audioBuffer.length/hop));
+    const N=2048;
+    const hop=512;
+    const frameRate=sr/hop;
+    const frameCount=Math.max(1,Math.floor((audioBuffer.length-N)/hop));
 
-    // Build a transient-oriented onset envelope from short-time absolute energy.
-    // We combine full-band amplitude with a high-frequency-change component,
-    // then remove the local baseline. This is much more stable than raw RMS alone.
-    const env=new Float64Array(frameCount);
-    let prevSample=0;
+    // True spectral flux: compare positive spectral-energy changes frame-to-frame.
+    const flux=new Float64Array(frameCount);
+    let prevMag=new Float64Array(N/2);
+    const frame=new Float64Array(N);
+
+    // Emphasize rhythm-relevant bands: kick/body + snare/attack.
+    const minHz=45,maxHz=6500;
+    const minBin=Math.max(1,Math.floor(minHz*N/sr));
+    const maxBin=Math.min(N/2-1,Math.ceil(maxHz*N/sr));
+
     for(let f=0;f<frameCount;f++){
-      const a=f*hop,b=Math.min(audioBuffer.length,a+hop);
-      let abs=0,diff=0,n=0;
-      for(let i=a;i<b;i+=2){
+      const start=f*hop;
+      for(let i=0;i<N;i++){
         let x=0;
-        for(let c=0;c<channels;c++)x+=audioBuffer.getChannelData(c)[i]||0;
+        for(let c=0;c<channels;c++)x+=audioBuffer.getChannelData(c)[start+i]||0;
         x/=channels;
-        abs+=Math.abs(x);
-        diff+=Math.abs(x-prevSample);
-        prevSample=x;
-        n++;
+        frame[i]=x*(0.5-0.5*Math.cos(2*Math.PI*i/(N-1)));
       }
-      env[f]=n?(.64*(abs/n)+.36*(diff/n)):0;
-    }
 
-    // Adaptive baseline removal + compression.
-    const radius=Math.max(3,Math.round(frameRate*.18));
-    const onset=new Float64Array(frameCount);
-    for(let i=0;i<frameCount;i++){
-      const lo=Math.max(0,i-radius),hi=Math.min(frameCount-1,i+radius);
-      let mean=0;
-      for(let j=lo;j<=hi;j++)mean+=env[j];
-      mean/=(hi-lo+1);
-      onset[i]=Math.sqrt(Math.max(0,env[i]-mean*.92));
-    }
-
-    // Normalize.
-    let maxOn=0;
-    for(const v of onset)if(v>maxOn)maxOn=v;
-    if(maxOn>0)for(let i=0;i<onset.length;i++)onset[i]/=maxOn;
-
-    // Peak pick.
-    const peaks=[];
-    const peakRadius=Math.max(2,Math.round(frameRate*.055));
-    for(let i=peakRadius;i<onset.length-peakRadius;i++){
-      let localMean=0;
-      const lo=Math.max(0,i-Math.round(frameRate*.22));
-      const hi=Math.min(onset.length-1,i+Math.round(frameRate*.22));
-      for(let j=lo;j<=hi;j++)localMean+=onset[j];
-      localMean/=(hi-lo+1);
-      if(onset[i]<Math.max(.055,localMean*1.30))continue;
-      let isMax=true;
-      for(let j=i-peakRadius;j<=i+peakRadius;j++){
-        if(onset[j]>onset[i]){isMax=false;break}
+      const mag=fftMagnitudeReal(frame);
+      let s=0;
+      for(let k=minBin;k<=maxBin;k++){
+        // log compression prevents a few huge bins from dominating.
+        const cur=Math.log1p(mag[k]);
+        const prev=Math.log1p(prevMag[k]);
+        const d=cur-prev;
+        if(d>0){
+          const freq=k*sr/N;
+          // Mild rhythm weighting: retain lows, slightly favor upper attacks.
+          const w=freq<180?1.10:(freq<2000?1.0:.88);
+          s+=d*w;
+        }
       }
-      if(isMax)peaks.push({frame:i,time:i/frameRate,strength:onset[i]});
+      flux[f]=s;
+      prevMag=mag;
     }
 
-    const MIN_BPM=55,MAX_BPM=210,STEP=.5;
-    const scores=[];
-    const lagFor=bpm=>frameRate*60/bpm;
+    // Normalize spectral flux.
+    let maxFlux=0;
+    for(const v of flux)if(v>maxFlux)maxFlux=v;
+    if(maxFlux>0)for(let i=0;i<flux.length;i++)flux[i]/=maxFlux;
 
-    function autocorrAt(lag){
-      const li=Math.round(lag);
-      if(li<1||li>=onset.length)return 0;
+    // Adaptive local median-like threshold using trimmed neighborhood mean.
+    const novelty=new Float64Array(flux.length);
+    const rad=Math.max(3,Math.round(frameRate*.18));
+    for(let i=0;i<flux.length;i++){
+      const vals=[];
+      const lo=Math.max(0,i-rad),hi=Math.min(flux.length-1,i+rad);
+      for(let j=lo;j<=hi;j++)vals.push(flux[j]);
+      vals.sort((a,b)=>a-b);
+      const cut=Math.floor(vals.length*.15);
       let sum=0,n=0;
-      // Sample every second frame for speed; onset envelope is already 200 Hz.
-      for(let i=li;i<onset.length;i+=2){
-        sum+=onset[i]*onset[i-li];n++;
-      }
-      return n?sum/n:0;
+      for(let j=cut;j<vals.length-cut;j++){sum+=vals[j];n++}
+      const base=n?sum/n:0;
+      novelty[i]=Math.max(0,flux[i]-base*1.08);
     }
 
-    // Peak-interval vote histogram.
-    const peakVote=new Map();
-    function addVote(bpm,w){
-      if(!Number.isFinite(bpm)||bpm<35||bpm>300)return;
+    let maxNov=0;
+    for(const v of novelty)if(v>maxNov)maxNov=v;
+    if(maxNov>0)for(let i=0;i<novelty.length;i++)novelty[i]/=maxNov;
+
+    // Onset peak picking with minimum temporal spacing.
+    const peaks=[];
+    const minSpacing=Math.max(1,Math.round(frameRate*.075));
+    const localRad=Math.max(1,Math.round(frameRate*.04));
+    let last=-999999;
+    for(let i=localRad;i<novelty.length-localRad;i++){
+      if(i-last<minSpacing)continue;
+      const threshold=.075;
+      if(novelty[i]<threshold)continue;
+      let isMax=true;
+      for(let j=i-localRad;j<=i+localRad;j++){
+        if(novelty[j]>novelty[i]){isMax=false;break}
+      }
+      if(isMax){
+        peaks.push({frame:i,time:i/frameRate,strength:novelty[i]});
+        last=i;
+      }
+    }
+
+    const MIN_BPM=50,MAX_BPM=220,STEP=.25;
+    const hist=new Map();
+    function normalizeTempo(bpm){
+      if(!Number.isFinite(bpm)||bpm<=0)return 0;
       while(bpm<MIN_BPM)bpm*=2;
       while(bpm>MAX_BPM)bpm/=2;
-      const q=Math.round(bpm*2)/2;
-      peakVote.set(q,(peakVote.get(q)||0)+w);
+      return bpm;
     }
-    for(let i=0;i<peaks.length;i++){
-      for(let k=1;k<=6 && i+k<peaks.length;k++){
-        const dt=peaks[i+k].time-peaks[i].time;
-        if(dt<=0)continue;
-        addVote(60*k/dt,Math.sqrt(peaks[i].strength*peaks[i+k].strength)/Math.sqrt(k));
-      }
+    function addVote(bpm,w){
+      bpm=normalizeTempo(bpm);
+      if(!bpm)return;
+      const q=Math.round(bpm/STEP)*STEP;
+      hist.set(q,(hist.get(q)||0)+w);
     }
-    let maxVote=0;
-    for(const v of peakVote.values())if(v>maxVote)maxVote=v;
 
-    // Beat-grid phase consistency. A correct BPM should let many onsets land
-    // repeatedly on a stable periodic grid, not just create one strong lag.
-    function phaseConsistency(bpm){
-      const period=frameRate*60/bpm;
-      if(period<1)return 0;
-      const phaseBins=Math.max(12,Math.min(48,Math.round(period)));
-      let best=0,total=0;
-      for(let p=0;p<phaseBins;p++){
-        const phase=(p/phaseBins)*period;
-        let s=0,n=0;
-        for(let x=phase;x<onset.length;x+=period){
-          const i=Math.round(x);
-          if(i>=0&&i<onset.length){
-            s+=onset[i];
-            // slight tolerance around beat
-            if(i>0)s+=onset[i-1]*.38;
-            if(i+1<onset.length)s+=onset[i+1]*.38;
-            n++;
-          }
-        }
-        if(n){s/=n;if(s>best)best=s}
+    // Inter-onset interval voting using several beat multiples.
+    for(let i=0;i<peaks.length;i++){
+      for(let d=1;d<=8 && i+d<peaks.length;d++){
+        const dt=peaks[i+d].time-peaks[i].time;
+        if(dt<=0)continue;
+        const bpm=60*d/dt;
+        const strength=Math.sqrt(peaks[i].strength*peaks[i+d].strength);
+        addVote(bpm,strength/Math.pow(d,.65));
       }
-      // compare to general onset activity
-      for(let i=0;i<onset.length;i+=Math.max(1,Math.round(period)))total+=onset[i];
+    }
+
+    // Novelty autocorrelation tempogram.
+    function acAtBpm(bpm,start=0,end=novelty.length){
+      const lag=Math.round((60/bpm)*frameRate);
+      if(lag<1||start+lag>=end)return 0;
+      let num=0,da=0,db=0,n=0;
+      for(let i=start+lag;i<end;i++){
+        const a=novelty[i],b=novelty[i-lag];
+        num+=a*b;da+=a*a;db+=b*b;n++;
+      }
+      return n&&da>0&&db>0?num/Math.sqrt(da*db):0;
+    }
+
+    const raw=[];
+    let maxVote=1e-12;
+    for(const v of hist.values())if(v>maxVote)maxVote=v;
+
+    for(let bpm=MIN_BPM;bpm<=MAX_BPM;bpm+=STEP){
+      const ac=acAtBpm(bpm);
+      const q=Math.round(bpm/STEP)*STEP;
+      const vote=(hist.get(q)||0)/maxVote;
+      raw.push({bpm,ac,vote});
+    }
+
+    let maxAc=Math.max(1e-12,...raw.map(x=>x.ac));
+    for(const x of raw)x.ac/=maxAc;
+
+    // Harmonic tempogram support: correct tempo often has energy at integer multiples.
+    function harmonicSupport(bpm){
+      let s=0,w=0;
+      for(const mult of [1,2,.5,3]){
+        let b=bpm*mult;
+        if(b<MIN_BPM||b>MAX_BPM)continue;
+        const nearest=raw[Math.max(0,Math.min(raw.length-1,Math.round((b-MIN_BPM)/STEP)))];
+        const ww=mult===1?1:(mult===2?.42:(mult===.5?.38:.18));
+        s+=(nearest?nearest.ac:0)*ww;w+=ww;
+      }
+      return w?s/w:0;
+    }
+
+    // Beat-grid phase lock: onsets should repeatedly align to a stable beat phase.
+    function phaseLock(bpm){
+      const period=frameRate*60/bpm;
+      if(period<2)return 0;
+      const bins=Math.min(48,Math.max(12,Math.round(period)));
+      let best=0;
+      for(let p=0;p<bins;p++){
+        const phase=(p/bins)*period;
+        let s=0,n=0;
+        for(let x=phase;x<novelty.length;x+=period){
+          const i=Math.round(x);
+          if(i<0||i>=novelty.length)continue;
+          s+=novelty[i];
+          if(i>0)s+=novelty[i-1]*.28;
+          if(i+1<novelty.length)s+=novelty[i+1]*.28;
+          n++;
+        }
+        if(n)best=Math.max(best,s/n);
+      }
       return best;
     }
 
-    // Local-window consistency: true tempo usually recurs across the song.
-    const windowSec=24;
-    const windowFrames=Math.round(windowSec*frameRate);
+    // Repeated local evidence across ~20-second windows.
     function localConsistency(bpm){
-      const lag=Math.round(lagFor(bpm));
-      if(lag<1)return 0;
-      let wins=0,strong=0,ratioSum=0;
-      for(let start=0;start+Math.max(windowFrames,lag*4)<onset.length;start+=windowFrames){
-        const end=Math.min(onset.length,start+windowFrames);
-        let s=0,n=0;
-        for(let i=start+lag;i<end;i+=2){s+=onset[i]*onset[i-lag];n++}
-        const val=n?s/n:0;
-        // Compare with immediate ±4 BPM neighborhood to reward stable local maxima.
-        const bpmLo=Math.max(MIN_BPM,bpm-4),bpmHi=Math.min(MAX_BPM,bpm+4);
-        let neighbor=0,nn=0;
-        for(const bb of [bpmLo,bpmHi]){
-          const ll=Math.round(lagFor(bb));let q=0,c=0;
-          for(let i=start+ll;i<end;i+=3){q+=onset[i]*onset[i-ll];c++}
-          if(c){neighbor+=q/c;nn++}
-        }
-        const baseline=nn?neighbor/nn:0;
-        const ratio=val/(baseline+1e-9);
-        if(ratio>1.06)strong++;
-        ratioSum+=Math.min(2,ratio);
-        wins++;
+      const sec=20;
+      const wFrames=Math.max(1,Math.round(sec*frameRate));
+      let windows=0,good=0,score=0;
+      for(let start=0;start<novelty.length;start+=wFrames){
+        const end=Math.min(novelty.length,start+wFrames);
+        if(end-start<Math.round(frameRate*8))continue;
+        const center=acAtBpm(bpm,start,end);
+        const lo=acAtBpm(Math.max(MIN_BPM,bpm-3),start,end);
+        const hi=acAtBpm(Math.min(MAX_BPM,bpm+3),start,end);
+        const neigh=(lo+hi)/2;
+        const ratio=center/(neigh+1e-9);
+        if(ratio>1.04)good++;
+        score+=Math.max(0,Math.min(1,(ratio-1)/.30));
+        windows++;
       }
-      return wins?(.55*(strong/wins)+.45*Math.min(1,(ratioSum/wins-1)/.45)):0;
+      return windows?.55*(good/windows)+.45*(score/windows):0;
     }
 
-    // Precompute max autocorrelation for normalization.
-    let maxAc=0;
-    const rawAc=[];
-    for(let bpm=MIN_BPM;bpm<=MAX_BPM;bpm+=STEP){
-      const ac=autocorrAt(lagFor(bpm));
-      rawAc.push([bpm,ac]);
-      if(ac>maxAc)maxAc=ac;
+    // Preliminary ranking first; expensive local-consistency only for top candidates.
+    let maxPhase=1e-12;
+    for(const x of raw){
+      x.harm=harmonicSupport(x.bpm);
+      x.phase=phaseLock(x.bpm);
+      if(x.phase>maxPhase)maxPhase=x.phase;
     }
-    maxAc=Math.max(maxAc,1e-12);
+    for(const x of raw)x.phase/=maxPhase;
 
-    for(const [bpm,acRaw] of rawAc){
-      const ac=acRaw/maxAc;
-      const vote=maxVote?(peakVote.get(Math.round(bpm*2)/2)||0)/maxVote:0;
-      const phase=phaseConsistency(bpm);
-      scores.push({bpm,ac,vote,phase});
-    }
-
-    let maxPhase=Math.max(1e-12,...scores.map(x=>x.phase));
-    for(const s of scores)s.phase/=maxPhase;
-
-    // Only run expensive local-consistency scoring for the strongest preliminary candidates.
-    for(const s of scores)s.pre=.43*s.ac+.34*s.vote+.23*s.phase;
-    const preliminary=[...scores].sort((a,b)=>b.pre-a.pre).slice(0,18);
+    for(const x of raw)x.pre=.37*x.ac+.25*x.vote+.20*x.harm+.18*x.phase;
+    const topPre=[...raw].sort((a,b)=>b.pre-a.pre).slice(0,24);
     const localMap=new Map();
-    for(const s of preliminary)localMap.set(s.bpm,localConsistency(s.bpm));
+    for(const x of topPre)localMap.set(x.bpm,localConsistency(x.bpm));
 
-    for(const s of scores){
-      const local=localMap.get(s.bpm)||0;
-      // Mild regularization against isolated extreme answers, without ruling them out.
-      const edgePenalty=(s.bpm>185||s.bpm<62)?.94:1;
-      s.score=(.34*s.ac+.28*s.vote+.20*s.phase+.18*local)*edgePenalty;
+    for(const x of raw){
+      const local=localMap.get(x.bpm)||0;
+      x.score=.30*x.ac+.23*x.vote+.19*x.harm+.15*x.phase+.13*local;
     }
 
-    let ranked=[...scores].sort((a,b)=>b.score-a.score);
-    if(!ranked.length)return {bpm:0,alternative:0,confidence:0,label:"Low"};
-
-    // Cluster neighboring bins so 139.5 / 140 / 140.5 count as one tempo.
+    // Cluster neighboring bins (e.g. 139.5/140/140.25).
+    const sorted=[...raw].sort((a,b)=>b.score-a.score);
     const clusters=[];
-    for(const c of ranked){
-      let cl=clusters.find(x=>Math.abs(x.center-c.bpm)<=1.5);
+    for(const c of sorted){
+      let cl=clusters.find(x=>Math.abs(x.center-c.bpm)<=1.25);
       if(!cl){cl={center:c.bpm,members:[],score:0};clusters.push(cl)}
       cl.members.push(c);cl.score+=c.score;
     }
-    clusters.sort((a,b)=>b.score-a.score);
     for(const cl of clusters){
       let num=0,den=0;
       for(const c of cl.members){num+=c.bpm*c.score;den+=c.score}
       cl.center=den?num/den:cl.center;
       cl.best=cl.members.sort((a,b)=>b.score-a.score)[0];
     }
+    clusters.sort((a,b)=>b.score-a.score);
+    if(!clusters.length)return {bpm:0,alternative:0,confidence:0,label:"Low"};
 
     let best=clusters[0];
 
-    // Explicit octave/half-time handling.
+    // Resolve half/double ambiguity using direct beat evidence, not just autocorrelation.
+    function directQuality(cl){
+      const x=cl.best;
+      return .34*x.vote+.28*x.phase+.22*(localMap.get(x.bpm)||0)+.16*x.ac;
+    }
     const relatives=clusters.filter(c=>{
       if(c===best)return false;
       const r=Math.max(c.center,best.center)/Math.min(c.center,best.center);
-      return Math.abs(r-2)<.07;
+      return Math.abs(r-2)<.055;
     });
     for(const rel of relatives){
-      // Prefer the one with better combined peak vote + phase + local consistency.
-      const a=best.best,b=rel.best;
-      const qa=.38*a.vote+.32*a.phase+.30*(localMap.get(a.bpm)||0);
-      const qb=.38*b.vote+.32*b.phase+.30*(localMap.get(b.bpm)||0);
-      if(qb>qa*1.10)best=rel;
+      const qb=directQuality(best),qr=directQuality(rel);
+      if(qr>qb*1.08)best=rel;
     }
 
-    // Alternative candidate: prefer half/double-time relative, otherwise next distinct cluster.
     let alt=clusters.find(c=>{
       if(c===best)return false;
       const r=Math.max(c.center,best.center)/Math.min(c.center,best.center);
-      return Math.abs(r-2)<.07;
+      return Math.abs(r-2)<.055;
     });
-    if(!alt)alt=clusters.find(c=>c!==best&&Math.abs(c.center-best.center)>=4);
+    if(!alt)alt=clusters.find(c=>c!==best&&Math.abs(c.center-best.center)>=3);
 
-    const bestScore=best.score;
     const second=clusters.find(c=>c!==best);
-    const sep=second?Math.max(0,(bestScore-second.score)/(bestScore+1e-9)):1;
-    const consensus=.36*best.best.ac+.26*best.best.vote+.20*best.best.phase+.18*(localMap.get(best.best.bpm)||0);
-    const peakFactor=Math.min(1,peaks.length/60);
-    const confidence=Math.max(0,Math.min(1,.44*consensus+.36*sep+.20*peakFactor));
+    const sep=second?Math.max(0,(best.score-second.score)/(best.score+1e-9)):1;
+    const x=best.best;
+    const consensus=.25*x.ac+.20*x.vote+.18*x.harm+.17*x.phase+.20*(localMap.get(x.bpm)||0);
+    const onsetFactor=Math.min(1,peaks.length/70);
+    const confidence=Math.max(0,Math.min(1,.48*consensus+.34*sep+.18*onsetFactor));
 
     return {
       bpm:Math.round(best.center),
@@ -963,7 +1110,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
     status.textContent="Analyzing musical key and harmonic sections...";
     const duration=audioBuffer.duration;
-    const hop=6,win=12;
+    const hop=4,win=14;
     const chromas=[],segments=[];
     const total=Math.max(1,Math.ceil(duration/hop));
     for(let i=0;i<total;i++){
@@ -976,7 +1123,27 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       progressBar.style.width=(30+Math.round((i+1)/total*62))+"%";
       if(i%2===0)await new Promise(r=>setTimeout(r,0));
     }
-    keySegments=segments;
+    // Temporal smoothing: require neighborhood support before treating a local estimate as stable.
+    const smoothed=segments.map((seg,i)=>{
+      const votes=new Map();
+      for(let j=Math.max(0,i-1);j<=Math.min(segments.length-1,i+1);j++){
+        const s=segments[j];
+        const w=j===i?1.35:1;
+        votes.set(s.name,(votes.get(s.name)||0)+w*(.45+.55*s.confidence));
+      }
+      let winner=seg.name,best=-Infinity;
+      for(const [name,score] of votes)if(score>best){best=score;winner=name}
+      if(winner===seg.name)return {...seg};
+
+      const source=segments.slice(Math.max(0,i-1),Math.min(segments.length,i+2))
+        .filter(x=>x.name===winner)
+        .sort((a,b)=>b.confidence-a.confidence)[0];
+
+      // Only override when neighbors clearly support the same alternative key.
+      return source && source.confidence>=seg.confidence*.82 ? {...seg,name:source.name,camelot:source.camelot,confidence:(seg.confidence+source.confidence)/2,score:source.score} : {...seg};
+    });
+
+    keySegments=smoothed;
     const global=detectKeyFromChroma(aggregateChroma(chromas));
     keyValue.textContent=global.name;
     keyConfidence.textContent=`Confidence: ${confidenceLabel(global.confidence)}`;
