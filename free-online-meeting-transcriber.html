@@ -228,12 +228,26 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <div class="speaker-row">
       <label id="speakerLabel" for="speaker"><strong>Speaker marker:</strong></label>
       <select id="speaker">
-        <option value="speaker1">Speaker 1</option>
-        <option value="speaker2">Speaker 2</option>
-        <option value="speaker3">Speaker 3</option>
-        <option value="speaker4">Speaker 4</option>
-        <option value="chair">Chair</option>
-        <option value="participant">Participant</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="G">G</option>
+        <option value="H">H</option>
+        <option value="I">I</option>
+        <option value="J">J</option>
       </select>
       <button id="speakerBtn" class="btn-ghost">Add speaker marker</button>
     </div>
@@ -317,7 +331,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       stop: '⏹ STOP',
       statusReady: 'Ready. The local speech model will load after you start.',
       speakerLabel: 'Speaker marker:',
-      speakerOptions: {speaker1:'Speaker 1', speaker2:'Speaker 2', speaker3:'Speaker 3', speaker4:'Speaker 4', chair:'Chair', participant:'Participant'},
+      speakerOptions: {},
       addSpeakerMarker: 'Add speaker marker',
       speakerInfo: 'Automatic speaker diarization is intentionally not simulated. Use speaker markers when you need clear attribution; a future local diarization model can replace this manual control.',
       transcriptTitle: 'Live Transcript',
@@ -391,7 +405,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       stop: '⏹ STOP',
       statusReady: 'Gata. Modelul vocal local se va încărca după ce pornești aplicația.',
       speakerLabel: 'Marcaj vorbitor:',
-      speakerOptions: {speaker1:'Vorbitor 1', speaker2:'Vorbitor 2', speaker3:'Vorbitor 3', speaker4:'Vorbitor 4', chair:'Moderator', participant:'Participant'},
+      speakerOptions: {},
       addSpeakerMarker: 'Adaugă marcaj vorbitor',
       speakerInfo: 'Identificarea automată a vorbitorilor nu este implementată momentan. Folosește marcajele de vorbitor când ai nevoie să diferențiezi clar participanții; această funcție poate fi adăugată ulterior printr-un model local.',
       transcriptTitle: 'Transcript Live',
@@ -465,7 +479,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       stop: '⏹ STOP',
       statusReady: 'Prêt. Le modèle vocal local se chargera après le démarrage.',
       speakerLabel: 'Marqueur d’intervenant :',
-      speakerOptions: {speaker1:'Intervenant 1', speaker2:'Intervenant 2', speaker3:'Intervenant 3', speaker4:'Intervenant 4', chair:'Président', participant:'Participant'},
+      speakerOptions: {},
       addSpeakerMarker: 'Ajouter un marqueur',
       speakerInfo: 'La diarisation automatique des intervenants n’est volontairement pas simulée. Utilisez des marqueurs d’intervenant pour une attribution claire ; un futur modèle local pourra remplacer ce contrôle manuel.',
       transcriptTitle: 'Transcription en direct',
@@ -560,7 +574,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
     $('speakerLabel').innerHTML = `<strong>${tr.speakerLabel}</strong>`;
     const speakerSel = $('speaker');
-    Array.from(speakerSel.options).forEach(opt => { opt.textContent = tr.speakerOptions[opt.value]; });
+    Array.from(speakerSel.options).forEach(opt => { if(tr.speakerOptions[opt.value]) opt.textContent = tr.speakerOptions[opt.value]; });
     $('speakerBtn').textContent = tr.addSpeakerMarker;
     $('speakerInfo').textContent = tr.speakerInfo;
     $('transcriptTitle').textContent = tr.transcriptTitle;
