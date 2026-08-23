@@ -186,7 +186,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       <div class="field">
         <label id="chunkLengthLabel" for="chunkLength">Live update interval</label>
         <select id="chunkLength">
-          <option value="4" selected>About 4 seconds (optimized)</option>
+          <option value="3" selected>About 3 seconds (faster)</option>
+          <option value="4">About 4 seconds (balanced)</option>
+          <option value="5">About 5 seconds (more context)</option>
         </select>
       </div>
       <div class="field">
@@ -313,7 +315,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       languageLabel: 'Spoken language',
       languageOptions: {ro:'Romanian', en:'English', fr:'French'},
       chunkLengthLabel: 'Live update interval',
-      chunkOptions: {'4':'About 4 seconds (optimized)'},
+      chunkOptions: {'3':'About 3 seconds (faster)','4':'About 4 seconds (balanced)','5':'About 5 seconds (more context)'},
       timestampsLabel: 'Timestamps',
       timestampOptions: {on:'Include timestamps', off:'No timestamps'},
       paragraphsLabel: 'Paragraphs',
@@ -387,7 +389,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       languageLabel: 'Limba vorbită',
       languageOptions: {ro:'Română', en:'Engleză', fr:'Franceză'},
       chunkLengthLabel: 'Interval actualizare live',
-      chunkOptions: {'4':'Aproximativ 4 secunde (optimizat)'},
+      chunkOptions: {'3':'Aproximativ 3 secunde (mai rapid)','4':'Aproximativ 4 secunde (echilibrat)','5':'Aproximativ 5 secunde (mai mult context)'},
       timestampsLabel: 'Timestamp-uri',
       timestampOptions: {on:'Include timestamp-uri', off:'Fără timestamp-uri'},
       paragraphsLabel: 'Paragrafe',
@@ -461,7 +463,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       languageLabel: 'Langue parlée',
       languageOptions: {ro:'Roumain', en:'Anglais', fr:'Français'},
       chunkLengthLabel: 'Intervalle de mise à jour',
-      chunkOptions: {'4':'Environ 4 secondes (optimisé)'},
+      chunkOptions: {'3':'Environ 3 secondes (plus rapide)','4':'Environ 4 secondes (équilibré)','5':'Environ 5 secondes (plus de contexte)'},
       timestampsLabel: 'Horodatages',
       timestampOptions: {on:'Inclure les horodatages', off:'Sans horodatages'},
       paragraphsLabel: 'Paragraphes',
@@ -689,8 +691,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
             if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
           }
         };
-        // Whisper's encoder is sensitive to aggressive quantization. On WebGPU,
-        // fp32 encoder + q4 decoder is a proven compromise for browser inference.
+        // For Whisper Base on WebGPU, keep the encoder in fp32 and quantize the decoder to q4 for a practical accuracy/performance balance.
         if(device === 'webgpu'){
           options.dtype = { encoder_model:'fp32', decoder_model_merged:'q4' };
         }
@@ -704,7 +705,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         modelPromise = (async()=>{
           const hasWebGPU = !!(self.navigator && self.navigator.gpu);
           deviceUsed = hasWebGPU ? 'webgpu' : 'wasm';
-          modelUsed = hasWebGPU ? 'onnx-community/whisper-small' : 'onnx-community/whisper-base';
+          modelUsed = 'onnx-community/whisper-base';
           self.postMessage({type:'status', key:'loadingModel', device:deviceUsed, model:modelUsed});
           try{
             transcriber = await loadPipeline(modelUsed, deviceUsed);
@@ -823,21 +824,20 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 
   function hasSpeech(samples){
+    // Very permissive gate: only discard essentially digital silence.
+    // The previous VAD thresholds could reject quiet/processed microphones.
     if(!samples || !samples.length) return false;
     let sumSq = 0;
-    let peak = 0;
     for(let i=0;i<samples.length;i++){
       const v = samples[i];
       sumSq += v*v;
-      const av = Math.abs(v);
-      if(av > peak) peak = av;
     }
     const rms = Math.sqrt(sumSq / samples.length);
-    return rms >= VAD_RMS_THRESHOLD && peak >= VAD_PEAK_THRESHOLD;
+    return rms > 0.00005;
   }
 
   function flushChunk(force=false){
-    const target = Number($('chunkLength').value) || 4;
+    const target = Number($('chunkLength').value) || 3;
     const secondsAvailable = nativeSampleCount / nativeSampleRate;
     const freshSeconds = freshSampleCount / nativeSampleRate;
 
