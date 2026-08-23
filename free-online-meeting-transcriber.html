@@ -178,18 +178,15 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       <div class="field">
         <label id="languageLabel" for="language">Spoken language</label>
         <select id="language">
-          <option value="auto">Auto detect</option>
-          <option value="romanian">Romanian</option>
-          <option value="english">English</option>
-          <option value="french">French</option>
+          <option value="ro" selected>Romanian</option>
+          <option value="en">English</option>
+          <option value="fr">French</option>
         </select>
       </div>
       <div class="field">
         <label id="chunkLengthLabel" for="chunkLength">Live update interval</label>
         <select id="chunkLength">
-          <option value="8">About 8 seconds</option>
-          <option value="12" selected>About 12 seconds</option>
-          <option value="20">About 20 seconds</option>
+          <option value="4" selected>About 4 seconds (optimized)</option>
         </select>
       </div>
       <div class="field">
@@ -279,7 +276,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <h2 id="infoTitle">Private meeting transcription in your browser</h2>
     <p id="infoP1">This tool is designed for meetings, interviews, notes and spoken discussions where you want a written transcript without manually typing every sentence. It captures microphone audio only after you grant permission, converts speech into text in short chunks and places the result directly in the transcript editor.</p>
     <p id="infoP2"><strong>Local processing:</strong> the speech-to-text model runs inside your browser using WebGPU when available and WebAssembly as a fallback. Audio is kept in memory long enough to process each chunk and is then discarded. This page does not send meeting audio or transcript text to an ALSBKIN server. Your browser may cache the speech model itself so it does not need to download it every time.</p>
-    <p id="infoP3"><strong>Languages and export:</strong> you can use automatic language detection or explicitly select Romanian, English or French. Timestamps and paragraph breaks can be included, speaker markers can be inserted manually, and the final text can be edited before export. Word and TXT files are generated locally in the browser and downloaded directly to your device.</p>
+    <p id="infoP3"><strong>Languages and export:</strong> Romanian is selected by default for maximum accuracy, while English or French can be selected explicitly. Timestamps and paragraph breaks can be included, speaker markers can be inserted manually, and the final text can be edited before export. Word and TXT files are generated locally in the browser and downloaded directly to your device.</p>
   </section>
 </main>
 <footer id="footerText">© 2026 ALSBKIN. All rights reserved.</footer>
@@ -314,9 +311,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       subtitle: 'Turn meetings, conversations and ambient speech into text in near real time. The speech model runs in your browser, and your transcript can be exported locally as a Word document or TXT file.',
       privacyNote: '🔒 Privacy-first: meeting audio and transcript are kept in browser memory and are not uploaded by this page. Only the speech model and JavaScript libraries are downloaded from their public hosts.',
       languageLabel: 'Spoken language',
-      languageOptions: {auto:'Auto detect', romanian:'Romanian', english:'English', french:'French'},
+      languageOptions: {ro:'Romanian', en:'English', fr:'French'},
       chunkLengthLabel: 'Live update interval',
-      chunkOptions: {'8':'About 8 seconds','12':'About 12 seconds','20':'About 20 seconds'},
+      chunkOptions: {'4':'About 4 seconds (optimized)'},
       timestampsLabel: 'Timestamps',
       timestampOptions: {on:'Include timestamps', off:'No timestamps'},
       paragraphsLabel: 'Paragraphs',
@@ -348,11 +345,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       infoTitle: 'Private meeting transcription in your browser',
       infoP1: 'This tool is designed for meetings, interviews, notes and spoken discussions where you want a written transcript without manually typing every sentence. It captures microphone audio only after you grant permission, converts speech into text in short chunks and places the result directly in the transcript editor.',
       infoP2: '<strong>Local processing:</strong> the speech-to-text model runs inside your browser using WebGPU when available and WebAssembly as a fallback. Audio is kept in memory long enough to process each chunk and is then discarded. This page does not send meeting audio or transcript text to an ALSBKIN server. Your browser may cache the speech model itself so it does not need to download it every time.',
-      infoP3: '<strong>Languages and export:</strong> you can use automatic language detection or explicitly select Romanian, English or French. Timestamps and paragraph breaks can be included, speaker markers can be inserted manually, and the final text can be edited before export. Word and TXT files are generated locally in the browser and downloaded directly to your device.',
+      infoP3: '<strong>Languages and export:</strong> Romanian is selected by default for maximum accuracy, while English or French can be selected explicitly. Timestamps and paragraph breaks can be included, speaker markers can be inserted manually, and the final text can be edited before export. Word and TXT files are generated locally in the browser and downloaded directly to your device.',
       footer: '© 2026 ALSBKIN. All rights reserved.',
-      loadingModel: (device) => `Loading local Whisper model (${device.toUpperCase()})…`,
+      loadingModel: (device) => `Loading Romanian-first Whisper model (${device.toUpperCase()})…`,
       switchingToWasm: 'WebGPU unavailable for this model; switching to WASM…',
-      modelReady: (device) => `Local speech model ready (${String(device).toUpperCase()}). Recording continues in your browser.`,
+      modelReady: (device) => `Romanian-first speech model ready (${String(device).toUpperCase()}). Recording continues in your browser.`,
       listeningProcessed: 'Listening… speech is processed locally.',
       listeningLoading: 'Listening… loading the local speech model in the background.',
       listeningPending: (n) => `Listening… ${n} audio chunk(s) being transcribed locally.`,
@@ -388,9 +385,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       subtitle: 'Transformă ședințele, conversațiile și sunetele ambientale în text aproape în timp real. Modelul de recunoaștere vocală rulează în browser, iar transcriptul poate fi exportat local ca document Word sau fișier TXT.',
       privacyNote: '🔒 Confidențialitate înainte de toate: audio-ul ședinței și transcriptul rămân în memoria browserului și nu sunt încărcate de această pagină. Se descarcă doar modelul vocal și bibliotecile JavaScript de la sursele lor publice.',
       languageLabel: 'Limba vorbită',
-      languageOptions: {auto:'Detectare automată', romanian:'Română', english:'Engleză', french:'Franceză'},
+      languageOptions: {ro:'Română', en:'Engleză', fr:'Franceză'},
       chunkLengthLabel: 'Interval actualizare live',
-      chunkOptions: {'8':'Aproximativ 8 secunde','12':'Aproximativ 12 secunde','20':'Aproximativ 20 secunde'},
+      chunkOptions: {'4':'Aproximativ 4 secunde (optimizat)'},
       timestampsLabel: 'Timestamp-uri',
       timestampOptions: {on:'Include timestamp-uri', off:'Fără timestamp-uri'},
       paragraphsLabel: 'Paragrafe',
@@ -422,11 +419,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       infoTitle: 'Transcriere privată a ședințelor, direct în browser',
       infoP1: 'Acest instrument este conceput pentru ședințe, interviuri, notițe și discuții vorbite, atunci când vrei un transcript scris fără să tastezi manual fiecare propoziție. Capturează audio de la microfon doar după ce acorzi permisiunea, convertește vorbirea în text în fragmente scurte și plasează rezultatul direct în editorul de transcript.',
       infoP2: '<strong>Procesare locală:</strong> modelul speech-to-text rulează în browser folosind WebGPU atunci când este disponibil și WebAssembly ca alternativă. Audio-ul este păstrat în memorie doar cât timp este necesar pentru procesarea fiecărui fragment, apoi este eliminat. Această pagină nu trimite audio-ul ședinței și nici transcriptul către un server ALSBKIN. Browserul poate păstra în cache modelul vocal, ca să nu fie descărcat de fiecare dată.',
-      infoP3: '<strong>Limbi și export:</strong> poți folosi detectarea automată a limbii sau poți selecta explicit română, engleză sau franceză. Pot fi incluse timestamp-uri și paragrafe, pot fi inserate manual marcaje pentru vorbitori, iar textul final poate fi editat înainte de export. Fișierele Word și TXT sunt generate local în browser și descărcate direct pe dispozitivul tău.',
+      infoP3: '<strong>Limbi și export:</strong> româna este selectată implicit pentru precizie maximă, iar engleza sau franceza pot fi selectate explicit. Pot fi incluse timestamp-uri și paragrafe, pot fi inserate manual marcaje pentru vorbitori, iar textul final poate fi editat înainte de export. Fișierele Word și TXT sunt generate local în browser și descărcate direct pe dispozitivul tău.',
       footer: '© 2026 ALSBKIN. Toate drepturile rezervate.',
-      loadingModel: (device) => `Se încarcă modelul local Whisper (${device.toUpperCase()})…`,
+      loadingModel: (device) => `Se încarcă modelul Whisper optimizat pentru română (${device.toUpperCase()})…`,
       switchingToWasm: 'WebGPU nu este disponibil pentru acest model; se trece la WASM…',
-      modelReady: (device) => `Modelul vocal local este gata (${String(device).toUpperCase()}). Înregistrarea continuă în browser.`,
+      modelReady: (device) => `Modelul vocal optimizat pentru română este gata (${String(device).toUpperCase()}). Înregistrarea continuă în browser.`,
       listeningProcessed: 'Ascultă… vorbirea este procesată local.',
       listeningLoading: 'Ascultă… se încarcă în fundal modelul vocal local.',
       listeningPending: (n) => `Ascultă… ${n} fragment(e) audio sunt transcrise local.`,
@@ -462,9 +459,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       subtitle: 'Transformez réunions, conversations et sons ambiants en texte presque en temps réel. Le modèle de reconnaissance vocale fonctionne dans votre navigateur et la transcription peut être exportée localement au format Word ou TXT.',
       privacyNote: '🔒 Priorité à la confidentialité : l’audio de la réunion et la transcription restent dans la mémoire du navigateur et ne sont pas envoyés par cette page. Seuls le modèle vocal et les bibliothèques JavaScript sont téléchargés depuis leurs hébergeurs publics.',
       languageLabel: 'Langue parlée',
-      languageOptions: {auto:'Détection automatique', romanian:'Roumain', english:'Anglais', french:'Français'},
+      languageOptions: {ro:'Roumain', en:'Anglais', fr:'Français'},
       chunkLengthLabel: 'Intervalle de mise à jour',
-      chunkOptions: {'8':'Environ 8 secondes','12':'Environ 12 secondes','20':'Environ 20 secondes'},
+      chunkOptions: {'4':'Environ 4 secondes (optimisé)'},
       timestampsLabel: 'Horodatages',
       timestampOptions: {on:'Inclure les horodatages', off:'Sans horodatages'},
       paragraphsLabel: 'Paragraphes',
@@ -496,11 +493,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       infoTitle: 'Transcription privée de réunions dans votre navigateur',
       infoP1: 'Cet outil est conçu pour les réunions, entretiens, prises de notes et discussions orales, lorsque vous souhaitez une transcription écrite sans taper chaque phrase manuellement. Il capte l’audio du microphone uniquement après votre autorisation, convertit la parole en texte par petits segments et place le résultat directement dans l’éditeur de transcription.',
       infoP2: '<strong>Traitement local :</strong> le modèle speech-to-text fonctionne dans votre navigateur via WebGPU lorsqu’il est disponible, avec WebAssembly en solution de secours. L’audio reste en mémoire uniquement le temps nécessaire au traitement de chaque segment, puis est supprimé. Cette page n’envoie ni l’audio de la réunion ni le texte de la transcription vers un serveur ALSBKIN. Votre navigateur peut mettre en cache le modèle vocal afin d’éviter un nouveau téléchargement à chaque fois.',
-      infoP3: '<strong>Langues et export :</strong> vous pouvez utiliser la détection automatique de la langue ou sélectionner explicitement le roumain, l’anglais ou le français. Les horodatages et les paragraphes peuvent être inclus, des marqueurs d’intervenant peuvent être ajoutés manuellement, et le texte final peut être modifié avant l’export. Les fichiers Word et TXT sont générés localement dans le navigateur puis téléchargés directement sur votre appareil.',
+      infoP3: '<strong>Langues et export :</strong> le roumain est sélectionné par défaut pour une précision maximale, tandis que l’anglais ou le français peuvent être sélectionnés explicitement. Les horodatages et les paragraphes peuvent être inclus, des marqueurs d’intervenant peuvent être ajoutés manuellement, et le texte final peut être modifié avant l’export. Les fichiers Word et TXT sont générés localement dans le navigateur puis téléchargés directement sur votre appareil.',
       footer: '© 2026 ALSBKIN. Tous droits réservés.',
-      loadingModel: (device) => `Chargement du modèle Whisper local (${device.toUpperCase()})…`,
+      loadingModel: (device) => `Chargement du modèle Whisper optimisé pour le roumain (${device.toUpperCase()})…`,
       switchingToWasm: 'WebGPU indisponible pour ce modèle ; bascule vers WASM…',
-      modelReady: (device) => `Le modèle vocal local est prêt (${String(device).toUpperCase()}). L’enregistrement continue dans votre navigateur.`,
+      modelReady: (device) => `Le modèle vocal optimisé pour le roumain est prêt (${String(device).toUpperCase()}). L’enregistrement continue dans votre navigateur.`,
       listeningProcessed: 'Écoute… la parole est traitée localement.',
       listeningLoading: 'Écoute… le modèle vocal local se charge en arrière-plan.',
       listeningPending: (n) => `Écoute… ${n} segment(s) audio sont transcrits localement.`,
@@ -610,10 +607,15 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let totalPausedMs = 0;
   let nativeSamples = [];
   let nativeSampleCount = 0;
+  let freshSampleCount = 0;
   let nativeSampleRate = 48000;
   let chunkIndex = 0;
   let pendingChunks = 0;
   let modelReady = false;
+  let lastAsrText = '';
+  const OVERLAP_SECONDS = 1;
+  const VAD_RMS_THRESHOLD = 0.0025;
+  const VAD_PEAK_THRESHOLD = 0.012;
 
   function setStatus(text){ statusEl.textContent = text; }
   function formatTime(seconds){
@@ -628,13 +630,35 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const end = paused && pausedAt ? pausedAt : performance.now();
     return (end - startedAt - totalPausedMs) / 1000;
   }
+  function normalizeOverlapToken(token){
+    return String(token || '')
+      .toLocaleLowerCase('ro-RO')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9ăâîșț]/gi,'');
+  }
+  function removeRepeatedOverlap(previous, next){
+    const prevTokens = String(previous || '').trim().split(/\s+/).filter(Boolean);
+    const nextTokens = String(next || '').trim().split(/\s+/).filter(Boolean);
+    if(!prevTokens.length || !nextTokens.length) return String(next || '').trim();
+    const max = Math.min(14, prevTokens.length, nextTokens.length);
+    for(let k=max;k>=2;k--){
+      const a = prevTokens.slice(-k).map(normalizeOverlapToken);
+      const b = nextTokens.slice(0,k).map(normalizeOverlapToken);
+      if(a.every((v,i)=>v && v===b[i])) return nextTokens.slice(k).join(' ');
+    }
+    return String(next || '').trim();
+  }
   function appendText(text, startSec){
     const clean = String(text || '').replace(/\s+/g,' ').trim();
     if(!clean) return;
+    const deDuplicated = removeRepeatedOverlap(lastAsrText, clean);
+    lastAsrText = clean;
+    if(!deDuplicated) return;
     const withTime = $('timestamps').value === 'on' ? `[${formatTime(startSec)}] ` : '';
     const paragraph = $('paragraphs').value === 'on';
     const joiner = transcript.value.trim() ? (paragraph ? '\n\n' : ' ') : '';
-    transcript.value += joiner + withTime + clean;
+    transcript.value += joiner + withTime + deDuplicated;
     transcript.scrollTop = transcript.scrollHeight;
   }
   function addSpeakerMarker(){
@@ -655,15 +679,22 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       let transcriber = null;
       let modelPromise = null;
       let deviceUsed = 'wasm';
+      let modelUsed = 'onnx-community/whisper-base';
       let workQueue = Promise.resolve();
 
-      function loadPipeline(device){
-        return pipeline('automatic-speech-recognition','onnx-community/whisper-tiny',{
+      async function loadPipeline(modelId, device){
+        const options = {
           device,
           progress_callback:(p)=>{
             if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
           }
-        });
+        };
+        // Whisper's encoder is sensitive to aggressive quantization. On WebGPU,
+        // fp32 encoder + q4 decoder is a proven compromise for browser inference.
+        if(device === 'webgpu'){
+          options.dtype = { encoder_model:'fp32', decoder_model_merged:'q4' };
+        }
+        return pipeline('automatic-speech-recognition', modelId, options);
       }
 
       async function ensureModel(){
@@ -671,20 +702,23 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         if(modelPromise) return modelPromise;
 
         modelPromise = (async()=>{
-          deviceUsed = self.navigator && self.navigator.gpu ? 'webgpu' : 'wasm';
-          self.postMessage({type:'status', key:'loadingModel', device:deviceUsed});
+          const hasWebGPU = !!(self.navigator && self.navigator.gpu);
+          deviceUsed = hasWebGPU ? 'webgpu' : 'wasm';
+          modelUsed = hasWebGPU ? 'onnx-community/whisper-small' : 'onnx-community/whisper-base';
+          self.postMessage({type:'status', key:'loadingModel', device:deviceUsed, model:modelUsed});
           try{
-            transcriber = await loadPipeline(deviceUsed);
+            transcriber = await loadPipeline(modelUsed, deviceUsed);
           }catch(err){
             if(deviceUsed === 'webgpu'){
               deviceUsed = 'wasm';
-              self.postMessage({type:'status', key:'switchingToWasm'});
-              transcriber = await loadPipeline('wasm');
+              modelUsed = 'onnx-community/whisper-base';
+              self.postMessage({type:'status', key:'switchingToWasm', model:modelUsed});
+              transcriber = await loadPipeline(modelUsed, 'wasm');
             }else{
               throw err;
             }
           }
-          self.postMessage({type:'ready',device:deviceUsed});
+          self.postMessage({type:'ready',device:deviceUsed,model:modelUsed});
           return transcriber;
         })();
 
@@ -700,8 +734,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         try{
           const pipe = await ensureModel();
           const audio = new Float32Array(d.audio);
-          const opts = {task:'transcribe', return_timestamps:false};
-          if(d.language && d.language !== 'auto') opts.language = d.language;
+          const opts = {
+            task:'transcribe',
+            return_timestamps:false,
+            language:d.language || 'ro'
+          };
           const out = await pipe(audio, opts);
           self.postMessage({type:'result',id:d.id,text:out && out.text ? out.text : '',startSec:d.startSec});
         }catch(err){
@@ -716,8 +753,6 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
           return;
         }
         if(d.type==='transcribe'){
-          // Run Whisper chunks sequentially. This avoids multiple concurrent model
-          // initializations/inference sessions on slower WASM-only devices.
           workQueue = workQueue.then(()=>transcribeChunk(d)).catch(err=>{
             self.postMessage({type:'chunk-error',id:d.id,message:err.message||String(err)});
           });
@@ -779,20 +814,79 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     return output;
   }
 
+  function flattenNativeChunks(chunks){
+    const total = chunks.reduce((n,a)=>n+a.length,0);
+    const out = new Float32Array(total);
+    let offset = 0;
+    for(const a of chunks){ out.set(a,offset); offset += a.length; }
+    return out;
+  }
+
+  function hasSpeech(samples){
+    if(!samples || !samples.length) return false;
+    let sumSq = 0;
+    let peak = 0;
+    for(let i=0;i<samples.length;i++){
+      const v = samples[i];
+      sumSq += v*v;
+      const av = Math.abs(v);
+      if(av > peak) peak = av;
+    }
+    const rms = Math.sqrt(sumSq / samples.length);
+    return rms >= VAD_RMS_THRESHOLD && peak >= VAD_PEAK_THRESHOLD;
+  }
+
   function flushChunk(force=false){
+    const target = Number($('chunkLength').value) || 4;
     const secondsAvailable = nativeSampleCount / nativeSampleRate;
-    const target = Number($('chunkLength').value);
+    const freshSeconds = freshSampleCount / nativeSampleRate;
+
     if(!force && secondsAvailable < target) return;
+    if(force && chunkIndex > 0 && freshSeconds < 0.35){
+      nativeSamples = [];
+      nativeSampleCount = 0;
+      freshSampleCount = 0;
+      return;
+    }
     if(nativeSampleCount < nativeSampleRate * 0.8) return;
-    const chunkStart = Math.max(0, elapsedSeconds() - secondsAvailable);
-    const pcm = downsample(nativeSamples, nativeSampleRate, 16000);
-    nativeSamples = [];
-    nativeSampleCount = 0;
-    pendingChunks++;
-    const id = ++chunkIndex;
-    const buffer = pcm.buffer;
-    worker.postMessage({type:'transcribe', id, audio:buffer, startSec:chunkStart, language:$('language').value}, [buffer]);
-    if(recording) setStatus(t().listeningPending(pendingChunks));
+
+    const allNative = flattenNativeChunks(nativeSamples);
+    const durationSeconds = allNative.length / nativeSampleRate;
+    const chunkStart = Math.max(0, elapsedSeconds() - durationSeconds);
+    // Test only the newly captured portion for speech. The retained 1-second
+    // overlap is context for Whisper and must not by itself trigger a new chunk.
+    const freshCount = Math.min(allNative.length, Math.max(0, freshSampleCount));
+    const speechProbe = freshCount > 0 ? allNative.slice(allNative.length - freshCount) : allNative;
+    const speechDetected = hasSpeech(speechProbe);
+
+    if(speechDetected){
+      const pcm = downsample([allNative], nativeSampleRate, 16000);
+      pendingChunks++;
+      const id = ++chunkIndex;
+      const buffer = pcm.buffer;
+      worker.postMessage({
+        type:'transcribe',
+        id,
+        audio:buffer,
+        startSec:chunkStart,
+        language:$('language').value || 'ro'
+      }, [buffer]);
+      if(recording) setStatus(t().listeningPending(pendingChunks));
+    }
+
+    if(force){
+      nativeSamples = [];
+      nativeSampleCount = 0;
+      freshSampleCount = 0;
+      return;
+    }
+
+    // Keep the final second so Whisper sees context across chunk boundaries.
+    const overlapCount = Math.min(allNative.length, Math.floor(nativeSampleRate * OVERLAP_SECONDS));
+    const tail = allNative.slice(allNative.length - overlapCount);
+    nativeSamples = [tail];
+    nativeSampleCount = tail.length;
+    freshSampleCount = 0;
   }
 
   async function startRecording(){
@@ -813,13 +907,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         if(!recording || paused) return;
         const input = ev.inputBuffer.getChannelData(0);
         const copy = new Float32Array(input.length); copy.set(input);
-        nativeSamples.push(copy); nativeSampleCount += copy.length;
+        nativeSamples.push(copy); nativeSampleCount += copy.length; freshSampleCount += copy.length;
         flushChunk(false);
       };
       source.connect(processor); processor.connect(silentGain); silentGain.connect(audioContext.destination);
       if(!worker) createWorker();
       recording = true; paused = false; startedAt = performance.now(); totalPausedMs = 0; pausedAt = 0;
-      nativeSamples=[]; nativeSampleCount=0; pendingChunks=0;
+      nativeSamples=[]; nativeSampleCount=0; freshSampleCount=0; pendingChunks=0; lastAsrText='';
       startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
       micDot.className='mic-dot live'; micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
       setStatus(modelReady ? t().listeningProcessed : t().listeningLoading);
@@ -892,7 +986,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
     catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
   });
-  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){transcript.value='';setStatus(t().cleared);} });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){transcript.value='';lastAsrText='';setStatus(t().cleared);} });
   $('docxBtn').addEventListener('click',exportDocx);
   $('txtBtn').addEventListener('click',exportTxt);
   uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
