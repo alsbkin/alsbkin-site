@@ -186,9 +186,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       <div class="field">
         <label id="chunkLengthLabel" for="chunkLength">Live update interval</label>
         <select id="chunkLength">
-          <option value="3" selected>About 3 seconds (faster)</option>
-          <option value="4">About 4 seconds (balanced)</option>
-          <option value="5">About 5 seconds (more context)</option>
+          <option value="6">About 6 seconds (faster)</option>
+          <option value="8" selected>About 8 seconds (recommended)</option>
+          <option value="10">About 10 seconds (maximum context)</option>
         </select>
       </div>
       <div class="field">
@@ -315,7 +315,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       languageLabel: 'Spoken language',
       languageOptions: {ro:'Romanian', en:'English', fr:'French'},
       chunkLengthLabel: 'Live update interval',
-      chunkOptions: {'3':'About 3 seconds (faster)','4':'About 4 seconds (balanced)','5':'About 5 seconds (more context)'},
+      chunkOptions: {'6':'About 6 seconds (faster)','8':'About 8 seconds (recommended)','10':'About 10 seconds (maximum context)'},
       timestampsLabel: 'Timestamps',
       timestampOptions: {on:'Include timestamps', off:'No timestamps'},
       paragraphsLabel: 'Paragraphs',
@@ -328,7 +328,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       pause: '⏸ PAUSE',
       resume: '▶ RESUME',
       stop: '⏹ STOP',
-      statusReady: 'Ready. The local speech model will load after you start.',
+      statusReady: 'Preparing the local Romanian speech model… You can start once it is ready.',
       speakerLabel: 'Speaker marker:',
       speakerOptions: {},
       addSpeakerMarker: 'Add speaker marker',
@@ -389,7 +389,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       languageLabel: 'Limba vorbită',
       languageOptions: {ro:'Română', en:'Engleză', fr:'Franceză'},
       chunkLengthLabel: 'Interval actualizare live',
-      chunkOptions: {'3':'Aproximativ 3 secunde (mai rapid)','4':'Aproximativ 4 secunde (echilibrat)','5':'Aproximativ 5 secunde (mai mult context)'},
+      chunkOptions: {'6':'Aproximativ 6 secunde (mai rapid)','8':'Aproximativ 8 secunde (recomandat)','10':'Aproximativ 10 secunde (context maxim)'},
       timestampsLabel: 'Timestamp-uri',
       timestampOptions: {on:'Include timestamp-uri', off:'Fără timestamp-uri'},
       paragraphsLabel: 'Paragrafe',
@@ -402,7 +402,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       pause: '⏸ PAUZĂ',
       resume: '▶ REIA',
       stop: '⏹ STOP',
-      statusReady: 'Gata. Modelul vocal local se va încărca după ce pornești aplicația.',
+      statusReady: 'Se pregătește modelul vocal local pentru limba română… Poți porni imediat ce este gata.',
       speakerLabel: 'Marcaj vorbitor:',
       speakerOptions: {},
       addSpeakerMarker: 'Adaugă marcaj vorbitor',
@@ -463,7 +463,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       languageLabel: 'Langue parlée',
       languageOptions: {ro:'Roumain', en:'Anglais', fr:'Français'},
       chunkLengthLabel: 'Intervalle de mise à jour',
-      chunkOptions: {'3':'Environ 3 secondes (plus rapide)','4':'Environ 4 secondes (équilibré)','5':'Environ 5 secondes (plus de contexte)'},
+      chunkOptions: {'6':'Environ 6 secondes (plus rapide)','8':'Environ 8 secondes (recommandé)','10':'Environ 10 secondes (contexte maximal)'},
       timestampsLabel: 'Horodatages',
       timestampOptions: {on:'Inclure les horodatages', off:'Sans horodatages'},
       paragraphsLabel: 'Paragraphes',
@@ -476,7 +476,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       pause: '⏸ PAUSE',
       resume: '▶ REPRENDRE',
       stop: '⏹ STOP',
-      statusReady: 'Prêt. Le modèle vocal local se chargera après le démarrage.',
+      statusReady: 'Préparation du modèle vocal local pour le roumain… Vous pourrez démarrer dès qu’il sera prêt.',
       speakerLabel: 'Marqueur d’intervenant :',
       speakerOptions: {},
       addSpeakerMarker: 'Ajouter un marqueur',
@@ -615,9 +615,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let pendingChunks = 0;
   let modelReady = false;
   let lastAsrText = '';
-  const OVERLAP_SECONDS = 1;
-  const VAD_RMS_THRESHOLD = 0.0025;
-  const VAD_PEAK_THRESHOLD = 0.012;
+  const OVERLAP_SECONDS = 1.25;
+  let adaptiveNoiseFloor = 0.0015;
+  let lastSpeechAnalysis = { speech:false, voicedRatio:0, threshold:0.002, p90:0 };
 
   function setStatus(text){ statusEl.textContent = text; }
   function formatTime(seconds){
@@ -651,12 +651,37 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     }
     return String(next || '').trim();
   }
-  function appendText(text, startSec){
+  function isLikelyHallucination(text, speechInfo=lastSpeechAnalysis){
+    const normalized = String(text || '')
+      .toLocaleLowerCase('ro-RO')
+      .replace(/[.,!?;:()\[\]{}\"'„”«»…-]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+    if(!normalized) return true;
+    const tokens = normalized.split(' ').filter(Boolean);
+    if(tokens.length >= 3){
+      // Reject obvious loops such as “sunt sunt sunt” or one word dominating a segment.
+      let consecutive = 1;
+      for(let i=1;i<tokens.length;i++){
+        consecutive = tokens[i] === tokens[i-1] ? consecutive + 1 : 1;
+        if(consecutive >= 3) return true;
+      }
+      const counts = new Map();
+      for(const token of tokens) counts.set(token,(counts.get(token)||0)+1);
+      const maxCount = Math.max(...counts.values());
+      if(tokens.length >= 4 && maxCount / tokens.length >= 0.60) return true;
+    }
+    // Very short isolated output is frequently a silence hallucination when VAD confidence is weak.
+    if(tokens.length <= 1 && (speechInfo?.voicedRatio ?? 0) < 0.20) return true;
+    return false;
+  }
+
+  function appendText(text, startSec, speechInfo){
     const clean = String(text || '').replace(/\s+/g,' ').trim();
-    if(!clean) return;
+    if(!clean || isLikelyHallucination(clean, speechInfo)) return;
     const deDuplicated = removeRepeatedOverlap(lastAsrText, clean);
+    if(!deDuplicated || isLikelyHallucination(deDuplicated, speechInfo)) return;
     lastAsrText = clean;
-    if(!deDuplicated) return;
     const withTime = $('timestamps').value === 'on' ? `[${formatTime(startSec)}] ` : '';
     const paragraph = $('paragraphs').value === 'on';
     const joiner = transcript.value.trim() ? (paragraph ? '\n\n' : ' ') : '';
@@ -687,14 +712,12 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       async function loadPipeline(modelId, device){
         const options = {
           device,
+          // Accuracy first: use the unquantized model on WebGPU. WASM uses q8 as a practical fallback.
+          dtype: device === 'webgpu' ? 'fp32' : 'q8',
           progress_callback:(p)=>{
             if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
           }
         };
-        // For Whisper Base on WebGPU, keep the encoder in fp32 and quantize the decoder to q4 for a practical accuracy/performance balance.
-        if(device === 'webgpu'){
-          options.dtype = { encoder_model:'fp32', decoder_model_merged:'q4' };
-        }
         return pipeline('automatic-speech-recognition', modelId, options);
       }
 
@@ -735,13 +758,18 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         try{
           const pipe = await ensureModel();
           const audio = new Float32Array(d.audio);
-          const opts = {
+          const languageNames = { ro:'romanian', en:'english', fr:'french' };
+          const language = languageNames[d.language] || 'romanian';
+          const out = await pipe(audio, {
             task:'transcribe',
+            language,
             return_timestamps:false,
-            language:d.language || 'ro'
-          };
-          const out = await pipe(audio, opts);
-          self.postMessage({type:'result',id:d.id,text:out && out.text ? out.text : '',startSec:d.startSec});
+            // Deterministic decoding reduces invented/repetitive text.
+            temperature:0,
+            condition_on_prev_tokens:false,
+            max_new_tokens:160
+          });
+          self.postMessage({type:'result',id:d.id,text:out && out.text ? out.text : '',startSec:d.startSec,speechInfo:d.speechInfo});
         }catch(err){
           self.postMessage({type:'chunk-error',id:d.id,message:err.message||String(err)});
         }
@@ -780,7 +808,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       }
       if(d.type === 'result'){
         pendingChunks = Math.max(0, pendingChunks - 1);
-        appendText(d.text, d.startSec || 0);
+        appendText(d.text, d.startSec || 0, d.speechInfo || {});
         if(recording) setStatus(t().listeningQueued(pendingChunks));
         else if(pendingChunks === 0) setStatus(t().transcriptionComplete);
       }
@@ -824,20 +852,35 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 
   function hasSpeech(samples){
-    // Very permissive gate: only discard essentially digital silence.
-    // The previous VAD thresholds could reject quiet/processed microphones.
     if(!samples || !samples.length) return false;
-    let sumSq = 0;
-    for(let i=0;i<samples.length;i++){
-      const v = samples[i];
-      sumSq += v*v;
+    const frameSize = Math.max(160, Math.floor(nativeSampleRate * 0.020)); // 20 ms
+    const frameRms = [];
+    for(let i=0;i<samples.length;i+=frameSize){
+      const end = Math.min(samples.length, i + frameSize);
+      let sumSq = 0;
+      for(let j=i;j<end;j++){ const v=samples[j]; sumSq += v*v; }
+      frameRms.push(Math.sqrt(sumSq / Math.max(1,end-i)));
     }
-    const rms = Math.sqrt(sumSq / samples.length);
-    return rms > 0.00005;
+    if(!frameRms.length) return false;
+    const sorted = [...frameRms].sort((a,b)=>a-b);
+    const p20 = sorted[Math.floor((sorted.length-1)*0.20)];
+    const p90 = sorted[Math.floor((sorted.length-1)*0.90)];
+
+    // Slowly learn the room/microphone noise floor from quiet frames only.
+    const quietEstimate = Math.min(p20, 0.012);
+    adaptiveNoiseFloor = adaptiveNoiseFloor * 0.92 + quietEstimate * 0.08;
+    const threshold = Math.max(0.0018, adaptiveNoiseFloor * 2.8);
+    const active = frameRms.filter(v => v > threshold).length;
+    const voicedRatio = active / frameRms.length;
+
+    // Require a meaningful amount of speech, not a click, keyboard tap or amplified room noise.
+    const speech = voicedRatio >= 0.13 && p90 > threshold * 1.25;
+    lastSpeechAnalysis = { speech, voicedRatio, threshold, p90 };
+    return speech;
   }
 
   function flushChunk(force=false){
-    const target = Number($('chunkLength').value) || 3;
+    const target = Number($('chunkLength').value) || 8;
     const secondsAvailable = nativeSampleCount / nativeSampleRate;
     const freshSeconds = freshSampleCount / nativeSampleRate;
 
@@ -869,7 +912,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         id,
         audio:buffer,
         startSec:chunkStart,
-        language:$('language').value || 'ro'
+        language:$('language').value || 'ro',
+        speechInfo:{...lastSpeechAnalysis}
       }, [buffer]);
       if(recording) setStatus(t().listeningPending(pendingChunks));
     }
@@ -896,7 +940,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       return;
     }
     try{
-      stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+      stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:false},video:false});
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
       await audioContext.resume();
       nativeSampleRate = audioContext.sampleRate;
@@ -993,6 +1037,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   window.addEventListener('beforeunload',()=>{ if(stream) stream.getTracks().forEach(t=>t.stop()); if(worker) worker.terminate(); });
 
   applyLanguage();
+  // Preload the local model immediately so the first transcription does not wait for the model download.
+  createWorker();
 })();
 </script>
 </body>
