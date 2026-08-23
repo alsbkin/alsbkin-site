@@ -618,6 +618,64 @@ footer {
   opacity: 1 !important;
 }
 
+
+/* Global song-page navigation and player normalization */
+.song-utility-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  width:min(1050px,94%);
+  margin:18px auto 20px;
+}
+.song-utility-nav a{
+  display:inline-block;
+  min-width:122px;
+  padding:12px 24px;
+  border:2px solid rgba(255,255,255,.35);
+  border-radius:30px;
+  color:#fff !important;
+  font-family:"Exo 2",sans-serif;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.7px;
+  text-decoration:none;
+  text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.72) !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,160,70,.30);
+  transition:.25s ease;
+}
+.song-utility-home{
+  background:linear-gradient(135deg,#740000 0%,#c00000 52%,#ff3030 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,30,30,.35) !important;
+}
+.song-utility-tools{
+  background:linear-gradient(135deg,#b84a00 0%,#f06a00 52%,#ff8c1a 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,120,20,.40) !important;
+}
+.song-utility-nav a:hover,
+.song-utility-nav a:focus-visible{
+  transform:translateY(-3px) scale(1.05);
+  color:#fff !important;
+}
+
+/* Same genre labels, visual states and Spotify dimensions on every song page */
+.version-btn:hover,
+.version-btn.active,
+.version-btn:focus-visible{
+  color:#c00000 !important;
+  background:linear-gradient(135deg,#d9ffc9 0%,#baff8e 52%,#8eff62 100%) !important;
+  border-color:#c9ffb4 !important;
+  box-shadow:0 0 20px rgba(142,255,98,.55) !important;
+}
+.player-area iframe{
+  width:100% !important;
+  height:232px !important;
+}
+@media(max-width:700px){
+  .song-utility-nav{width:94%;gap:10px;margin:14px auto 16px;}
+  .song-utility-nav a{min-width:96px;padding:10px 17px;font-size:13px;}
+  .player-area iframe{height:232px !important;}
+}
 </style>
 <meta content="music.song" property="og:type"/><meta content="Furtuna va trece | ALSBKIN" property="og:title"/><meta content="Furtuna va trece de ALSBKIN este o piesă despre speranță, reziliență și puterea de a merge mai departe. Ascultă versiunile Metal, EDM, Balkan Pop-Folk, Bachata, Kizomba și Salsa și citește versurile." property="og:description"/><meta content="https://alsbkin.ro/furtuna-va-trece.html" property="og:url"/><meta content="ALSBKIN" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Furtuna va trece | ALSBKIN" name="twitter:title"/><meta content="Furtuna va trece de ALSBKIN este o piesă despre speranță, reziliență și puterea de a merge mai departe. Ascultă versiunile Metal, EDM, Balkan Pop-Folk, Bachata, Kizomba și Salsa și citește versurile." name="twitter:description"/><script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -650,19 +708,19 @@ footer {
 }</script><meta content="https://alsbkin.ro/images/covers/furtuna-va-trece.jpg" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="1200" property="og:image:height"/><meta content="https://alsbkin.ro/images/covers/furtuna-va-trece.jpg" name="twitter:image"/></head>
 <body>
 <nav><a class="top-prev" href="in-fiecare-loc.html"><span aria-hidden="true" class="arrow">←</span><span class="top-song-name">În fiecare loc</span></a><a class="songs-nav" href="songs.html">Songs</a><a class="top-next" href="zidul-spart.html"><span class="top-song-name">Zidul spart</span><span aria-hidden="true" class="arrow">→</span></a></nav>
-<main>
+<main><div aria-label="Quick navigation" class="song-utility-nav"><a class="song-utility-home" href="index.html">HOME</a><a class="song-utility-tools" href="free-online-tools.html">TOOLS</a></div>
 <h1 class="song-title">Furtuna va trece</h1>
 <h2 class="section-title versions-title">Ascultă variantele piesei</h2>
 <div class="version-buttons">
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5IjAlJNMbknV4UpoemDlV8?utm_source=generator&amp;si=d9834b800ad54f15" type="button">Folk/Metal/Rock</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5yWSd1oW36Eph0phnL09pn?utm_source=generator&amp;si=d9b446a4f26e4aa6" type="button">EDM/Dance/House</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5ZCUvAMJ2Ovj0OnsUvefzm?utm_source=generator&amp;si=350db13664d744ed" type="button">Balkan Pop-Folk</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/0uDjRfmtaq1LtdhbfPA7nm?utm_source=generator&amp;si=e6989d3a952a451d" type="button">Bachata</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/7nKPUrqrouUwaG3Gvx0Lmy?utm_source=generator&amp;si=ddf5481b5415468d" type="button">Salsa</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/2tNLu0s8cQiz4cJPC1AAUR?utm_source=generator&amp;si=1f66b158091d49ce" type="button">Kizomba</button>
-</div>
+
+
+
+
+
+
+<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5IjAlJNMbknV4UpoemDlV8?utm_source=generator&amp;si=d9834b800ad54f15" type="button">ROCK | METAL | FOLK</button><button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5yWSd1oW36Eph0phnL09pn?utm_source=generator&amp;si=d9b446a4f26e4aa6" type="button">EDM | HOUSE | DANCE</button><button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5ZCUvAMJ2Ovj0OnsUvefzm?utm_source=generator&amp;si=350db13664d744ed" type="button">BALKAN POP-FOLK</button><button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/7nKPUrqrouUwaG3Gvx0Lmy?utm_source=generator&amp;si=ddf5481b5415468d" type="button">SALSA</button><button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/0uDjRfmtaq1LtdhbfPA7nm?utm_source=generator&amp;si=e6989d3a952a451d" type="button">BACHATA</button><button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/2tNLu0s8cQiz4cJPC1AAUR?utm_source=generator&amp;si=1f66b158091d49ce" type="button">KIZOMBA</button></div>
 <div class="player-area" id="playerArea">
-<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" title="Furtuna va trece — ALSBKIN">
+<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" style="" title="Furtuna va trece — ALSBKIN" width="100%">
 </iframe>
 </div>
 <h2 class="section-title lyrics-title">Lyrics / Versuri</h2><p class="lyrics-credit">Versuri scrise de Cristina Vlăduț</p>

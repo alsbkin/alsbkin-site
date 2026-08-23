@@ -673,6 +673,64 @@ footer {
   opacity: 1 !important;
 }
 
+
+/* Global song-page navigation and player normalization */
+.song-utility-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  width:min(1050px,94%);
+  margin:18px auto 20px;
+}
+.song-utility-nav a{
+  display:inline-block;
+  min-width:122px;
+  padding:12px 24px;
+  border:2px solid rgba(255,255,255,.35);
+  border-radius:30px;
+  color:#fff !important;
+  font-family:"Exo 2",sans-serif;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.7px;
+  text-decoration:none;
+  text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.72) !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,160,70,.30);
+  transition:.25s ease;
+}
+.song-utility-home{
+  background:linear-gradient(135deg,#740000 0%,#c00000 52%,#ff3030 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,30,30,.35) !important;
+}
+.song-utility-tools{
+  background:linear-gradient(135deg,#b84a00 0%,#f06a00 52%,#ff8c1a 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,120,20,.40) !important;
+}
+.song-utility-nav a:hover,
+.song-utility-nav a:focus-visible{
+  transform:translateY(-3px) scale(1.05);
+  color:#fff !important;
+}
+
+/* Same genre labels, visual states and Spotify dimensions on every song page */
+.version-btn:hover,
+.version-btn.active,
+.version-btn:focus-visible{
+  color:#c00000 !important;
+  background:linear-gradient(135deg,#d9ffc9 0%,#baff8e 52%,#8eff62 100%) !important;
+  border-color:#c9ffb4 !important;
+  box-shadow:0 0 20px rgba(142,255,98,.55) !important;
+}
+.player-area iframe{
+  width:100% !important;
+  height:232px !important;
+}
+@media(max-width:700px){
+  .song-utility-nav{width:94%;gap:10px;margin:14px auto 16px;}
+  .song-utility-nav a{min-width:96px;padding:10px 17px;font-size:13px;}
+  .player-area iframe{height:232px !important;}
+}
 </style>
 <meta content="music.song" property="og:type"/><meta content="Ridică-te | ALSBKIN" property="og:title"/><meta content="O piesă dedicată tuturor celor care au fost puși la încercare de viață. Indiferent de câte ori cazi, fiecare nou început începe cu hotărârea de a te ridica din nou." property="og:description"/><meta content="https://alsbkin.ro/ridica-te.html" property="og:url"/><meta content="ALSBKIN" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Ridică-te | ALSBKIN" name="twitter:title"/><meta content="O piesă dedicată tuturor celor care au fost puși la încercare de viață. Indiferent de câte ori cazi, fiecare nou început începe cu hotărârea de a te ridica din nou." name="twitter:description"/><script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -697,19 +755,19 @@ footer {
 }</script><meta content="https://alsbkin.ro/images/covers/ridica-te.jpg" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="1200" property="og:image:height"/><meta content="https://alsbkin.ro/images/covers/ridica-te.jpg" name="twitter:image"/></head>
 <body>
 <nav><a class="top-prev" href="din-senin.html"><span aria-hidden="true" class="arrow">←</span><span class="top-song-name">Din senin</span></a><a class="songs-nav" href="songs.html">Songs</a><a class="top-next" href="vantul-hoinar.html"><span class="top-song-name">Vântul hoinar</span><span aria-hidden="true" class="arrow">→</span></a></nav>
-<main>
+<main><div aria-label="Quick navigation" class="song-utility-nav"><a class="song-utility-home" href="index.html">HOME</a><a class="song-utility-tools" href="free-online-tools.html">TOOLS</a></div>
 <h1 class="song-title">Ridică-te</h1>
 <h2 class="section-title versions-title">Ascultă variantele piesei</h2>
 <div class="version-buttons">
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5oS5YqHXSNFAXsIRko7QQ1?utm_source=generator&amp;si=86e23c19a9d04b73" type="button">Folk/Metal/Rock</button>
-<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/0Pe6nsxt1lBW8OCnu5Y6S3?utm_source=generator&amp;si=77e07525dae74d9e" type="button">EDM/Dance/House</button>
-<button class="version-btn" data-src="" type="button">Balkan Pop-Folk</button>
-<button class="version-btn" data-src="" type="button">Bachata</button>
-<button class="version-btn" data-src="" type="button">Salsa</button>
-<button class="version-btn" data-src="" type="button">Kizomba</button>
-</div>
+
+
+
+
+
+
+<button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/5oS5YqHXSNFAXsIRko7QQ1?utm_source=generator&amp;si=86e23c19a9d04b73" type="button">ROCK | METAL | FOLK</button><button class="version-btn has-player" data-src="https://open.spotify.com/embed/track/0Pe6nsxt1lBW8OCnu5Y6S3?utm_source=generator&amp;si=77e07525dae74d9e" type="button">EDM | HOUSE | DANCE</button><button class="version-btn" data-src="" type="button">BALKAN POP-FOLK</button><button class="version-btn" data-src="" type="button">SALSA</button><button class="version-btn" data-src="" type="button">BACHATA</button><button class="version-btn" data-src="" type="button">KIZOMBA</button></div>
 <div class="player-area" id="playerArea">
-<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" title="Mircea, Ștefan, Mihai — ALSBKIN">
+<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" height="232" id="variantPlayer" loading="lazy" style="" title="Mircea, Ștefan, Mihai — ALSBKIN" width="100%">
 </iframe>
 </div>
 <h2 class="section-title lyrics-title">Lyrics / Versuri</h2><p class="lyrics-credit">Versuri scrise de Alin Pop</p>

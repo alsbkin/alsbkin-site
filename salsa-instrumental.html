@@ -594,6 +594,64 @@
       }
     }
 
+
+/* Global song-page navigation and player normalization */
+.song-utility-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  width:min(1050px,94%);
+  margin:18px auto 20px;
+}
+.song-utility-nav a{
+  display:inline-block;
+  min-width:122px;
+  padding:12px 24px;
+  border:2px solid rgba(255,255,255,.35);
+  border-radius:30px;
+  color:#fff !important;
+  font-family:"Exo 2",sans-serif;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.7px;
+  text-decoration:none;
+  text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(0,0,0,.72) !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,160,70,.30);
+  transition:.25s ease;
+}
+.song-utility-home{
+  background:linear-gradient(135deg,#740000 0%,#c00000 52%,#ff3030 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,30,30,.35) !important;
+}
+.song-utility-tools{
+  background:linear-gradient(135deg,#b84a00 0%,#f06a00 52%,#ff8c1a 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.35),0 0 22px rgba(255,120,20,.40) !important;
+}
+.song-utility-nav a:hover,
+.song-utility-nav a:focus-visible{
+  transform:translateY(-3px) scale(1.05);
+  color:#fff !important;
+}
+
+/* Same genre labels, visual states and Spotify dimensions on every song page */
+.version-btn:hover,
+.version-btn.active,
+.version-btn:focus-visible{
+  color:#c00000 !important;
+  background:linear-gradient(135deg,#d9ffc9 0%,#baff8e 52%,#8eff62 100%) !important;
+  border-color:#c9ffb4 !important;
+  box-shadow:0 0 20px rgba(142,255,98,.55) !important;
+}
+.player-area iframe{
+  width:100% !important;
+  height:232px !important;
+}
+@media(max-width:700px){
+  .song-utility-nav{width:94%;gap:10px;margin:14px auto 16px;}
+  .song-utility-nav a{min-width:96px;padding:10px 17px;font-size:13px;}
+  .player-area iframe{height:232px !important;}
+}
 </style>
 <meta content="music.song" property="og:type"/><meta content="Salsa Instrumental | ALSBKIN" property="og:title"/><meta content="Salsa Instrumental by ALSBKIN: original salsa instrumental music created for dancing, relaxation, workouts, parties and Latin music lovers." property="og:description"/><meta content="https://alsbkin.ro/salsa-instrumental.html" property="og:url"/><meta content="ALSBKIN" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Salsa Instrumental | ALSBKIN" name="twitter:title"/><meta content="Salsa Instrumental by ALSBKIN: original salsa instrumental music created for dancing, relaxation, workouts, parties and Latin music lovers." name="twitter:description"/><script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -621,19 +679,18 @@
 }</script><meta content="https://alsbkin.ro/images/covers/salsa-instrumental.jpg" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="1200" property="og:image:height"/><meta content="https://alsbkin.ro/images/covers/salsa-instrumental.jpg" name="twitter:image"/></head>
 <body>
 <nav><a class="top-prev" href="rovine-scrisoarea-iii.html"><span aria-hidden="true" class="arrow">←</span><span class="top-song-name">Rovine (Scrisoarea III)</span></a><a class="songs-nav" href="songs.html">Songs</a><a class="top-next" href="soarele-si-luna.html"><span class="top-song-name">Soarele și luna</span><span aria-hidden="true" class="arrow">→</span></a></nav>
-<main>
+<main><div aria-label="Quick navigation" class="song-utility-nav"><a class="song-utility-home" href="index.html">HOME</a><a class="song-utility-tools" href="free-online-tools.html">TOOLS</a></div>
 <h1 class="song-title">Salsa Instrumental</h1>
 <h2 class="section-title versions-title">Ascultă variantele piesei</h2>
 <div class="version-buttons">
-<button class="version-btn" data-sources="" type="button">Folk/Metal/Rock</button>
-<button class="version-btn" data-sources="" type="button">EDM/Dance/House</button>
-<button class="version-btn" data-sources="" type="button">Balkan Pop-Folk</button>
-<button class="version-btn" data-sources="" type="button">Bachata</button>
-<button class="version-btn has-player" data-sources="https://open.spotify.com/embed/track/0vMbrvAou7Nq2QxV5tP8rp?utm_source=generator&amp;si=7445f28c606b4626||https://open.spotify.com/embed/track/0hAz3aaQsPckgkuD8BaSxr?utm_source=generator&amp;si=130497501ecd4a40||https://open.spotify.com/embed/track/3VG0HHg3NWQjKqn6PB5UPJ?utm_source=generator&amp;si=17696fb9f8dc4f6d||https://open.spotify.com/embed/track/3E3yviZVLo5DZ96iERxviY?utm_source=generator&amp;si=011b8e25f7f84e43" type="button">Salsa</button>
-<button class="version-btn" data-sources="" type="button">Kizomba</button>
-</div>
-<div class="player-area" id="playerArea"><div id="variantPlayers"></div></div>
 
+
+
+
+
+
+<button class="version-btn" data-sources="" type="button">ROCK | METAL | FOLK</button><button class="version-btn" data-sources="" type="button">EDM | HOUSE | DANCE</button><button class="version-btn" data-sources="" type="button">BALKAN POP-FOLK</button><button class="version-btn has-player" data-sources="https://open.spotify.com/embed/track/0vMbrvAou7Nq2QxV5tP8rp?utm_source=generator&amp;si=7445f28c606b4626||https://open.spotify.com/embed/track/0hAz3aaQsPckgkuD8BaSxr?utm_source=generator&amp;si=130497501ecd4a40||https://open.spotify.com/embed/track/3VG0HHg3NWQjKqn6PB5UPJ?utm_source=generator&amp;si=17696fb9f8dc4f6d||https://open.spotify.com/embed/track/3E3yviZVLo5DZ96iERxviY?utm_source=generator&amp;si=011b8e25f7f84e43" type="button">SALSA</button><button class="version-btn" data-sources="" type="button">BACHATA</button><button class="version-btn" data-sources="" type="button">KIZOMBA</button></div>
+<div class="player-area" id="playerArea"><div id="variantPlayers"></div></div>
 <section class="song-description"><h2>About</h2><p>Enjoy original salsa instrumental music created for dancing, relaxation, workouts, parties, and Latin music lovers.</p></section>
 </main>
 <footer>
