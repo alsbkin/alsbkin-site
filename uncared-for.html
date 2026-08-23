@@ -656,6 +656,38 @@ footer {
 <style>
 .lyrics::before{width:min(88%,820px)!important;aspect-ratio:2585/3428!important;filter:brightness(.58) saturate(.95) contrast(1.04)!important;opacity:1!important;}
 @media(max-width:900px){.lyrics::before{width:98%!important;filter:brightness(.46) saturate(.92) contrast(1.03)!important;}}
+
+/* Corrected visual adjustments */
+
+.lyrics{
+  font-size:15.3px !important;
+  opacity:1 !important;
+  transform:translateY(-30px) !important;
+  margin-bottom:-30px !important;
+  color:rgba(232,247,255,.50) !important;
+}
+.lyrics::before{
+  transform:translate(-50%,30px) !important;
+}
+.song-description{
+  font-size:15.3px !important;
+  opacity:1 !important;
+}
+.song-description h2{
+  font-size:28.9px !important;
+  opacity:1 !important;
+  color:rgba(216,195,139,.50) !important;
+}
+.song-description p{
+  font-size:15.3px !important;
+  opacity:1 !important;
+  color:rgba(217,221,227,.50) !important;
+}
+@media(max-width:900px){
+  .lyrics{font-size:13.005px !important;}
+  .song-description p{font-size:15.3px !important;}
+}
+
 </style>
 <meta content="music.song" property="og:type"/>
 <meta content="Uncared For | ALSBKIN" property="og:title"/>
