@@ -648,46 +648,79 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
   function createWorker(){
     const workerCode = `
-      import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2';
+      import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1';
       env.allowLocalModels = false;
       env.useBrowserCache = true;
+
       let transcriber = null;
+      let modelPromise = null;
       let deviceUsed = 'wasm';
+      let workQueue = Promise.resolve();
+
+      function loadPipeline(device){
+        return pipeline('automatic-speech-recognition','onnx-community/whisper-tiny',{
+          device,
+          progress_callback:(p)=>{
+            if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
+          }
+        });
+      }
+
       async function ensureModel(){
         if(transcriber) return transcriber;
-        deviceUsed = self.navigator && self.navigator.gpu ? 'webgpu' : 'wasm';
-        self.postMessage({type:'status', key:'loadingModel', device:deviceUsed});
+        if(modelPromise) return modelPromise;
+
+        modelPromise = (async()=>{
+          deviceUsed = self.navigator && self.navigator.gpu ? 'webgpu' : 'wasm';
+          self.postMessage({type:'status', key:'loadingModel', device:deviceUsed});
+          try{
+            transcriber = await loadPipeline(deviceUsed);
+          }catch(err){
+            if(deviceUsed === 'webgpu'){
+              deviceUsed = 'wasm';
+              self.postMessage({type:'status', key:'switchingToWasm'});
+              transcriber = await loadPipeline('wasm');
+            }else{
+              throw err;
+            }
+          }
+          self.postMessage({type:'ready',device:deviceUsed});
+          return transcriber;
+        })();
+
         try{
-          transcriber = await pipeline('automatic-speech-recognition','onnx-community/whisper-tiny',{device:deviceUsed,progress_callback:(p)=>{
-            if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
-          }});
+          return await modelPromise;
         }catch(err){
-          if(deviceUsed === 'webgpu'){
-            deviceUsed = 'wasm';
-            self.postMessage({type:'status', key:'switchingToWasm'});
-            transcriber = await pipeline('automatic-speech-recognition','onnx-community/whisper-tiny',{device:'wasm',progress_callback:(p)=>{
-              if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
-            }});
-          }else throw err;
+          modelPromise = null;
+          throw err;
         }
-        self.postMessage({type:'ready',device:deviceUsed});
-        return transcriber;
       }
-      self.onmessage = async (e)=>{
+
+      async function transcribeChunk(d){
+        try{
+          const pipe = await ensureModel();
+          const audio = new Float32Array(d.audio);
+          const opts = {task:'transcribe', return_timestamps:false};
+          if(d.language && d.language !== 'auto') opts.language = d.language;
+          const out = await pipe(audio, opts);
+          self.postMessage({type:'result',id:d.id,text:out && out.text ? out.text : '',startSec:d.startSec});
+        }catch(err){
+          self.postMessage({type:'chunk-error',id:d.id,message:err.message||String(err)});
+        }
+      }
+
+      self.onmessage = (e)=>{
         const d=e.data;
         if(d.type==='init'){
-          try{ await ensureModel(); }catch(err){ self.postMessage({type:'error',message:err.message||String(err)}); }
+          ensureModel().catch(err=>self.postMessage({type:'error',message:err.message||String(err)}));
           return;
         }
         if(d.type==='transcribe'){
-          try{
-            const pipe=await ensureModel();
-            const audio=new Float32Array(d.audio);
-            const opts={task:'transcribe',return_timestamps:false};
-            if(d.language && d.language!=='auto') opts.language=d.language;
-            const out=await pipe(audio,opts);
-            self.postMessage({type:'result',id:d.id,text:out && out.text ? out.text : '',startSec:d.startSec});
-          }catch(err){ self.postMessage({type:'chunk-error',id:d.id,message:err.message||String(err)}); }
+          // Run Whisper chunks sequentially. This avoids multiple concurrent model
+          // initializations/inference sessions on slower WASM-only devices.
+          workQueue = workQueue.then(()=>transcribeChunk(d)).catch(err=>{
+            self.postMessage({type:'chunk-error',id:d.id,message:err.message||String(err)});
+          });
         }
       };
     `;
