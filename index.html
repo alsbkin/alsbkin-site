@@ -37,72 +37,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <!-- Date structurate Schema.org -->
-<script type="application/ld+json">
-  {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://alsbkin.ro/#website",
-      "url": "https://alsbkin.ro/",
-      "name": "ALSBKIN",
-      "description": "Site-ul oficial al proiectului muzical ALSBKIN.",
-      "inLanguage": "ro-RO"
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://alsbkin.ro/#webpage",
-      "url": "https://alsbkin.ro/",
-      "name": "ALSBKIN | Muzică originală și reinterpretări moderne",
-      "description": "Site-ul oficial ALSBKIN. Descoperă muzică originală și reinterpretări moderne în stiluri Rock, Metal, EDM, Balkan Pop-Folk, Bachata, Salsa și Kizomba.",
-      "isPartOf": {
-        "@id": "https://alsbkin.ro/#website"
-      },
-      "about": {
-        "@id": "https://alsbkin.ro/#artist"
-      },
-      "primaryImageOfPage": {
-        "@id": "https://alsbkin.ro/#primaryimage"
-      },
-      "inLanguage": "ro-RO"
-    },
-    {
-      "@type": "ImageObject",
-      "@id": "https://alsbkin.ro/#primaryimage",
-      "url": "https://alsbkin.ro/banner%20ALSBKIN%20updatat.jpeg",
-      "contentUrl": "https://alsbkin.ro/banner%20ALSBKIN%20updatat.jpeg",
-      "caption": "Bannerul oficial ALSBKIN"
-    },
-    {
-      "@type": "MusicGroup",
-      "@id": "https://alsbkin.ro/#artist",
-      "name": "ALSBKIN",
-      "url": "https://alsbkin.ro/",
-      "image": {
-        "@id": "https://alsbkin.ro/#primaryimage"
-      },
-      "description": "Proiect muzical de muzică originală și reinterpretări moderne.",
-      "genre": [
-        "Romanian Folk Metal",
-        "Metal",
-        "EDM",
-        "Salsa",
-        "Bachata",
-        "Kizomba",
-        "Balkan Pop-Folk"
-      ],
-      "sameAs": [
-        "https://www.youtube.com/@ALSBKIN",
-        "https://music.youtube.com/@alsbkin",
-        "https://open.spotify.com/artist/2vYVned6V2gBgsn0bMLHNf",
-        "https://www.instagram.com/alsbkin/",
-        "https://www.facebook.com/alsbkin",
-        "https://www.tiktok.com/@alsbkin"
-      ]
-    }
-  ]
-}
-  </script>
+
 <style>
 * {
   box-sizing: border-box;
@@ -1015,8 +950,35 @@ header {
 }
 
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet"/>
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Marck+Script&amp;display=swap" rel="stylesheet"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MusicGroup",
+      "@id": "https://alsbkin.ro/#artist",
+      "name": "ALSBKIN",
+      "url": "https://alsbkin.ro/",
+      "sameAs": [
+        "https://www.youtube.com/@ALSBKIN",
+        "https://music.youtube.com/@alsbkin",
+        "https://open.spotify.com/artist/2vYVned6V2gBgsn0bMLHNf",
+        "https://www.instagram.com/alsbkin/",
+        "https://www.facebook.com/alsbkin",
+        "https://www.tiktok.com/@alsbkin"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://alsbkin.ro/#page",
+      "url": "https://alsbkin.ro/",
+      "name": "ALSBKIN | Muzică originală și reinterpretări moderne",
+      "publisher": {
+        "@id": "https://alsbkin.ro/#artist"
+      }
+    }
+  ]
+}</script></head>
 <body>
 <nav>
 <a class="nav-left" href="#video">Video</a>
