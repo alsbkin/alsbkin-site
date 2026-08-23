@@ -747,7 +747,28 @@ footer {
       "image": "https://alsbkin.ro/images/covers/toate-drumurile-au-dus-la-tine.jpg"
     }
   ]
-}</script></head>
+}</script>
+<style id="requested-song-layout-fix-20260824">
+/* Requested tighter HOME / TOOLS placement on song pages */
+main {
+  padding-top: 12px !important;
+}
+.song-utility-nav {
+  width: min(650px, 90%) !important;
+  margin: 4px auto 6px !important;
+}
+.song-title {
+  margin-top: 0 !important;
+}
+@media (max-width: 700px) {
+  main { padding-top: 8px !important; }
+  .song-utility-nav {
+    width: min(520px, 92%) !important;
+    margin: 4px auto 6px !important;
+  }
+}
+</style>
+</head>
 <body>
 <nav><a class="top-prev" href="all-roads-led-to-you.html"><span aria-hidden="true" class="arrow">←</span><span class="top-song-name">All Roads Led to You</span></a><a class="songs-nav" href="songs.html">Songs</a><a class="top-next" href="from-my-soul.html"><span class="top-song-name">From My Soul</span><span aria-hidden="true" class="arrow">→</span></a></nav>
 <main><div aria-label="Quick navigation" class="song-utility-nav"><a class="song-utility-home" href="index.html">HOME</a><a class="song-utility-tools" href="free-online-tools.html">TOOLS</a></div>
