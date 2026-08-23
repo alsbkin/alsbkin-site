@@ -3,20 +3,20 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Free Online Tools: Audio, Video, Image &amp; PDF | ALSBKIN</title>
-<meta content="Free browser-based tools by ALSBKIN for audio, PDF, video and images, including editing, conversion, BPM and key detection, PDF merging, splitting, compression." name="description"/>
+<title>Free Online Tools &amp; Apps: Transcriber, Audio, Video &amp; PDF | ALSBKIN</title>
+<meta content="Free browser tools by ALSBKIN for transcription, audio, PDF, video and images, plus a growing collection of mobile applications." name="description"/>
 <meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
 <link href="https://alsbkin.ro/free-online-tools.html" rel="canonical"/>
 <meta content="ALSBKIN" name="author"/>
 <meta content="#170800" name="theme-color"/>
 <meta content="website" property="og:type"/>
 <meta content="ALSBKIN" property="og:site_name"/>
-<meta content="Free Online Tools: Audio &amp; Video Editors | ALSBKIN" property="og:title"/>
-<meta content="Free browser-based tools by ALSBKIN for audio, PDF, video and images, including editing, conversion, BPM and key detection, PDF merging, splitting, compression." property="og:description"/>
+<meta content="Free Online Tools &amp; Apps | ALSBKIN" property="og:title"/>
+<meta content="Free browser tools by ALSBKIN for transcription, audio, PDF, video and images, plus a growing collection of mobile applications." property="og:description"/>
 <meta content="https://alsbkin.ro/free-online-tools.html" property="og:url"/>
 <meta content="summary" name="twitter:card"/>
-<meta content="Free Online Tools: Audio &amp; Video Editors | ALSBKIN" name="twitter:title"/>
-<meta content="Free browser-based tools by ALSBKIN for audio, PDF, video and images, including editing, conversion, BPM and key detection, PDF merging, splitting, compression." name="twitter:description"/>
+<meta content="Free Online Tools &amp; Apps | ALSBKIN" name="twitter:title"/>
+<meta content="Free browser tools by ALSBKIN for transcription, audio, PDF, video and images, plus a growing collection of mobile applications." name="twitter:description"/>
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&amp;family=Marck+Script&amp;display=swap" rel="stylesheet"/>
@@ -139,13 +139,23 @@ footer {
 #image-tools h2,#image-tools .category-description,#image-tools .category-empty{background:linear-gradient(90deg,#ff4d4d 0%,#e5b42c 50%,#4f9bea 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;text-shadow:0 2px 4px rgba(0,0,0,.95)!important}
 #pdf-tools .tool-link{border-color:rgba(255,77,77,.45)}#video-tools .tool-link{border-color:rgba(201,154,25,.42)}
 
+/* New category destinations */
+.category-jump a.transcriber-jump{background:linear-gradient(135deg,#061a2c,#0b2d4a 52%,#13466f);box-shadow:0 7px 18px rgba(0,0,0,.34),0 0 18px rgba(10,49,82,.58)}
+.category-jump a.transcriber-jump:hover{background:linear-gradient(135deg,#0a2843,#10446f 52%,#1b5b8d)}
+.category-jump a.mobile-jump{background:linear-gradient(135deg,#0d4d1c,#14752a 52%,#20a63a);box-shadow:0 7px 18px rgba(0,0,0,.34),0 0 18px rgba(32,166,58,.42)}
+.category-jump a.mobile-jump:hover{background:linear-gradient(135deg,#126525,#1b8d34 52%,#2bc84c)}
+
 </style>
 
-<script type="application/ld+json">{
+<script type="application/ld+json">
+{
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "MusicGroup",
+      "@type": [
+        "MusicGroup",
+        "Organization"
+      ],
       "@id": "https://alsbkin.ro/#artist",
       "name": "ALSBKIN",
       "url": "https://alsbkin.ro/",
@@ -156,26 +166,43 @@ footer {
         "https://www.instagram.com/alsbkin/",
         "https://www.facebook.com/alsbkin",
         "https://www.tiktok.com/@alsbkin"
-      ]
+      ],
+      "description": "ALSBKIN is an independent creative brand for original music, browser-based tools and software applications."
     },
     {
-      "@type": "WebApplication",
-      "@id": "https://alsbkin.ro/free-online-tools.html#app",
-      "name": "FREE ONLINE TOOLS",
+      "@type": "CollectionPage",
+      "@id": "https://alsbkin.ro/free-online-tools.html#page",
+      "name": "ALSBKIN Free Online Tools & Apps",
       "url": "https://alsbkin.ro/free-online-tools.html",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any modern web browser",
-      "isAccessibleForFree": true,
+      "description": "Free browser tools by ALSBKIN for transcription, audio, PDF, video and images, plus a growing collection of mobile applications.",
+      "creator": {
+        "@id": "https://alsbkin.ro/#artist"
+      },
       "publisher": {
         "@id": "https://alsbkin.ro/#artist"
-      }
+      },
+      "hasPart": [
+        {
+          "@type": "WebApplication",
+          "name": "Meeting Transcriber",
+          "url": "https://alsbkin.ro/free-online-meeting-transcriber.html",
+          "applicationCategory": "UtilitiesApplication",
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "CollectionPage",
+          "name": "ALSBKIN Mobile Apps",
+          "url": "https://alsbkin.ro/mobile-apps.html"
+        }
+      ]
     }
   ]
-}</script></head>
+}
+</script></head>
 <body>
 <nav><a class="home-nav" href="index.html"><span class="nav-main">HOME</span></a><a class="songs-nav" href="songs.html">SONGS</a></nav>
 <main><h1>FREE ONLINE TOOLS</h1>
-<p class="brand-byline">by ALSBKIN</p><p class="intro">Free online tools by ALSBKIN, all in one place. Explore practical browser-based tools for audio, video, images and PDF files. More tools will be added over time.</p><div aria-label="Tool categories" class="category-jump"><a href="#audio-tools">AUDIO</a><a href="#pdf-tools">PDF</a><a href="#video-tools">VIDEO</a><a href="#image-tools">IMAGE</a></div><div class="category-grid"><section class="category-card" id="audio-tools"><h2>🎵 AUDIO TOOLS</h2><p class="category-description">Cut, convert and edit audio directly in your browser.</p>
+<p class="brand-byline">by ALSBKIN</p><p class="intro">Free online tools and applications by ALSBKIN, all in one place. Explore the meeting transcriber, practical browser-based tools for audio, video, images and PDF files, plus a growing collection of mobile apps.</p><div aria-label="Tool categories" class="category-jump"><a class="transcriber-jump" href="free-online-meeting-transcriber.html">TRANSCRIBER</a><a href="#audio-tools">AUDIO</a><a href="#pdf-tools">PDF</a><a href="#video-tools">VIDEO</a><a href="#image-tools">IMAGE</a><a class="mobile-jump" href="mobile-apps.html">MOBILE APPS</a></div><div class="category-grid"><section class="category-card" id="audio-tools"><h2>🎵 AUDIO TOOLS</h2><p class="category-description">Cut, convert and edit audio directly in your browser.</p>
 <div class="tool-list">
 <a class="tool-link" href="free-online-audio-cutter.html"><span class="tool-icon">✂️</span><span class="tool-copy"><span class="tool-name">Audio Cutter</span><span class="tool-desc">Cut MP3, WAV and supported audio files with precise selection, waveform preview and local export.</span></span></a>
 <a class="tool-link" href="free-online-audio-converter.html"><span class="tool-icon">🔄</span><span class="tool-copy"><span class="tool-name">Audio Converter</span><span class="tool-desc">Convert supported audio to MP3, WAV, WebM audio or OGG where your browser supports it.</span></span></a>
@@ -192,5 +219,5 @@ footer {
 <a class="tool-link" href="free-online-video-joiner.html"><span class="tool-icon">🔗</span><span><span class="tool-name">Video Joiner / Merger</span><span class="tool-desc">Reorder and merge video clips with optional fade or crossfade-style transitions.</span></span></a>
 <a class="tool-link" href="free-online-video-speed-changer.html"><span class="tool-icon">⏱️</span><span><span class="tool-name">Video Speed Changer</span><span class="tool-desc">Slow down or speed up video from 0.50× to 2.00×.</span></span></a>
 <a class="tool-link" href="free-online-video-rotate.html"><span class="tool-icon">↻</span><span><span class="tool-name">Video Rotator / Flipper</span><span class="tool-desc">Rotate video 90° or 180°, or flip it horizontally or vertically.</span></span></a>
-<a class="tool-link" href="free-online-video-cropper.html"><span class="tool-icon">▣</span><span><span class="tool-name">Video Cropper</span><span class="tool-desc">Crop video to 16:9, 9:16, 1:1 or 4:5 and reposition the frame.</span></span></a></div></section><section class="category-card" id="image-tools"><h2>🖼️ IMAGE TOOLS</h2><p class="category-description">Resize, convert, compress and edit images directly in your browser.</p><div class="category-empty">More image tools coming soon.</div></section></div><div class="hub-privacy">🔒 Current ALSBKIN media tools process your files locally in your browser. Your files are not uploaded to a server and stay on your device.</div><div class="contact-tools"><a class="email-button" href="mailto:alsbkin@gmail.com">Send email</a></div><section aria-labelledby="tools-info" class="seo-info"><h2 id="tools-info">Free Browser-Based Online Tools</h2><p>ALSBKIN Free Online Tools is a growing collection of practical utilities for audio, PDF, video and image tasks. The audio collection includes tools for cutting, converting, merging, volume, speed, fades, BPM detection and musical key analysis. PDF tools include merging, splitting and page extraction, page organization and rearranging, conversion, rotation and compression. Video tools include cutting, volume and mute, compression, audio extraction, merging, speed changes, rotation and cropping.</p><p>Current media tools are designed to process files locally on your device rather than uploading them for processing. New free online tools will be added to each category over time.</p></section></main><footer>© 2026 ALSBKIN. All rights reserved.</footer>
+<a class="tool-link" href="free-online-video-cropper.html"><span class="tool-icon">▣</span><span><span class="tool-name">Video Cropper</span><span class="tool-desc">Crop video to 16:9, 9:16, 1:1 or 4:5 and reposition the frame.</span></span></a></div></section><section class="category-card" id="image-tools"><h2>🖼️ IMAGE TOOLS</h2><p class="category-description">Resize, convert, compress and edit images directly in your browser.</p><div class="category-empty">More image tools coming soon.</div></section></div><div class="hub-privacy">🔒 Current ALSBKIN media tools process your files locally in your browser. Your files are not uploaded to a server and stay on your device.</div><div class="contact-tools"><a class="email-button" href="mailto:alsbkin@gmail.com">Send email</a></div><section aria-labelledby="tools-info" class="seo-info"><h2 id="tools-info">Free Browser-Based Online Tools</h2><p>ALSBKIN is an independent creative brand producing original music, browser-based utilities and software applications. ALSBKIN Free Online Tools includes a private meeting transcriber plus practical utilities for audio, PDF, video and image tasks. The audio collection covers cutting, conversion, merging, volume, speed, fades, BPM detection and musical key analysis; PDF and video tools cover common editing, conversion and organization tasks.</p><p>Current media tools are designed to process files locally on your device rather than uploading them for processing. New browser tools and mobile applications will be added over time, making ALSBKIN a home for both independent music and practical software.</p></section></main><footer>© 2026 ALSBKIN. All rights reserved.</footer>
 </body></html>

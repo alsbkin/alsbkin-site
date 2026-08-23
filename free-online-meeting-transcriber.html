@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Free Online Meeting Transcriber | Local Speech to Text | ALSBKIN</title>
+<meta name="description" content="Transcribe meetings and ambient speech directly in your browser, keep audio private, add timestamps and export the transcript locally as Word or TXT."/>
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+<link rel="canonical" href="https://alsbkin.ro/free-online-meeting-transcriber.html"/>
+<meta name="author" content="ALSBKIN"/>
+<meta name="theme-color" content="#170800"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="ALSBKIN"/>
+<meta property="og:title" content="Free Online Meeting Transcriber | ALSBKIN"/>
+<meta property="og:description" content="Private browser-based meeting transcription with local speech recognition, timestamps and local Word export."/>
+<meta property="og:url" content="https://alsbkin.ro/free-online-meeting-transcriber.html"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Free Online Meeting Transcriber | ALSBKIN"/>
+<meta name="twitter:description" content="Transcribe meetings locally in your browser and export the transcript as Word or TXT."/>
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+*{box-sizing:border-box}
+:root{--green:#39ff14;--cyan:#8fd8ff;--orange1:#170800;--orange2:#3d1600;--orange3:#6c2f00;--orange4:#804e11;--panel:rgba(20,7,1,.88);--panel2:rgba(42,14,2,.82);--blue:#4f9bea;--red:#d00000}
+html{scroll-behavior:smooth}
+body,body *{text-shadow:0 2px 4px rgba(0,0,0,.92),0 0 8px rgba(0,0,0,.55)}
+body{margin:0;min-height:100vh;font-family:"Exo 2",sans-serif;color:var(--green);text-align:center;background:radial-gradient(circle at 50% 8%,rgba(128,98,52,.24),transparent 34%),linear-gradient(145deg,var(--orange1) 0%,var(--orange2) 34%,var(--orange3) 68%,var(--orange4) 100%)}
+nav{position:sticky;top:0;z-index:1000;display:flex;justify-content:center;align-items:center;gap:14px;padding:12px 14px;background:rgba(12,4,0,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.16)}
+nav a{display:inline-block;padding:10px 20px;color:#fff;text-decoration:none;font-weight:800;border-radius:28px;border:2px solid rgba(255,255,255,.34);transition:.25s ease}
+nav .home{background:linear-gradient(135deg,#3a0000,#680000 48%,#801818)}
+nav .tools{background:linear-gradient(135deg,#451a00,#733400 48%,#804f11)}
+nav .songs{background:linear-gradient(135deg,#102639,#123c5c 52%,#315f79)}
+nav a:hover{transform:translateY(-2px) scale(1.04)}
+main{width:min(1120px,94%);margin:0 auto;padding:44px 0 72px}
+.language-switcher{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 16px}
+.flag-btn{position:relative;display:inline-flex;justify-content:center;align-items:center;width:92px;height:56px;border-radius:12px;border:2px solid rgba(255,255,255,.38);cursor:pointer;overflow:hidden;box-shadow:0 8px 18px rgba(0,0,0,.25);transition:.22s ease;background:#222}
+.flag-btn:hover{transform:translateY(-2px) scale(1.03)}
+.flag-btn.active{box-shadow:0 0 0 3px rgba(57,255,20,.34),0 10px 24px rgba(0,0,0,.28);border-color:rgba(57,255,20,.72)}
+.flag-btn .flag-text{position:relative;z-index:2;font-weight:800;font-size:19px;letter-spacing:.7px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.95)}
+.flag-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.06),rgba(0,0,0,.12));z-index:1}
+.flag-en{
+  background-color:#012169;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='s'%3E%3Cpath d='M0 0v30h60V0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23s)'%3E%3Cpath d='M0 0v30h60V0z' fill='%23012169'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  background-position:center;
+}
+.flag-en::before{content:none}
+.flag-ro{background:linear-gradient(90deg,#002B7F 0 33.333%,#FCD116 33.333% 66.666%,#CE1126 66.666% 100%)}
+.flag-fr{background:linear-gradient(90deg,#0055A4 0 33.333%,#FFFFFF 33.333% 66.666%,#EF4135 66.666% 100%)}
+h1{margin:0 0 8px;font-family:"Marck Script",cursive;font-size:clamp(46px,7vw,76px);color:var(--green);text-shadow:0 0 18px rgba(57,255,20,.18),0 3px 18px rgba(0,0,0,.5)}
+.brand-byline{margin:-2px 0 18px;font-size:14px;font-weight:700;letter-spacing:1.2px;color:var(--cyan);text-transform:uppercase}
+.subtitle{max-width:860px;margin:0 auto 24px;font-size:18px;line-height:1.65}
+.privacy-note{max-width:900px;margin:0 auto 24px;padding:14px 18px;border:1px solid rgba(45,125,220,.55);border-radius:16px;background:rgba(20,58,105,.30);font-weight:700;color:var(--blue)!important;text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 9px rgba(45,125,220,.62)!important}
+.panel{margin:0 auto 24px;padding:24px;background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid rgba(255,230,196,.28);border-radius:22px;box-shadow:0 18px 42px rgba(41,10,0,.34),0 0 30px rgba(57,255,20,.08)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.field{padding:14px;background:rgba(0,0,0,.20);border-radius:14px}
+.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:800}
+.field select,.field input{width:100%;padding:11px 10px;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:#0b0500;color:#fff;font:inherit;text-align:center}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;margin:4px 0 16px}
+button,.download-link{border:0;border-radius:28px;padding:12px 22px;font-family:"Exo 2",sans-serif;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;transition:.23s ease}
+button:hover,.download-link:hover{transform:translateY(-2px) scale(1.02)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-start{background:linear-gradient(135deg,#146c00,#20a000 55%,#39ff14);color:#fff}
+.btn-pause{background:linear-gradient(135deg,#7a5200,#b17a00 55%,#e1a900);color:#fff}
+.btn-stop{background:linear-gradient(135deg,#760000,#a90000 55%,#d00000);color:#fff}
+.btn-blue{background:linear-gradient(135deg,#1f5f9f 0%,#2d7ddc 52%,#4f9bea 100%);color:#fff}
+.btn-ghost{background:#24150d;color:#fff;border:1px solid rgba(255,255,255,.24)}
+.mic-card{display:flex;align-items:center;justify-content:center;gap:14px;min-height:90px;margin:0 0 18px;padding:16px;border:1px solid rgba(57,255,20,.34);border-radius:18px;background:rgba(0,0,0,.20)}
+.mic-dot{width:18px;height:18px;border-radius:50%;background:#555;box-shadow:0 0 0 rgba(57,255,20,0)}
+.mic-dot.live{background:var(--green);animation:pulse 1.4s infinite}
+.mic-dot.paused{background:#e1a900}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(57,255,20,.65)}50%{box-shadow:0 0 0 12px rgba(57,255,20,0)}}
+.status{margin:0 auto 18px;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.22);line-height:1.55;color:var(--cyan)}
+.progress{height:10px;margin:10px auto 0;max-width:780px;background:rgba(0,0,0,.32);border-radius:999px;overflow:hidden;display:none}
+.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#167b00,#39ff14);transition:width .25s ease}
+.transcript-wrap{text-align:left}
+.transcript-toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.transcript-title{font-size:20px;font-weight:800;color:var(--blue)}
+#transcript{width:100%;min-height:340px;resize:vertical;padding:18px;border:1px solid rgba(79,155,234,.45);border-radius:16px;background:rgba(0,0,0,.34);color:#fff;font:500 16px/1.65 "Exo 2",sans-serif;text-shadow:none;outline:none}
+#transcript:focus{border-color:#70b3ff;box-shadow:0 0 0 3px rgba(45,125,220,.14)}
+.small{font-size:13px;opacity:.88;line-height:1.6}
+.switch-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+.speaker-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin-top:14px}
+.speaker-row select{padding:10px 14px;border-radius:20px;background:#0b0500;color:#fff;border:1px solid rgba(255,255,255,.24);font:inherit}
+.seo-info{margin:24px auto 0;padding:24px;max-width:900px;background:rgba(0,0,0,.18);border:1px solid rgba(79,155,234,.28);border-radius:18px;text-align:left}
+.seo-info h2{margin:0 0 12px;color:var(--blue);text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(45,125,220,.55)}
+.seo-info p{margin:10px auto;max-width:820px;line-height:1.7;color:#d8f6d2}
+.seo-info strong{color:#fff}
+.warning{max-width:900px;margin:18px auto 0;padding:13px 16px;border-radius:14px;background:rgba(126,75,0,.25);border:1px solid rgba(255,185,70,.38);color:#ffd08a}
+footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
+@media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){main{padding-top:30px}.panel{padding:16px}.grid{grid-template-columns:1fr}nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}.subtitle{font-size:16px}#transcript{min-height:300px}.flag-btn{width:78px;height:48px}.flag-btn .flag-text{font-size:16px}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "MusicGroup",
+        "Organization"
+      ],
+      "@id": "https://alsbkin.ro/#artist",
+      "name": "ALSBKIN",
+      "url": "https://alsbkin.ro/",
+      "sameAs": [
+        "https://www.youtube.com/@ALSBKIN",
+        "https://music.youtube.com/@alsbkin",
+        "https://open.spotify.com/artist/2vYVned6V2gBgsn0bMLHNf",
+        "https://www.instagram.com/alsbkin/",
+        "https://www.facebook.com/alsbkin",
+        "https://www.tiktok.com/@alsbkin"
+      ],
+      "description": "ALSBKIN is an independent creative brand for original music, browser-based tools and software applications."
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Free Online Meeting Transcriber",
+      "url": "https://alsbkin.ro/free-online-meeting-transcriber.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any modern browser",
+      "browserRequirements": "JavaScript, microphone permission, WebAssembly or WebGPU",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "creator": {
+        "@id": "https://alsbkin.ro/#artist"
+      },
+      "description": "A privacy-focused browser tool that transcribes meetings and ambient speech locally and exports transcripts as DOCX or TXT.",
+      "isAccessibleForFree": true,
+      "inLanguage": [
+        "en",
+        "ro",
+        "fr"
+      ],
+      "publisher": {
+        "@id": "https://alsbkin.ro/#artist"
+      },
+      "featureList": [
+        "Local browser-based speech-to-text transcription",
+        "Romanian, English and French interface",
+        "Automatic or manual spoken-language selection",
+        "Timestamps and paragraph formatting",
+        "Manual speaker markers",
+        "Local DOCX and TXT export"
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav aria-label="Main navigation">
+  <a class="home" href="/">HOME</a>
+  <a class="tools" href="/free-online-tools.html">TOOLS</a>
+  <a class="songs" href="/songs.html">SONGS</a>
+</nav>
+<main>
+  <div class="language-switcher" aria-label="Interface language selector">
+    <button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English interface"><span class="flag-text">ENG</span></button>
+    <button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Interfață în română"><span class="flag-text">RO</span></button>
+    <button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Interface en français"><span class="flag-text">FR</span></button>
+  </div>
+
+  <h1 id="pageTitle">Meeting Transcriber</h1>
+  <div class="brand-byline">by ALSBKIN</div>
+  <p id="subtitle" class="subtitle">Turn meetings, conversations and ambient speech into text in near real time. The speech model runs in your browser, and your transcript can be exported locally as a Word document or TXT file.</p>
+  <div id="privacyNote" class="privacy-note">🔒 Privacy-first: meeting audio and transcript are kept in browser memory and are not uploaded by this page. Only the speech model and JavaScript libraries are downloaded from their public hosts.</div>
+
+  <section class="panel" aria-label="Transcription controls">
+    <div class="grid">
+      <div class="field">
+        <label id="languageLabel" for="language">Spoken language</label>
+        <select id="language">
+          <option value="auto">Auto detect</option>
+          <option value="romanian">Romanian</option>
+          <option value="english">English</option>
+          <option value="french">French</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="chunkLengthLabel" for="chunkLength">Live update interval</label>
+        <select id="chunkLength">
+          <option value="8">About 8 seconds</option>
+          <option value="12" selected>About 12 seconds</option>
+          <option value="20">About 20 seconds</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="timestampsLabel" for="timestamps">Timestamps</label>
+        <select id="timestamps">
+          <option value="on" selected>Include timestamps</option>
+          <option value="off">No timestamps</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="paragraphsLabel" for="paragraphs">Paragraphs</label>
+        <select id="paragraphs">
+          <option value="on" selected>Automatic paragraphs</option>
+          <option value="off">Continuous text</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mic-card">
+      <span id="micDot" class="mic-dot"></span>
+      <div>
+        <div id="micLabel"><strong>Microphone idle</strong></div>
+        <div id="micHelp" class="small">The browser will ask for microphone permission when you press Start.</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn" class="btn-start">🎙 START</button>
+      <button id="pauseBtn" class="btn-pause" disabled>⏸ PAUSE</button>
+      <button id="stopBtn" class="btn-stop" disabled>⏹ STOP</button>
+    </div>
+
+    <div id="status" class="status">Ready. The local speech model will load after you start.</div>
+    <div id="progress" class="progress"><span id="progressBar"></span></div>
+
+    <div class="speaker-row">
+      <label id="speakerLabel" for="speaker"><strong>Speaker marker:</strong></label>
+      <select id="speaker">
+        <option value="speaker1">Speaker 1</option>
+        <option value="speaker2">Speaker 2</option>
+        <option value="speaker3">Speaker 3</option>
+        <option value="speaker4">Speaker 4</option>
+        <option value="chair">Chair</option>
+        <option value="participant">Participant</option>
+      </select>
+      <button id="speakerBtn" class="btn-ghost">Add speaker marker</button>
+    </div>
+    <p id="speakerInfo" class="small">Automatic speaker diarization is intentionally not simulated. Use speaker markers when you need clear attribution; a future local diarization model can replace this manual control.</p>
+  </section>
+
+  <section class="panel transcript-wrap">
+    <div class="transcript-toolbar">
+      <div id="transcriptTitle" class="transcript-title">Live Transcript</div>
+      <div class="controls" style="margin:0">
+        <button id="copyBtn" class="btn-ghost">COPY</button>
+        <button id="clearBtn" class="btn-ghost">CLEAR</button>
+      </div>
+    </div>
+    <textarea id="transcript" spellcheck="true" placeholder="Your transcript will appear here. You can edit it at any time while the meeting continues."></textarea>
+
+    <div class="controls" style="margin-top:18px">
+      <button id="docxBtn" class="btn-blue">EXPORT WORD (.DOCX)</button>
+      <button id="txtBtn" class="btn-blue">EXPORT TXT</button>
+    </div>
+    <div id="switchRow" class="switch-row small">
+      <span id="noAccount">No account.</span><span>•</span><span id="noUpload">No transcript upload.</span><span>•</span><span id="noDatabase">No meeting database.</span><span>•</span><span id="localExport">Export stays local.</span>
+    </div>
+  </section>
+
+  <div id="warning" class="warning">⚠️ Always follow the rules that apply to recording or transcribing meetings in your country, organization or workplace, and inform participants when required.</div>
+
+  <section class="seo-info">
+    <h2 id="infoTitle">Private meeting transcription in your browser</h2>
+    <p id="infoP1">This tool is designed for meetings, interviews, notes and spoken discussions where you want a written transcript without manually typing every sentence. It captures microphone audio only after you grant permission, converts speech into text in short chunks and places the result directly in the transcript editor.</p>
+    <p id="infoP2"><strong>Local processing:</strong> the speech-to-text model runs inside your browser using WebGPU when available and WebAssembly as a fallback. Audio is kept in memory long enough to process each chunk and is then discarded. This page does not send meeting audio or transcript text to an ALSBKIN server. Your browser may cache the speech model itself so it does not need to download it every time.</p>
+    <p id="infoP3"><strong>Languages and export:</strong> you can use automatic language detection or explicitly select Romanian, English or French. Timestamps and paragraph breaks can be included, speaker markers can be inserted manually, and the final text can be edited before export. Word and TXT files are generated locally in the browser and downloaded directly to your device.</p>
+  </section>
+</main>
+<footer id="footerText">© 2026 ALSBKIN. All rights reserved.</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  const $ = (id) => document.getElementById(id);
+  const startBtn = $('startBtn');
+  const pauseBtn = $('pauseBtn');
+  const stopBtn = $('stopBtn');
+  const transcript = $('transcript');
+  const statusEl = $('status');
+  const progress = $('progress');
+  const progressBar = $('progressBar');
+  const micDot = $('micDot');
+  const micLabel = $('micLabel');
+  const micHelp = $('micHelp');
+  const uiLangButtons = document.querySelectorAll('.flag-btn[data-ui-lang]');
+
+  const I18N = {
+    en: {
+      htmlLang: 'en',
+      titleTag: 'Free Online Meeting Transcriber | Local Speech to Text | ALSBKIN',
+      metaDesc: 'Transcribe meetings and ambient speech directly in your browser, keep audio private, add timestamps and export the transcript locally as Word or TXT.',
+      ogTitle: 'Free Online Meeting Transcriber | ALSBKIN',
+      ogDesc: 'Private browser-based meeting transcription with local speech recognition, timestamps and local Word export.',
+      twTitle: 'Free Online Meeting Transcriber | ALSBKIN',
+      twDesc: 'Transcribe meetings locally in your browser and export the transcript as Word or TXT.',
+      pageTitle: 'Meeting Transcriber',
+      subtitle: 'Turn meetings, conversations and ambient speech into text in near real time. The speech model runs in your browser, and your transcript can be exported locally as a Word document or TXT file.',
+      privacyNote: '🔒 Privacy-first: meeting audio and transcript are kept in browser memory and are not uploaded by this page. Only the speech model and JavaScript libraries are downloaded from their public hosts.',
+      languageLabel: 'Spoken language',
+      languageOptions: {auto:'Auto detect', romanian:'Romanian', english:'English', french:'French'},
+      chunkLengthLabel: 'Live update interval',
+      chunkOptions: {'8':'About 8 seconds','12':'About 12 seconds','20':'About 20 seconds'},
+      timestampsLabel: 'Timestamps',
+      timestampOptions: {on:'Include timestamps', off:'No timestamps'},
+      paragraphsLabel: 'Paragraphs',
+      paragraphOptions: {on:'Automatic paragraphs', off:'Continuous text'},
+      micIdle: 'Microphone idle',
+      micListening: 'Microphone listening',
+      micPaused: 'Paused',
+      micHelp: 'The browser will ask for microphone permission when you press Start.',
+      start: '🎙 START',
+      pause: '⏸ PAUSE',
+      resume: '▶ RESUME',
+      stop: '⏹ STOP',
+      statusReady: 'Ready. The local speech model will load after you start.',
+      speakerLabel: 'Speaker marker:',
+      speakerOptions: {speaker1:'Speaker 1', speaker2:'Speaker 2', speaker3:'Speaker 3', speaker4:'Speaker 4', chair:'Chair', participant:'Participant'},
+      addSpeakerMarker: 'Add speaker marker',
+      speakerInfo: 'Automatic speaker diarization is intentionally not simulated. Use speaker markers when you need clear attribution; a future local diarization model can replace this manual control.',
+      transcriptTitle: 'Live Transcript',
+      copy: 'COPY',
+      clear: 'CLEAR',
+      transcriptPlaceholder: 'Your transcript will appear here. You can edit it at any time while the meeting continues.',
+      exportWord: 'EXPORT WORD (.DOCX)',
+      exportTxt: 'EXPORT TXT',
+      noAccount: 'No account.',
+      noUpload: 'No transcript upload.',
+      noDatabase: 'No meeting database.',
+      localExport: 'Export stays local.',
+      warning: '⚠️ Always follow the rules that apply to recording or transcribing meetings in your country, organization or workplace, and inform participants when required.',
+      infoTitle: 'Private meeting transcription in your browser',
+      infoP1: 'This tool is designed for meetings, interviews, notes and spoken discussions where you want a written transcript without manually typing every sentence. It captures microphone audio only after you grant permission, converts speech into text in short chunks and places the result directly in the transcript editor.',
+      infoP2: '<strong>Local processing:</strong> the speech-to-text model runs inside your browser using WebGPU when available and WebAssembly as a fallback. Audio is kept in memory long enough to process each chunk and is then discarded. This page does not send meeting audio or transcript text to an ALSBKIN server. Your browser may cache the speech model itself so it does not need to download it every time.',
+      infoP3: '<strong>Languages and export:</strong> you can use automatic language detection or explicitly select Romanian, English or French. Timestamps and paragraph breaks can be included, speaker markers can be inserted manually, and the final text can be edited before export. Word and TXT files are generated locally in the browser and downloaded directly to your device.',
+      footer: '© 2026 ALSBKIN. All rights reserved.',
+      loadingModel: (device) => `Loading local Whisper model (${device.toUpperCase()})…`,
+      switchingToWasm: 'WebGPU unavailable for this model; switching to WASM…',
+      modelReady: (device) => `Local speech model ready (${String(device).toUpperCase()}). Recording continues in your browser.`,
+      listeningProcessed: 'Listening… speech is processed locally.',
+      listeningLoading: 'Listening… loading the local speech model in the background.',
+      listeningPending: (n) => `Listening… ${n} audio chunk(s) being transcribed locally.`,
+      listeningQueued: (n) => `Listening… ${n ? n + ' audio chunk(s) waiting for transcription.' : 'Transcript is up to date.'}`,
+      transcriptionComplete: 'Transcription complete. You can edit or export the transcript.',
+      chunkError: (msg) => `A speech chunk could not be transcribed: ${msg}`,
+      loadError: (msg) => `Could not load the local speech model: ${msg}`,
+      workerError: (msg) => `Speech worker error: ${msg || 'Unknown error'}`,
+      unsupportedMic: 'This browser does not expose microphone access. Use a recent Chrome, Edge, Firefox or Safari version over HTTPS.',
+      micAccessFailed: (msg) => `Microphone access failed: ${msg}. Check browser permission and HTTPS.`,
+      pausedStatus: 'Paused. No microphone samples are being added to the transcript.',
+      listeningShort: 'Listening…',
+      stoppedFinishing: (n) => `Microphone stopped. Finishing ${n} local transcription chunk(s)…`,
+      stoppedReady: 'Stopped. Transcript is ready to edit or export.',
+      noTranscript: 'There is no transcript to export.',
+      wordLibMissing: 'The Word export library did not load. Check your internet connection and reload the page.',
+      wordGenerated: 'Word document generated locally.',
+      txtGenerated: 'TXT file generated locally.',
+      copied: 'Transcript copied to clipboard.',
+      clearConfirm: 'Clear the transcript from browser memory?',
+      cleared: 'Transcript cleared.',
+      speakerMarkerName: 'Meeting Transcript'
+    },
+    ro: {
+      htmlLang: 'ro',
+      titleTag: 'Transcriere Ședințe Online Gratis | Speech-to-Text Local | ALSBKIN',
+      metaDesc: 'Transcrie ședințe și conversații direct în browser, păstrează audio-ul privat, adaugă timestamp-uri și exportă local în Word sau TXT.',
+      ogTitle: 'Transcriere Ședințe Online Gratis | ALSBKIN',
+      ogDesc: 'Transcriere privată în browser, cu recunoaștere vocală locală, timestamp-uri și export local în Word.',
+      twTitle: 'Transcriere Ședințe Online Gratis | ALSBKIN',
+      twDesc: 'Transcrie ședințe local în browser și exportă transcriptul în Word sau TXT.',
+      pageTitle: 'Transcriere Ședințe',
+      subtitle: 'Transformă ședințele, conversațiile și sunetele ambientale în text aproape în timp real. Modelul de recunoaștere vocală rulează în browser, iar transcriptul poate fi exportat local ca document Word sau fișier TXT.',
+      privacyNote: '🔒 Confidențialitate înainte de toate: audio-ul ședinței și transcriptul rămân în memoria browserului și nu sunt încărcate de această pagină. Se descarcă doar modelul vocal și bibliotecile JavaScript de la sursele lor publice.',
+      languageLabel: 'Limba vorbită',
+      languageOptions: {auto:'Detectare automată', romanian:'Română', english:'Engleză', french:'Franceză'},
+      chunkLengthLabel: 'Interval actualizare live',
+      chunkOptions: {'8':'Aproximativ 8 secunde','12':'Aproximativ 12 secunde','20':'Aproximativ 20 secunde'},
+      timestampsLabel: 'Timestamp-uri',
+      timestampOptions: {on:'Include timestamp-uri', off:'Fără timestamp-uri'},
+      paragraphsLabel: 'Paragrafe',
+      paragraphOptions: {on:'Paragrafe automate', off:'Text continuu'},
+      micIdle: 'Microfon inactiv',
+      micListening: 'Microfon activ',
+      micPaused: 'Pauză',
+      micHelp: 'Browserul îți va cere permisiunea pentru microfon când apeși Start.',
+      start: '🎙 START',
+      pause: '⏸ PAUZĂ',
+      resume: '▶ REIA',
+      stop: '⏹ STOP',
+      statusReady: 'Gata. Modelul vocal local se va încărca după ce pornești aplicația.',
+      speakerLabel: 'Marcaj vorbitor:',
+      speakerOptions: {speaker1:'Vorbitor 1', speaker2:'Vorbitor 2', speaker3:'Vorbitor 3', speaker4:'Vorbitor 4', chair:'Moderator', participant:'Participant'},
+      addSpeakerMarker: 'Adaugă marcaj vorbitor',
+      speakerInfo: 'Identificarea automată a vorbitorilor nu este implementată momentan. Folosește marcajele de vorbitor când ai nevoie să diferențiezi clar participanții; această funcție poate fi adăugată ulterior printr-un model local.',
+      transcriptTitle: 'Transcript Live',
+      copy: 'COPIAZĂ',
+      clear: 'ȘTERGE',
+      transcriptPlaceholder: 'Transcriptul va apărea aici. Îl poți edita în orice moment, chiar și în timp ce ședința continuă.',
+      exportWord: 'EXPORTĂ WORD (.DOCX)',
+      exportTxt: 'EXPORTĂ TXT',
+      noAccount: 'Fără cont.',
+      noUpload: 'Fără încărcare transcript.',
+      noDatabase: 'Fără bază de date a ședințelor.',
+      localExport: 'Exportul rămâne local.',
+      warning: '⚠️ Respectă întotdeauna regulile privind înregistrarea sau transcrierea ședințelor din țara, organizația sau locul tău de muncă și informează participanții atunci când este necesar.',
+      infoTitle: 'Transcriere privată a ședințelor, direct în browser',
+      infoP1: 'Acest instrument este conceput pentru ședințe, interviuri, notițe și discuții vorbite, atunci când vrei un transcript scris fără să tastezi manual fiecare propoziție. Capturează audio de la microfon doar după ce acorzi permisiunea, convertește vorbirea în text în fragmente scurte și plasează rezultatul direct în editorul de transcript.',
+      infoP2: '<strong>Procesare locală:</strong> modelul speech-to-text rulează în browser folosind WebGPU atunci când este disponibil și WebAssembly ca alternativă. Audio-ul este păstrat în memorie doar cât timp este necesar pentru procesarea fiecărui fragment, apoi este eliminat. Această pagină nu trimite audio-ul ședinței și nici transcriptul către un server ALSBKIN. Browserul poate păstra în cache modelul vocal, ca să nu fie descărcat de fiecare dată.',
+      infoP3: '<strong>Limbi și export:</strong> poți folosi detectarea automată a limbii sau poți selecta explicit română, engleză sau franceză. Pot fi incluse timestamp-uri și paragrafe, pot fi inserate manual marcaje pentru vorbitori, iar textul final poate fi editat înainte de export. Fișierele Word și TXT sunt generate local în browser și descărcate direct pe dispozitivul tău.',
+      footer: '© 2026 ALSBKIN. Toate drepturile rezervate.',
+      loadingModel: (device) => `Se încarcă modelul local Whisper (${device.toUpperCase()})…`,
+      switchingToWasm: 'WebGPU nu este disponibil pentru acest model; se trece la WASM…',
+      modelReady: (device) => `Modelul vocal local este gata (${String(device).toUpperCase()}). Înregistrarea continuă în browser.`,
+      listeningProcessed: 'Ascultă… vorbirea este procesată local.',
+      listeningLoading: 'Ascultă… se încarcă în fundal modelul vocal local.',
+      listeningPending: (n) => `Ascultă… ${n} fragment(e) audio sunt transcrise local.`,
+      listeningQueued: (n) => `Ascultă… ${n ? n + ' fragment(e) audio așteaptă transcrierea.' : 'Transcriptul este actualizat.'}`,
+      transcriptionComplete: 'Transcriere finalizată. Poți edita sau exporta transcriptul.',
+      chunkError: (msg) => `Un fragment audio nu a putut fi transcris: ${msg}`,
+      loadError: (msg) => `Modelul vocal local nu a putut fi încărcat: ${msg}`,
+      workerError: (msg) => `Eroare a modulului de transcriere: ${msg || 'Eroare necunoscută'}`,
+      unsupportedMic: 'Acest browser nu oferă acces la microfon. Folosește o versiune recentă de Chrome, Edge, Firefox sau Safari prin HTTPS.',
+      micAccessFailed: (msg) => `Accesul la microfon a eșuat: ${msg}. Verifică permisiunea din browser și conexiunea HTTPS.`,
+      pausedStatus: 'În pauză. Nu se mai adaugă mostre audio în transcript.',
+      listeningShort: 'Ascultă…',
+      stoppedFinishing: (n) => `Microfon oprit. Se finalizează ${n} fragment(e) de transcriere locală…`,
+      stoppedReady: 'Oprit. Transcriptul este pregătit pentru editare sau export.',
+      noTranscript: 'Nu există transcript de exportat.',
+      wordLibMissing: 'Biblioteca pentru export Word nu s-a încărcat. Verifică internetul și reîncarcă pagina.',
+      wordGenerated: 'Documentul Word a fost generat local.',
+      txtGenerated: 'Fișierul TXT a fost generat local.',
+      copied: 'Transcriptul a fost copiat în clipboard.',
+      clearConfirm: 'Ștergi transcriptul din memoria browserului?',
+      cleared: 'Transcript șters.',
+      speakerMarkerName: 'Transcript Ședință'
+    },
+    fr: {
+      htmlLang: 'fr',
+      titleTag: 'Transcripteur de Réunions Gratuit | Speech-to-Text Local | ALSBKIN',
+      metaDesc: 'Transcrivez réunions et conversations directement dans votre navigateur, gardez l’audio privé, ajoutez des horodatages et exportez localement en Word ou TXT.',
+      ogTitle: 'Transcripteur de Réunions Gratuit | ALSBKIN',
+      ogDesc: 'Transcription privée dans le navigateur, avec reconnaissance vocale locale, horodatages et export Word local.',
+      twTitle: 'Transcripteur de Réunions Gratuit | ALSBKIN',
+      twDesc: 'Transcrivez vos réunions localement dans le navigateur et exportez la transcription en Word ou TXT.',
+      pageTitle: 'Transcripteur de Réunions',
+      subtitle: 'Transformez réunions, conversations et sons ambiants en texte presque en temps réel. Le modèle de reconnaissance vocale fonctionne dans votre navigateur et la transcription peut être exportée localement au format Word ou TXT.',
+      privacyNote: '🔒 Priorité à la confidentialité : l’audio de la réunion et la transcription restent dans la mémoire du navigateur et ne sont pas envoyés par cette page. Seuls le modèle vocal et les bibliothèques JavaScript sont téléchargés depuis leurs hébergeurs publics.',
+      languageLabel: 'Langue parlée',
+      languageOptions: {auto:'Détection automatique', romanian:'Roumain', english:'Anglais', french:'Français'},
+      chunkLengthLabel: 'Intervalle de mise à jour',
+      chunkOptions: {'8':'Environ 8 secondes','12':'Environ 12 secondes','20':'Environ 20 secondes'},
+      timestampsLabel: 'Horodatages',
+      timestampOptions: {on:'Inclure les horodatages', off:'Sans horodatages'},
+      paragraphsLabel: 'Paragraphes',
+      paragraphOptions: {on:'Paragraphes automatiques', off:'Texte continu'},
+      micIdle: 'Microphone inactif',
+      micListening: 'Microphone actif',
+      micPaused: 'En pause',
+      micHelp: 'Le navigateur demandera l’autorisation du microphone lorsque vous appuierez sur Start.',
+      start: '🎙 START',
+      pause: '⏸ PAUSE',
+      resume: '▶ REPRENDRE',
+      stop: '⏹ STOP',
+      statusReady: 'Prêt. Le modèle vocal local se chargera après le démarrage.',
+      speakerLabel: 'Marqueur d’intervenant :',
+      speakerOptions: {speaker1:'Intervenant 1', speaker2:'Intervenant 2', speaker3:'Intervenant 3', speaker4:'Intervenant 4', chair:'Président', participant:'Participant'},
+      addSpeakerMarker: 'Ajouter un marqueur',
+      speakerInfo: 'La diarisation automatique des intervenants n’est volontairement pas simulée. Utilisez des marqueurs d’intervenant pour une attribution claire ; un futur modèle local pourra remplacer ce contrôle manuel.',
+      transcriptTitle: 'Transcription en direct',
+      copy: 'COPIER',
+      clear: 'EFFACER',
+      transcriptPlaceholder: 'Votre transcription apparaîtra ici. Vous pouvez la modifier à tout moment pendant que la réunion continue.',
+      exportWord: 'EXPORTER WORD (.DOCX)',
+      exportTxt: 'EXPORTER TXT',
+      noAccount: 'Aucun compte.',
+      noUpload: 'Aucun envoi de transcription.',
+      noDatabase: 'Aucune base de données des réunions.',
+      localExport: 'L’export reste local.',
+      warning: '⚠️ Respectez toujours les règles applicables à l’enregistrement ou à la transcription des réunions dans votre pays, votre organisation ou votre lieu de travail, et informez les participants lorsque c’est requis.',
+      infoTitle: 'Transcription privée de réunions dans votre navigateur',
+      infoP1: 'Cet outil est conçu pour les réunions, entretiens, prises de notes et discussions orales, lorsque vous souhaitez une transcription écrite sans taper chaque phrase manuellement. Il capte l’audio du microphone uniquement après votre autorisation, convertit la parole en texte par petits segments et place le résultat directement dans l’éditeur de transcription.',
+      infoP2: '<strong>Traitement local :</strong> le modèle speech-to-text fonctionne dans votre navigateur via WebGPU lorsqu’il est disponible, avec WebAssembly en solution de secours. L’audio reste en mémoire uniquement le temps nécessaire au traitement de chaque segment, puis est supprimé. Cette page n’envoie ni l’audio de la réunion ni le texte de la transcription vers un serveur ALSBKIN. Votre navigateur peut mettre en cache le modèle vocal afin d’éviter un nouveau téléchargement à chaque fois.',
+      infoP3: '<strong>Langues et export :</strong> vous pouvez utiliser la détection automatique de la langue ou sélectionner explicitement le roumain, l’anglais ou le français. Les horodatages et les paragraphes peuvent être inclus, des marqueurs d’intervenant peuvent être ajoutés manuellement, et le texte final peut être modifié avant l’export. Les fichiers Word et TXT sont générés localement dans le navigateur puis téléchargés directement sur votre appareil.',
+      footer: '© 2026 ALSBKIN. Tous droits réservés.',
+      loadingModel: (device) => `Chargement du modèle Whisper local (${device.toUpperCase()})…`,
+      switchingToWasm: 'WebGPU indisponible pour ce modèle ; bascule vers WASM…',
+      modelReady: (device) => `Le modèle vocal local est prêt (${String(device).toUpperCase()}). L’enregistrement continue dans votre navigateur.`,
+      listeningProcessed: 'Écoute… la parole est traitée localement.',
+      listeningLoading: 'Écoute… le modèle vocal local se charge en arrière-plan.',
+      listeningPending: (n) => `Écoute… ${n} segment(s) audio sont transcrits localement.`,
+      listeningQueued: (n) => `Écoute… ${n ? n + ' segment(s) audio attendent la transcription.' : 'La transcription est à jour.'}`,
+      transcriptionComplete: 'Transcription terminée. Vous pouvez modifier ou exporter le texte.',
+      chunkError: (msg) => `Un segment audio n’a pas pu être transcrit : ${msg}`,
+      loadError: (msg) => `Le modèle vocal local n’a pas pu être chargé : ${msg}`,
+      workerError: (msg) => `Erreur du module de transcription : ${msg || 'Erreur inconnue'}`,
+      unsupportedMic: 'Ce navigateur ne donne pas accès au microphone. Utilisez une version récente de Chrome, Edge, Firefox ou Safari via HTTPS.',
+      micAccessFailed: (msg) => `L’accès au microphone a échoué : ${msg}. Vérifiez l’autorisation du navigateur et HTTPS.`,
+      pausedStatus: 'En pause. Aucun nouvel échantillon audio n’est ajouté à la transcription.',
+      listeningShort: 'Écoute…',
+      stoppedFinishing: (n) => `Microphone arrêté. Finalisation de ${n} segment(s) de transcription locale…`,
+      stoppedReady: 'Arrêté. La transcription est prête à être modifiée ou exportée.',
+      noTranscript: 'Il n’y a aucune transcription à exporter.',
+      wordLibMissing: 'La bibliothèque d’export Word ne s’est pas chargée. Vérifiez votre connexion Internet et rechargez la page.',
+      wordGenerated: 'Le document Word a été généré localement.',
+      txtGenerated: 'Le fichier TXT a été généré localement.',
+      copied: 'La transcription a été copiée dans le presse-papiers.',
+      clearConfirm: 'Effacer la transcription de la mémoire du navigateur ?',
+      cleared: 'Transcription effacée.',
+      speakerMarkerName: 'Transcription Réunion'
+    }
+  };
+
+  let uiLang = localStorage.getItem('meetingTranscriberUiLang') || 'en';
+  if(!I18N[uiLang]) uiLang = 'en';
+
+  function t(){ return I18N[uiLang]; }
+
+  function setMeta(name, value){ const el = document.querySelector(`meta[name="${name}"]`); if(el) el.setAttribute('content', value); }
+  function setProp(property, value){ const el = document.querySelector(`meta[property="${property}"]`); if(el) el.setAttribute('content', value); }
+
+  function applyLanguage(){
+    const tr = t();
+    document.documentElement.lang = tr.htmlLang;
+    document.title = tr.titleTag;
+    setMeta('description', tr.metaDesc);
+    setProp('og:title', tr.ogTitle);
+    setProp('og:description', tr.ogDesc);
+    setMeta('twitter:title', tr.twTitle);
+    setMeta('twitter:description', tr.twDesc);
+
+    $('pageTitle').textContent = tr.pageTitle;
+    $('subtitle').textContent = tr.subtitle;
+    $('privacyNote').textContent = tr.privacyNote;
+    $('languageLabel').textContent = tr.languageLabel;
+    $('chunkLengthLabel').textContent = tr.chunkLengthLabel;
+    $('timestampsLabel').textContent = tr.timestampsLabel;
+    $('paragraphsLabel').textContent = tr.paragraphsLabel;
+
+    const langSel = $('language');
+    Array.from(langSel.options).forEach(opt => { opt.textContent = tr.languageOptions[opt.value]; });
+    const chunkSel = $('chunkLength');
+    Array.from(chunkSel.options).forEach(opt => { opt.textContent = tr.chunkOptions[opt.value]; });
+    const timeSel = $('timestamps');
+    Array.from(timeSel.options).forEach(opt => { opt.textContent = tr.timestampOptions[opt.value]; });
+    const paraSel = $('paragraphs');
+    Array.from(paraSel.options).forEach(opt => { opt.textContent = tr.paragraphOptions[opt.value]; });
+
+    if(recording){
+      micLabel.innerHTML = `<strong>${paused ? tr.micPaused : tr.micListening}</strong>`;
+    }else{
+      micLabel.innerHTML = `<strong>${tr.micIdle}</strong>`;
+    }
+    micHelp.textContent = tr.micHelp;
+    startBtn.textContent = tr.start;
+    pauseBtn.textContent = paused ? tr.resume : tr.pause;
+    stopBtn.textContent = tr.stop;
+    if(!recording && !modelReady && !statusEl.dataset.locked) statusEl.textContent = tr.statusReady;
+
+    $('speakerLabel').innerHTML = `<strong>${tr.speakerLabel}</strong>`;
+    const speakerSel = $('speaker');
+    Array.from(speakerSel.options).forEach(opt => { opt.textContent = tr.speakerOptions[opt.value]; });
+    $('speakerBtn').textContent = tr.addSpeakerMarker;
+    $('speakerInfo').textContent = tr.speakerInfo;
+    $('transcriptTitle').textContent = tr.transcriptTitle;
+    $('copyBtn').textContent = tr.copy;
+    $('clearBtn').textContent = tr.clear;
+    transcript.placeholder = tr.transcriptPlaceholder;
+    $('docxBtn').textContent = tr.exportWord;
+    $('txtBtn').textContent = tr.exportTxt;
+    $('noAccount').textContent = tr.noAccount;
+    $('noUpload').textContent = tr.noUpload;
+    $('noDatabase').textContent = tr.noDatabase;
+    $('localExport').textContent = tr.localExport;
+    $('warning').textContent = tr.warning;
+    $('infoTitle').textContent = tr.infoTitle;
+    $('infoP1').textContent = tr.infoP1;
+    $('infoP2').innerHTML = tr.infoP2;
+    $('infoP3').innerHTML = tr.infoP3;
+    $('footerText').textContent = tr.footer;
+
+    uiLangButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.uiLang === uiLang));
+    localStorage.setItem('meetingTranscriberUiLang', uiLang);
+  }
+
+  let stream = null;
+  let audioContext = null;
+  let source = null;
+  let processor = null;
+  let worker = null;
+  let recording = false;
+  let paused = false;
+  let startedAt = 0;
+  let pausedAt = 0;
+  let totalPausedMs = 0;
+  let nativeSamples = [];
+  let nativeSampleCount = 0;
+  let nativeSampleRate = 48000;
+  let chunkIndex = 0;
+  let pendingChunks = 0;
+  let modelReady = false;
+
+  function setStatus(text){ statusEl.textContent = text; }
+  function formatTime(seconds){
+    seconds = Math.max(0, Math.floor(seconds));
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return h > 0 ? [h,m,s].map(v=>String(v).padStart(2,'0')).join(':') : [m,s].map(v=>String(v).padStart(2,'0')).join(':');
+  }
+  function elapsedSeconds(){
+    if(!startedAt) return 0;
+    const end = paused && pausedAt ? pausedAt : performance.now();
+    return (end - startedAt - totalPausedMs) / 1000;
+  }
+  function appendText(text, startSec){
+    const clean = String(text || '').replace(/\s+/g,' ').trim();
+    if(!clean) return;
+    const withTime = $('timestamps').value === 'on' ? `[${formatTime(startSec)}] ` : '';
+    const paragraph = $('paragraphs').value === 'on';
+    const joiner = transcript.value.trim() ? (paragraph ? '\n\n' : ' ') : '';
+    transcript.value += joiner + withTime + clean;
+    transcript.scrollTop = transcript.scrollHeight;
+  }
+  function addSpeakerMarker(){
+    const name = $('speaker').selectedOptions[0].textContent;
+    const time = $('timestamps').value === 'on' ? `[${formatTime(elapsedSeconds())}] ` : '';
+    const joiner = transcript.value.trim() ? '\n\n' : '';
+    transcript.value += `${joiner}${time}${name}:`;
+    transcript.focus();
+    transcript.scrollTop = transcript.scrollHeight;
+  }
+
+  function createWorker(){
+    const workerCode = `
+      import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2';
+      env.allowLocalModels = false;
+      env.useBrowserCache = true;
+      let transcriber = null;
+      let deviceUsed = 'wasm';
+      async function ensureModel(){
+        if(transcriber) return transcriber;
+        deviceUsed = self.navigator && self.navigator.gpu ? 'webgpu' : 'wasm';
+        self.postMessage({type:'status', key:'loadingModel', device:deviceUsed});
+        try{
+          transcriber = await pipeline('automatic-speech-recognition','onnx-community/whisper-tiny',{device:deviceUsed,progress_callback:(p)=>{
+            if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
+          }});
+        }catch(err){
+          if(deviceUsed === 'webgpu'){
+            deviceUsed = 'wasm';
+            self.postMessage({type:'status', key:'switchingToWasm'});
+            transcriber = await pipeline('automatic-speech-recognition','onnx-community/whisper-tiny',{device:'wasm',progress_callback:(p)=>{
+              if(p && typeof p.progress === 'number') self.postMessage({type:'progress',value:p.progress});
+            }});
+          }else throw err;
+        }
+        self.postMessage({type:'ready',device:deviceUsed});
+        return transcriber;
+      }
+      self.onmessage = async (e)=>{
+        const d=e.data;
+        if(d.type==='init'){
+          try{ await ensureModel(); }catch(err){ self.postMessage({type:'error',message:err.message||String(err)}); }
+          return;
+        }
+        if(d.type==='transcribe'){
+          try{
+            const pipe=await ensureModel();
+            const audio=new Float32Array(d.audio);
+            const opts={task:'transcribe',return_timestamps:false};
+            if(d.language && d.language!=='auto') opts.language=d.language;
+            const out=await pipe(audio,opts);
+            self.postMessage({type:'result',id:d.id,text:out && out.text ? out.text : '',startSec:d.startSec});
+          }catch(err){ self.postMessage({type:'chunk-error',id:d.id,message:err.message||String(err)}); }
+        }
+      };
+    `;
+    const blob = new Blob([workerCode], {type:'text/javascript'});
+    const url = URL.createObjectURL(blob);
+    worker = new Worker(url, {type:'module'});
+    worker.onmessage = (e) => {
+      const d = e.data || {};
+      if(d.type === 'status'){
+        if(d.key === 'loadingModel') setStatus(t().loadingModel(d.device || 'wasm'));
+        else if(d.key === 'switchingToWasm') setStatus(t().switchingToWasm);
+      }
+      if(d.type === 'progress'){
+        progress.style.display = 'block';
+        progressBar.style.width = `${Math.max(0,Math.min(100,d.value))}%`;
+      }
+      if(d.type === 'ready'){
+        modelReady = true;
+        progress.style.display = 'none';
+        setStatus(t().modelReady(d.device));
+      }
+      if(d.type === 'result'){
+        pendingChunks = Math.max(0, pendingChunks - 1);
+        appendText(d.text, d.startSec || 0);
+        if(recording) setStatus(t().listeningQueued(pendingChunks));
+        else if(pendingChunks === 0) setStatus(t().transcriptionComplete);
+      }
+      if(d.type === 'chunk-error'){
+        pendingChunks = Math.max(0,pendingChunks-1);
+        setStatus(t().chunkError(d.message));
+      }
+      if(d.type === 'error'){
+        setStatus(t().loadError(d.message));
+        progress.style.display = 'none';
+      }
+    };
+    worker.onerror = (err) => setStatus(t().workerError(err.message));
+    worker.postMessage({type:'init'});
+  }
+
+  function downsample(chunks, inputRate, outputRate=16000){
+    const total = chunks.reduce((n,a)=>n+a.length,0);
+    const input = new Float32Array(total);
+    let p=0; for(const a of chunks){ input.set(a,p); p+=a.length; }
+    if(inputRate === outputRate) return input;
+    const ratio = inputRate / outputRate;
+    const len = Math.max(1, Math.round(input.length / ratio));
+    const output = new Float32Array(len);
+    for(let i=0;i<len;i++){
+      const start = Math.floor(i * ratio);
+      const end = Math.min(input.length, Math.floor((i+1)*ratio));
+      let sum=0, count=0;
+      for(let j=start;j<end;j++){sum += input[j]; count++;}
+      output[i] = count ? sum/count : input[Math.min(start,input.length-1)] || 0;
+    }
+    return output;
+  }
+
+  function flushChunk(force=false){
+    const secondsAvailable = nativeSampleCount / nativeSampleRate;
+    const target = Number($('chunkLength').value);
+    if(!force && secondsAvailable < target) return;
+    if(nativeSampleCount < nativeSampleRate * 0.8) return;
+    const chunkStart = Math.max(0, elapsedSeconds() - secondsAvailable);
+    const pcm = downsample(nativeSamples, nativeSampleRate, 16000);
+    nativeSamples = [];
+    nativeSampleCount = 0;
+    pendingChunks++;
+    const id = ++chunkIndex;
+    const buffer = pcm.buffer;
+    worker.postMessage({type:'transcribe', id, audio:buffer, startSec:chunkStart, language:$('language').value}, [buffer]);
+    if(recording) setStatus(t().listeningPending(pendingChunks));
+  }
+
+  async function startRecording(){
+    if(recording) return;
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      setStatus(t().unsupportedMic);
+      return;
+    }
+    try{
+      stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false});
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      await audioContext.resume();
+      nativeSampleRate = audioContext.sampleRate;
+      source = audioContext.createMediaStreamSource(stream);
+      processor = audioContext.createScriptProcessor(4096,1,1);
+      const silentGain = audioContext.createGain(); silentGain.gain.value = 0;
+      processor.onaudioprocess = (ev)=>{
+        if(!recording || paused) return;
+        const input = ev.inputBuffer.getChannelData(0);
+        const copy = new Float32Array(input.length); copy.set(input);
+        nativeSamples.push(copy); nativeSampleCount += copy.length;
+        flushChunk(false);
+      };
+      source.connect(processor); processor.connect(silentGain); silentGain.connect(audioContext.destination);
+      if(!worker) createWorker();
+      recording = true; paused = false; startedAt = performance.now(); totalPausedMs = 0; pausedAt = 0;
+      nativeSamples=[]; nativeSampleCount=0; pendingChunks=0;
+      startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
+      micDot.className='mic-dot live'; micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
+      setStatus(modelReady ? t().listeningProcessed : t().listeningLoading);
+    }catch(err){
+      setStatus(t().micAccessFailed(err.message || err));
+    }
+  }
+
+  function togglePause(){
+    if(!recording) return;
+    if(!paused){
+      paused = true; pausedAt = performance.now(); flushChunk(true);
+      pauseBtn.textContent=t().resume; micDot.className='mic-dot paused'; micLabel.innerHTML=`<strong>${t().micPaused}</strong>`;
+      setStatus(t().pausedStatus);
+    }else{
+      totalPausedMs += performance.now() - pausedAt; pausedAt=0; paused=false;
+      pauseBtn.textContent=t().pause; micDot.className='mic-dot live'; micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
+      setStatus(t().listeningShort);
+    }
+  }
+
+  async function stopRecording(){
+    if(!recording) return;
+    if(paused && pausedAt){ totalPausedMs += performance.now()-pausedAt; pausedAt=0; }
+    recording=false; paused=false; flushChunk(true);
+    if(processor){ processor.disconnect(); processor.onaudioprocess=null; processor=null; }
+    if(source){ source.disconnect(); source=null; }
+    if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; }
+    if(audioContext){ try{await audioContext.close();}catch{} audioContext=null; }
+    startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true; pauseBtn.textContent=t().pause;
+    micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
+    setStatus(pendingChunks ? t().stoppedFinishing(pendingChunks) : t().stoppedReady);
+  }
+
+  function escapeXml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
+
+  async function exportDocx(){
+    const text = transcript.value.trim();
+    if(!text){ setStatus(t().noTranscript); return; }
+    if(typeof JSZip === 'undefined'){ setStatus(t().wordLibMissing); return; }
+    const zip = new JSZip();
+    const lines = text.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    const paragraphs = lines.map(line => `<w:p><w:r><w:rPr><w:rFonts w:ascii="Aptos" w:hAnsi="Aptos"/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">${escapeXml(line)}</w:t></w:r></w:p>`).join('');
+    const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`;
+    const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`;
+    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:rPr><w:b/><w:sz w:val="32"/></w:rPr><w:t>${escapeXml(t().speakerMarkerName)}</w:t></w:r></w:p>${paragraphs}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+    zip.file('[Content_Types].xml',contentTypes);
+    zip.folder('_rels').file('.rels',rels);
+    zip.folder('word').file('document.xml',documentXml);
+    const blob = await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+    downloadBlob(blob, `meeting-transcript-${new Date().toISOString().slice(0,10)}.docx`);
+    setStatus(t().wordGenerated);
+  }
+
+  function exportTxt(){
+    const text = transcript.value.trim();
+    if(!text){ setStatus(t().noTranscript); return; }
+    downloadBlob(new Blob([text],{type:'text/plain;charset=utf-8'}),`meeting-transcript-${new Date().toISOString().slice(0,10)}.txt`);
+    setStatus(t().txtGenerated);
+  }
+  function downloadBlob(blob,name){
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  }
+
+  startBtn.addEventListener('click',startRecording);
+  pauseBtn.addEventListener('click',togglePause);
+  stopBtn.addEventListener('click',stopRecording);
+  $('speakerBtn').addEventListener('click',addSpeakerMarker);
+  $('copyBtn').addEventListener('click',async()=>{
+    try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
+    catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
+  });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){transcript.value='';setStatus(t().cleared);} });
+  $('docxBtn').addEventListener('click',exportDocx);
+  $('txtBtn').addEventListener('click',exportTxt);
+  uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
+  window.addEventListener('beforeunload',()=>{ if(stream) stream.getTracks().forEach(t=>t.stop()); if(worker) worker.terminate(); });
+
+  applyLanguage();
+})();
+</script>
+</body>
+</html>
