@@ -949,6 +949,155 @@ header {
   }
 }
 
+
+/* Vertical YouTube Short in About section */
+.about-short {
+  width: min(380px, 90vw);
+  aspect-ratio: 9 / 16;
+  margin: 28px auto 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000000;
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.5),
+    0 0 22px rgba(143, 216, 255, 0.10);
+}
+
+.about-short iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+
+/* Updated top navigation: centered Songs + outlined ABOUT button */
+nav .songs-nav {
+  justify-self: center;
+}
+
+nav .about-nav.nav-left {
+  justify-self: end;
+}
+
+nav .tools-nav.nav-right {
+  justify-self: start;
+}
+
+.about-nav {
+  display: inline-flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  padding: 7px 12px;
+  margin: 0 !important;
+  color: #8fd8ff !important;
+  background: rgba(0, 0, 0, 0.58);
+  border: 1px solid rgba(210, 210, 210, 0.55);
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow:
+    0 0 8px rgba(210, 210, 210, 0.12),
+    inset 0 0 8px rgba(255, 255, 255, 0.03);
+  transition: 0.3s ease;
+}
+
+.about-nav .nav-main {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.95),
+    0 0 8px rgba(143, 216, 255, 0.34);
+}
+
+.about-nav .nav-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  opacity: 0.92;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.95),
+    0 0 6px rgba(143, 216, 255, 0.24);
+}
+
+.about-nav:hover {
+  color: #c00000 !important;
+  border-color: rgba(210, 210, 210, 0.78);
+  box-shadow:
+    0 0 12px rgba(210, 210, 210, 0.18),
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
+  .about-nav {
+    min-width: 68px;
+    padding: 6px 8px;
+    border-radius: 12px;
+  }
+
+  .about-nav .nav-main {
+    font-size: 13px;
+  }
+
+  .about-nav .nav-sub {
+    font-size: 9px;
+  }
+}
+
+
+
+/* Final navigation layout: SONGS | ABOUT / Despre | TOOLS */
+nav {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+
+nav .songs-nav,
+nav .about-nav,
+nav .tools-nav {
+  margin: 0 !important;
+  justify-self: auto !important;
+}
+
+/* TOOLS matches SONGS button dimensions */
+nav .tools-nav {
+  padding: 15px 34px !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 1.4px !important;
+  line-height: normal !important;
+}
+
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
+  nav {
+    gap: 7px !important;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  nav .songs-nav,
+  nav .tools-nav {
+    padding: 10px 14px !important;
+    font-size: .82rem !important;
+    letter-spacing: .65px !important;
+  }
+
+  nav .about-nav {
+    min-width: 66px;
+    padding: 6px 8px !important;
+  }
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&amp;display=swap" rel="stylesheet"/>
 <script type="application/ld+json">{
@@ -981,12 +1130,9 @@ header {
 }</script></head>
 <body>
 <nav>
-<a class="nav-left" href="#video">Video</a>
 <a class="songs-nav" href="songs.html">Songs</a>
-<div class="nav-right-group">
-<a class="about-nav" href="#despre"><span class="nav-main">Despre</span><span class="nav-sub">About</span></a>
+<a class="about-nav" href="#despre"><span class="nav-main">ABOUT</span><span class="nav-sub">Despre</span></a>
 <a class="tools-nav" href="free-online-tools.html">TOOLS</a>
-</div>
 </nav>
 <header>
 <div class="banner-wrap">
@@ -1065,6 +1211,16 @@ header {
 <p>
       ALSBKIN este un proiect muzical de muzică originală și reinterpretări moderne, care combină storytelling-ul, energia Metal/Rock, influențele folk, EDM și atmosfera latino într-un stil inedit.
     </p>
+<div class="about-short">
+<iframe
+  src="https://www.youtube.com/embed/171mBBieKtY"
+  title="This Is ALSBKIN"
+  loading="lazy"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen>
+</iframe>
+</div>
 </section>
 <section id="contact">
 <h2>Contact</h2>
