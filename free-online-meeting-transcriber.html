@@ -84,6 +84,8 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 #transcript:focus{border-color:#70b3ff;box-shadow:0 0 0 3px rgba(45,125,220,.14)}
 .small{font-size:13px;opacity:.88;line-height:1.6}
 .switch-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+.backup-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px solid rgba(79,155,234,.26);border-radius:14px;background:rgba(0,0,0,.18);text-align:center}
+.backup-row .backup-state{color:var(--cyan);font-weight:700}
 .speaker-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin-top:14px}
 .speaker-row select{padding:10px 14px;border-radius:20px;background:#0b0500;color:#fff;border:1px solid rgba(255,255,255,.24);font:inherit}
 .seo-info{margin:24px auto 0;padding:24px;max-width:900px;background:rgba(0,0,0,.18);border:1px solid rgba(79,155,234,.28);border-radius:18px;text-align:left}
@@ -265,7 +267,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       <button id="docxBtn" class="btn-blue">EXPORT WORD (.DOCX)</button>
       <button id="txtBtn" class="btn-blue">EXPORT TXT</button>
     </div>
-    <div id="switchRow" class="switch-row small">
+    <div class="backup-row small">
+      <button id="backupBtn" class="btn-ghost">SELECT BACKUP TXT</button>
+      <span id="browserAutosaveStatus" class="backup-state">Browser autosave: ON</span>
+      <span>•</span>
+      <span id="backupStatus" class="backup-state">TXT backup: not selected</span>
+    </div>
+    <div id="switchRow" class="switch-row small" style="margin-top:12px">
       <span id="noAccount">No account.</span><span>•</span><span id="noUpload">No transcript upload.</span><span>•</span><span id="noDatabase">No meeting database.</span><span>•</span><span id="localExport">Export stays local.</span>
     </div>
   </section>
@@ -276,7 +284,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     <h2 id="infoTitle">Meeting transcription in your browser</h2>
     <p id="infoP1">This tool is designed for meetings, interviews, notes and spoken discussions where you want a written transcript without manually typing every sentence. It captures microphone audio only after you grant permission, converts speech into text in short chunks and places the result directly in the transcript editor.</p>
     <p id="infoP2"><strong>Speech recognition:</strong> this tool uses the speech-recognition service provided by your browser. Depending on your browser, operating system and installed language support, audio may be processed on-device or sent to the browser provider’s online speech service. ALSBKIN does not store meeting audio or transcript text on its own servers.</p>
-    <p id="infoP3"><strong>Languages and export:</strong> Romanian is selected by default, while English or French can be selected explicitly. Interim results can appear while you speak, timestamps and paragraph breaks can be included, and the final text can be edited before Word or TXT export. Export files are generated locally in the browser.</p>
+    <p id="infoP3"><strong>Languages, export and recovery:</strong> Romanian is selected by default, while English or French can be selected explicitly. The transcript is automatically saved in browser storage for recovery after an accidental close. You can also select one local TXT backup file that is overwritten with the current transcript every minute. Word and TXT exports are generated locally in the browser.</p>
   </section>
 </main>
 <footer id="footerText">© 2026 ALSBKIN. All rights reserved.</footer>
@@ -335,6 +343,17 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       transcriptPlaceholder: 'Your transcript will appear here. You can edit it at any time while the meeting continues.',
       exportWord: 'EXPORT WORD (.DOCX)',
       exportTxt: 'EXPORT TXT',
+      backupSelect: 'SELECT BACKUP TXT',
+      browserAutosaveOn: 'Browser autosave: ON',
+      browserAutosaveUnavailable: 'Browser autosave: unavailable',
+      backupNotSelected: 'TXT backup: not selected',
+      backupActive: 'TXT backup: ON · every 1 minute',
+      backupSaved: (time) => `TXT backup: ON · last saved ${time}`,
+      backupNeedsPermission: 'TXT backup selected · click to restore access',
+      backupUnavailable: 'Automatic TXT overwrite is unavailable in this browser.',
+      backupWriteFailed: 'The automatic TXT backup could not be written. Browser recovery remains active.',
+      restorePrompt: (time) => `A locally saved transcript was found${time ? ` from ${time}` : ''}. Restore it?`,
+      restoredDraft: 'Saved transcript restored from this browser.',
       noAccount: 'No account.',
       noUpload: 'No ALSBKIN server storage.',
       noDatabase: 'No ALSBKIN meeting database.',
@@ -343,7 +362,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       infoTitle: 'Meeting transcription in your browser',
       infoP1: 'This tool is designed for meetings, interviews, notes and spoken discussions where you want a written transcript without manually typing every sentence. After microphone permission is granted, your browser’s speech-recognition service converts speech into live and final text inside the transcript editor.',
       infoP2: '<strong>Speech recognition:</strong> this tool uses the speech-recognition service provided by your browser. Depending on your browser, operating system and installed language support, audio may be processed on-device or sent to the browser provider’s online speech service. ALSBKIN does not store meeting audio or transcript text on its own servers.',
-      infoP3: '<strong>Languages and export:</strong> Romanian is selected by default, while English or French can be selected explicitly. Interim results can appear while you speak, timestamps and paragraph breaks can be included, and the final text can be edited before Word or TXT export. Export files are generated locally in the browser.',
+      infoP3: '<strong>Languages, export and recovery:</strong> Romanian is selected by default, while English or French can be selected explicitly. The transcript is automatically saved in browser storage for recovery after an accidental close. You can also select one local TXT backup file that is overwritten with the current transcript every minute. Word and TXT exports are generated locally in the browser.',
       footer: '© 2026 ALSBKIN. All rights reserved.',
       listeningProcessed: 'Listening… browser speech recognition is active.',
       listeningLoading: 'Listening… browser speech recognition is starting.',
@@ -399,6 +418,17 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       transcriptPlaceholder: 'Transcriptul va apărea aici. Îl poți edita în orice moment, chiar și în timp ce ședința continuă.',
       exportWord: 'EXPORTĂ WORD (.DOCX)',
       exportTxt: 'EXPORTĂ TXT',
+      backupSelect: 'ALEGE FIȘIER BACKUP TXT',
+      browserAutosaveOn: 'Salvare automată în browser: ACTIVĂ',
+      browserAutosaveUnavailable: 'Salvare automată în browser: indisponibilă',
+      backupNotSelected: 'Backup TXT: niciun fișier selectat',
+      backupActive: 'Backup TXT: ACTIV · la fiecare 1 minut',
+      backupSaved: (time) => `Backup TXT: ACTIV · ultima salvare ${time}`,
+      backupNeedsPermission: 'Backup TXT selectat · apasă pentru a reda accesul',
+      backupUnavailable: 'Suprascrierea automată a fișierului TXT nu este disponibilă în acest browser.',
+      backupWriteFailed: 'Backup-ul TXT automat nu a putut fi scris. Recuperarea din browser rămâne activă.',
+      restorePrompt: (time) => `A fost găsit un transcript salvat local${time ? ` din ${time}` : ''}. Îl restaurezi?`,
+      restoredDraft: 'Transcriptul salvat a fost restaurat din browser.',
       noAccount: 'Fără cont.',
       noUpload: 'Fără stocare pe serverele ALSBKIN.',
       noDatabase: 'Fără bază ALSBKIN cu ședințe.',
@@ -407,7 +437,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       infoTitle: 'Transcrierea ședințelor direct în browser',
       infoP1: 'Acest instrument este conceput pentru ședințe, interviuri, notițe și discuții vorbite, atunci când vrei un transcript scris fără să tastezi manual fiecare propoziție. După ce acorzi permisiunea pentru microfon, serviciul de recunoaștere vocală al browserului transformă vorbirea în text live și final în editorul de transcript.',
       infoP2: '<strong>Recunoaștere vocală:</strong> acest instrument folosește serviciul de recunoaștere vocală oferit de browser. În funcție de browser, sistemul de operare și suportul lingvistic instalat, audio-ul poate fi procesat pe dispozitiv sau trimis serviciului online al furnizorului browserului. ALSBKIN nu stochează pe propriile servere audio-ul ședinței sau textul transcriptului.',
-      infoP3: '<strong>Limbi și export:</strong> româna este selectată implicit, iar engleza sau franceza pot fi selectate explicit. Textul intermediar poate apărea în timp ce vorbești, pot fi incluse timestamp-uri și paragrafe, iar transcriptul final poate fi editat înainte de export. Fișierele Word și TXT sunt generate local în browser.',
+      infoP3: '<strong>Limbi, export și recuperare:</strong> româna este selectată implicit, iar engleza sau franceza pot fi selectate explicit. Transcriptul este salvat automat în memoria browserului pentru recuperare dacă pagina se închide accidental. Poți selecta și un singur fișier TXT local de backup, care este suprascris cu transcriptul curent la fiecare minut. Exporturile Word și TXT sunt generate local în browser.',
       footer: '© 2026 ALSBKIN. Toate drepturile rezervate.',
       listeningProcessed: 'Ascultă… recunoașterea vocală a browserului este activă.',
       listeningLoading: 'Ascultă… pornește recunoașterea vocală a browserului.',
@@ -463,6 +493,17 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       transcriptPlaceholder: 'Votre transcription apparaîtra ici. Vous pouvez la modifier à tout moment pendant que la réunion continue.',
       exportWord: 'EXPORTER WORD (.DOCX)',
       exportTxt: 'EXPORTER TXT',
+      backupSelect: 'CHOISIR LE BACKUP TXT',
+      browserAutosaveOn: 'Sauvegarde navigateur : ACTIVE',
+      browserAutosaveUnavailable: 'Sauvegarde navigateur : indisponible',
+      backupNotSelected: 'Backup TXT : aucun fichier sélectionné',
+      backupActive: 'Backup TXT : ACTIF · toutes les 1 minute',
+      backupSaved: (time) => `Backup TXT : ACTIF · dernière sauvegarde ${time}`,
+      backupNeedsPermission: 'Backup TXT sélectionné · cliquez pour réautoriser',
+      backupUnavailable: 'Le remplacement automatique du fichier TXT n’est pas disponible dans ce navigateur.',
+      backupWriteFailed: 'Le backup TXT automatique n’a pas pu être écrit. La récupération dans le navigateur reste active.',
+      restorePrompt: (time) => `Une transcription sauvegardée localement a été trouvée${time ? ` du ${time}` : ''}. La restaurer ?`,
+      restoredDraft: 'La transcription sauvegardée a été restaurée depuis ce navigateur.',
       noAccount: 'Aucun compte.',
       noUpload: 'Aucun stockage sur les serveurs ALSBKIN.',
       noDatabase: 'Aucune base ALSBKIN de réunions.',
@@ -471,7 +512,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       infoTitle: 'Transcription de réunions dans votre navigateur',
       infoP1: 'Cet outil est conçu pour les réunions, entretiens, prises de notes et discussions orales lorsque vous souhaitez une transcription écrite sans taper chaque phrase manuellement. Après votre autorisation du microphone, le service de reconnaissance vocale du navigateur transforme la parole en texte intermédiaire et final dans l’éditeur.',
       infoP2: '<strong>Reconnaissance vocale :</strong> cet outil utilise le service de reconnaissance vocale fourni par votre navigateur. Selon le navigateur, le système d’exploitation et la prise en charge linguistique installée, l’audio peut être traité sur l’appareil ou envoyé au service en ligne du fournisseur du navigateur. ALSBKIN ne stocke pas l’audio de la réunion ni le texte de la transcription sur ses propres serveurs.',
-      infoP3: '<strong>Langues et export :</strong> le roumain est sélectionné par défaut, tandis que l’anglais ou le français peuvent être sélectionnés explicitement. Le texte intermédiaire peut apparaître pendant que vous parlez, les horodatages et les paragraphes peuvent être inclus, et la transcription finale peut être modifiée avant l’export. Les fichiers Word et TXT sont générés localement dans le navigateur.',
+      infoP3: '<strong>Langues, export et récupération :</strong> le roumain est sélectionné par défaut, tandis que l’anglais ou le français peuvent être sélectionnés explicitement. La transcription est sauvegardée automatiquement dans le navigateur afin de pouvoir être récupérée après une fermeture accidentelle. Vous pouvez aussi choisir un fichier TXT local de backup, remplacé par la transcription actuelle toutes les minutes. Les exports Word et TXT sont générés localement dans le navigateur.',
       footer: '© 2026 ALSBKIN. Tous droits réservés.',
       listeningProcessed: 'Écoute… la reconnaissance vocale du navigateur est active.',
       listeningLoading: 'Écoute… démarrage de la reconnaissance vocale du navigateur.',
@@ -548,6 +589,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     transcript.placeholder = tr.transcriptPlaceholder;
     $('docxBtn').textContent = tr.exportWord;
     $('txtBtn').textContent = tr.exportTxt;
+    $('backupBtn').textContent = tr.backupSelect;
+    updateRecoveryStatus();
     $('noAccount').textContent = tr.noAccount;
     $('noUpload').textContent = tr.noUpload;
     $('noDatabase').textContent = tr.noDatabase;
@@ -561,6 +604,232 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
     uiLangButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.uiLang === uiLang));
     localStorage.setItem('meetingTranscriberUiLang', uiLang);
+  }
+
+  // Recovery system: browser draft autosave + optional same-file TXT backup.
+  // The browser draft is saved frequently so an accidental tab/window close can
+  // recover nearly all text. The optional TXT file is overwritten once per minute.
+  const DRAFT_KEY = 'meetingTranscriberDraftV1';
+  const BACKUP_INTERVAL_MS = 60 * 1000;
+  const BACKUP_DB_NAME = 'meetingTranscriberRecovery';
+  const BACKUP_DB_STORE = 'handles';
+  const BACKUP_HANDLE_KEY = 'txtBackup';
+  let browserAutosaveAvailable = true;
+  let lastDraftValue = null;
+  let draftWriteTimer = null;
+  let protectRecoveredDraft = false;
+  let backupFileHandle = null;
+  let backupInterval = null;
+  let backupWriteInProgress = false;
+  let backupPermissionNeeded = false;
+  let lastBackupAt = null;
+
+  function safeDraftRead(){
+    try{
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if(!raw) return null;
+      const data = JSON.parse(raw);
+      if(!data || typeof data.text !== 'string') return null;
+      return data;
+    }catch{
+      browserAutosaveAvailable = false;
+      return null;
+    }
+  }
+  function saveDraftNow(force=false){
+    if(protectRecoveredDraft && !force) return;
+    const value = transcript.value;
+    if(!force && value === lastDraftValue) return;
+    try{
+      if(value){
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({text:value, savedAt:Date.now()}));
+      }else{
+        localStorage.removeItem(DRAFT_KEY);
+      }
+      lastDraftValue = value;
+      browserAutosaveAvailable = true;
+    }catch{
+      browserAutosaveAvailable = false;
+    }
+    updateRecoveryStatus();
+  }
+  function scheduleDraftSave(){
+    protectRecoveredDraft = false;
+    if(draftWriteTimer) clearTimeout(draftWriteTimer);
+    draftWriteTimer = setTimeout(()=>saveDraftNow(false), 350);
+  }
+  function formatSavedClock(date){
+    try{return date.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});}catch{return date.toLocaleTimeString();}
+  }
+  function formatRestoreTime(ms){
+    if(!ms) return '';
+    try{return new Date(ms).toLocaleString();}catch{return '';}
+  }
+  function updateRecoveryStatus(){
+    const tr = t();
+    const browserEl = $('browserAutosaveStatus');
+    const backupEl = $('backupStatus');
+    if(browserEl) browserEl.textContent = browserAutosaveAvailable ? tr.browserAutosaveOn : tr.browserAutosaveUnavailable;
+    if(!backupEl) return;
+    if(!('showSaveFilePicker' in window)){
+      backupEl.textContent = tr.backupUnavailable;
+    }else if(backupPermissionNeeded){
+      backupEl.textContent = tr.backupNeedsPermission;
+    }else if(backupFileHandle && lastBackupAt){
+      backupEl.textContent = tr.backupSaved(formatSavedClock(lastBackupAt));
+    }else if(backupFileHandle){
+      backupEl.textContent = tr.backupActive;
+    }else{
+      backupEl.textContent = tr.backupNotSelected;
+    }
+  }
+  function openBackupDb(){
+    return new Promise((resolve,reject)=>{
+      if(!window.indexedDB){ reject(new Error('IndexedDB unavailable')); return; }
+      const req = indexedDB.open(BACKUP_DB_NAME,1);
+      req.onupgradeneeded = ()=>{
+        const db=req.result;
+        if(!db.objectStoreNames.contains(BACKUP_DB_STORE)) db.createObjectStore(BACKUP_DB_STORE);
+      };
+      req.onsuccess=()=>resolve(req.result);
+      req.onerror=()=>reject(req.error || new Error('IndexedDB error'));
+    });
+  }
+  async function persistBackupHandle(handle){
+    try{
+      const db=await openBackupDb();
+      await new Promise((resolve,reject)=>{
+        const tx=db.transaction(BACKUP_DB_STORE,'readwrite');
+        tx.objectStore(BACKUP_DB_STORE).put(handle,BACKUP_HANDLE_KEY);
+        tx.oncomplete=resolve;
+        tx.onerror=()=>reject(tx.error);
+      });
+      db.close();
+    }catch{}
+  }
+  async function loadPersistedBackupHandle(){
+    try{
+      const db=await openBackupDb();
+      const handle=await new Promise((resolve,reject)=>{
+        const tx=db.transaction(BACKUP_DB_STORE,'readonly');
+        const req=tx.objectStore(BACKUP_DB_STORE).get(BACKUP_HANDLE_KEY);
+        req.onsuccess=()=>resolve(req.result || null);
+        req.onerror=()=>reject(req.error);
+      });
+      db.close();
+      return handle;
+    }catch{return null;}
+  }
+  function stopBackupInterval(){
+    if(backupInterval){ clearInterval(backupInterval); backupInterval=null; }
+  }
+  function startBackupInterval(){
+    stopBackupInterval();
+    if(!backupFileHandle || backupPermissionNeeded) return;
+    backupInterval=setInterval(()=>{ writeBackupFile(false); },BACKUP_INTERVAL_MS);
+  }
+  async function writeBackupFile(showError=true){
+    saveDraftNow(false);
+    if(!backupFileHandle || backupWriteInProgress || backupPermissionNeeded) return false;
+    backupWriteInProgress=true;
+    try{
+      if(typeof backupFileHandle.queryPermission === 'function'){
+        const permission=await backupFileHandle.queryPermission({mode:'readwrite'});
+        if(permission !== 'granted'){
+          backupPermissionNeeded=true;
+          stopBackupInterval();
+          updateRecoveryStatus();
+          return false;
+        }
+      }
+      const writable=await backupFileHandle.createWritable();
+      await writable.write(transcript.value);
+      await writable.close();
+      lastBackupAt=new Date();
+      backupPermissionNeeded=false;
+      updateRecoveryStatus();
+      return true;
+    }catch{
+      if(showError) setStatus(t().backupWriteFailed);
+      updateRecoveryStatus();
+      return false;
+    }finally{
+      backupWriteInProgress=false;
+    }
+  }
+  async function selectOrAuthorizeBackup(){
+    if(!('showSaveFilePicker' in window)){
+      setStatus(t().backupUnavailable);
+      updateRecoveryStatus();
+      return;
+    }
+    try{
+      if(backupFileHandle && typeof backupFileHandle.queryPermission === 'function'){
+        let permission=await backupFileHandle.queryPermission({mode:'readwrite'});
+        if(permission !== 'granted' && typeof backupFileHandle.requestPermission === 'function'){
+          permission=await backupFileHandle.requestPermission({mode:'readwrite'});
+        }
+        if(permission === 'granted'){
+          backupPermissionNeeded=false;
+          await persistBackupHandle(backupFileHandle);
+          await writeBackupFile(true);
+          startBackupInterval();
+          return;
+        }
+      }
+      const handle=await window.showSaveFilePicker({
+        suggestedName:'meeting-transcript-backup.txt',
+        types:[{description:'Text file',accept:{'text/plain':['.txt']}}],
+        excludeAcceptAllOption:false
+      });
+      backupFileHandle=handle;
+      backupPermissionNeeded=false;
+      lastBackupAt=null;
+      await persistBackupHandle(handle);
+      await writeBackupFile(true);
+      startBackupInterval();
+    }catch(err){
+      if(err?.name !== 'AbortError') setStatus(t().backupWriteFailed);
+      updateRecoveryStatus();
+    }
+  }
+  async function restorePersistedBackupAccess(){
+    if(!('showSaveFilePicker' in window)){
+      updateRecoveryStatus();
+      return;
+    }
+    const handle=await loadPersistedBackupHandle();
+    if(!handle){ updateRecoveryStatus(); return; }
+    backupFileHandle=handle;
+    try{
+      const permission=typeof handle.queryPermission === 'function' ? await handle.queryPermission({mode:'readwrite'}) : 'prompt';
+      if(permission === 'granted'){
+        backupPermissionNeeded=false;
+        startBackupInterval();
+      }else{
+        backupPermissionNeeded=true;
+      }
+    }catch{
+      backupPermissionNeeded=true;
+    }
+    updateRecoveryStatus();
+  }
+  function restoreBrowserDraft(){
+    const draft=safeDraftRead();
+    if(!draft || !draft.text) return;
+    const restore=confirm(t().restorePrompt(formatRestoreTime(draft.savedAt)));
+    if(restore){
+      transcript.value=draft.text;
+      lastDraftValue=draft.text;
+      protectRecoveredDraft=false;
+      setStatus(t().restoredDraft);
+      transcript.scrollTop=transcript.scrollHeight;
+    }else{
+      // Keep the recovery copy untouched until the user actually starts a new
+      // transcript or edits the empty editor, so declining does not destroy it.
+      protectRecoveredDraft=true;
+      lastDraftValue='';
+    }
   }
 
   const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1039,6 +1308,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     breakAfterCurrentFinal = false;
     transcript.focus();
     transcript.scrollTop = transcript.scrollHeight;
+    scheduleDraftSave();
+    if(backupFileHandle && !backupPermissionNeeded) writeBackupFile(false);
   }
   function recognitionLanguage(){
     const value = $('language').value;
@@ -1183,6 +1454,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
   async function startRecording(){
     if(recording) return;
+    protectRecoveredDraft = false;
+    saveDraftNow(false);
     if(!SpeechRecognitionCtor){
       const msg = uiLang === 'ro'
         ? 'Acest browser nu oferă API-ul necesar pentru recunoaștere vocală. Încearcă o versiune recentă de Google Chrome.'
@@ -1233,6 +1506,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       micDot.className='mic-dot paused';
       micLabel.innerHTML=`<strong>${t().micPaused}</strong>`;
       setStatus(t().pausedStatus);
+      saveDraftNow(true);
+      if(backupFileHandle && !backupPermissionNeeded) writeBackupFile(false);
     }else{
       totalPausedMs += performance.now() - pausedAt;
       pausedAt=0;
@@ -1270,11 +1545,15 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true; pauseBtn.textContent=t().pause;
     micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
     setStatus(t().stoppedReady);
+    saveDraftNow(true);
+    if(backupFileHandle && !backupPermissionNeeded) writeBackupFile(false);
   }
 
   function escapeXml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
 
   async function exportDocx(){
+    saveDraftNow(true);
+    if(backupFileHandle && !backupPermissionNeeded) writeBackupFile(false);
     const text = transcript.value.trim();
     if(!text){ setStatus(t().noTranscript); return; }
     if(typeof JSZip === 'undefined'){ setStatus(t().wordLibMissing); return; }
@@ -1293,6 +1572,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
 
   function exportTxt(){
+    saveDraftNow(true);
+    if(backupFileHandle && !backupPermissionNeeded) writeBackupFile(false);
     const text = transcript.value.trim();
     if(!text){ setStatus(t().noTranscript); return; }
     downloadBlob(new Blob([text],{type:'text/plain;charset=utf-8'}),`meeting-transcript-${new Date().toISOString().slice(0,10)}.txt`);
@@ -1306,11 +1587,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   pauseBtn.addEventListener('click',togglePause);
   stopBtn.addEventListener('click',stopRecording);
   $('speakerBtn').addEventListener('click',addSpeakerMarker);
+  $('backupBtn').addEventListener('click',selectOrAuthorizeBackup);
+  transcript.addEventListener('input',scheduleDraftSave);
   $('copyBtn').addEventListener('click',async()=>{
     try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
     catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
   });
-  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;breakAfterCurrentFinal=false;paragraphCycleRequested=false;ignoreRecognitionResultsUntilEnd=false;lastRecognitionFingerprint='';pendingCommaWordCount=0;commaWordPositions=[];currentParagraphTimestamp='';setStatus(t().cleared);} });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;breakAfterCurrentFinal=false;paragraphCycleRequested=false;ignoreRecognitionResultsUntilEnd=false;lastRecognitionFingerprint='';pendingCommaWordCount=0;commaWordPositions=[];currentParagraphTimestamp='';protectRecoveredDraft=false;saveDraftNow(true);if(backupFileHandle && !backupPermissionNeeded) writeBackupFile(false);setStatus(t().cleared);} });
   $('docxBtn').addEventListener('click',exportDocx);
   $('txtBtn').addEventListener('click',exportTxt);
   $('paragraphs').addEventListener('change',()=>{
@@ -1321,9 +1604,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
   });
   uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
-  window.addEventListener('beforeunload',()=>{ shouldRestart=false; stopPauseDetector(); if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
+  window.addEventListener('beforeunload',()=>{ if(!protectRecoveredDraft) saveDraftNow(true); shouldRestart=false; stopPauseDetector(); stopBackupInterval(); if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
+
+  // Safety net for programmatic transcript changes, which do not emit the input event.
+  setInterval(()=>saveDraftNow(false), 2000);
 
   applyLanguage();
+  restoreBrowserDraft();
+  restorePersistedBackupAccess();
 })();
 </script>
 </body>
