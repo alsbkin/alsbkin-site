@@ -600,7 +600,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let pendingCommaWordCount = 0;
   let commaWordPositions = [];
   let currentParagraphTimestamp = '';
-  const COMMA_PAUSE_MS = 350;
+  const COMMA_PAUSE_MS = 320;
   const SENTENCE_PAUSE_MS = 650;
   const PARAGRAPH_PAUSE_MS = 1400;
   const TEXT_FALLBACK_PAUSE_MS = 2200;
@@ -624,6 +624,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   function ensureTerminalPunctuation(text){
     const clean = cleanRecognitionText(text);
     if(!clean) return '';
+    // A comma inserted for a short pause must become a full stop if the same
+    // silence later reaches sentence length. Avoid producing the invalid ",.".
+    if(/,([”"')\]]?)$/.test(clean)) return clean.replace(/,([”"')\]]?)$/, '.$1');
     return /[.!?…:;][”"')\]]?$/.test(clean) ? clean : clean + '.';
   }
   function capitalizeStart(text){
@@ -649,6 +652,27 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     });
     if(consume) commaWordPositions = [];
     return words.join(' ');
+  }
+  function showAcousticCommaNow(){
+    // Make the comma visible as soon as the short-pause threshold is reached.
+    // The previous implementation only *remembered* a possible comma and waited
+    // for speech to resume; in Chrome that often meant the user never saw it.
+    if(currentInterimText){
+      const pos = wordCount(currentInterimText);
+      if(!pos) return false;
+      addCommaMarker(pos);
+      const phrase = currentInterimText;
+      showInterimText(phrase);
+      return true;
+    }
+
+    // Chrome may already have finalized the words before the acoustic pause is
+    // detected. In that case place the comma directly on the committed text.
+    let value = transcript.value.replace(/[ \t]+$/g,'');
+    if(!value.trim() || /[,.!?…:;][”"')\]]?$/.test(value)) return false;
+    transcript.value = value + ',';
+    transcript.scrollTop = transcript.scrollHeight;
+    return true;
   }
   function paragraphTimePrefix(base){
     if($('timestamps').value !== 'on') return '';
@@ -834,11 +858,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
         const voiced = rms >= pauseDetectorThreshold;
         if(voiced){
-          // If speech resumes after a short pause, keep that pause as a comma.
-          // If the pause reached sentence length, it was already promoted to a period.
-          if(pendingCommaWordCount && !acousticSentenceApplied){
-            addCommaMarker(pendingCommaWordCount);
-          }
+          // A short-pause comma is already visible before speech resumes.
+          // If the silence reached sentence length it has already been promoted.
           pendingCommaWordCount = 0;
           lastVoiceAt = now;
           acousticCommaApplied = false;
@@ -860,7 +881,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
         if(!acousticCommaApplied && silenceMs >= COMMA_PAUSE_MS){
           acousticCommaApplied = true;
-          pendingCommaWordCount = wordCount(currentInterimText);
+          // Insert the comma immediately. If the pause grows to sentence length,
+          // ensureTerminalPunctuation() promotes this trailing comma to a period.
+          showAcousticCommaNow();
         }
         if(!acousticSentenceApplied && silenceMs >= SENTENCE_PAUSE_MS){
           acousticSentenceApplied = true;
