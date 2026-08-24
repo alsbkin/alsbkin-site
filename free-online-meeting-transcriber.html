@@ -840,6 +840,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   const mobileSpeechMode = isMobileSpeechDevice();
   let mobileSentenceTimer = null;
   let mobileParagraphTimer = null;
+  let mobileLastSpeechEndAt = 0;
+  let mobileSpeechEndSeenThisCycle = false;
+  let mobileSentenceApplied = false;
+  let mobileParagraphApplied = false;
   let recognition = null;
   let recording = false;
   let paused = false;
@@ -1361,42 +1365,130 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(mobileParagraphTimer){ clearTimeout(mobileParagraphTimer); mobileParagraphTimer = null; }
   }
   function punctuateLastCommittedText(){
-    // Mobile browsers often return a final phrase without punctuation. Add a
-    // period only after a real speech-end pause, and do not touch a paragraph
-    // that already ends in punctuation.
-    clearInterimTail();
+    // Mobile Chrome can end an utterance without punctuation. At a sentence
+    // pause we punctuate the last committed phrase. If an interim tail is still
+    // visible, leave it alone until onend/final so we do not duplicate text.
     let value = transcript.value.replace(/[ \t]+$/g,'').replace(/\n+$/g,'');
-    if(!value.trim()) return;
+    if(!value.trim()) return false;
+    if(interimTail && transcript.value.endsWith(interimTail)){
+      const base = transcript.value.slice(0, -interimTail.length).replace(/[ \t]+$/g,'').replace(/\n+$/g,'');
+      if(!base.trim()) return false;
+      const m = base.match(/([^\n]+)$/);
+      if(!m) return false;
+      const line = m[1];
+      const punctuated = ensureTerminalPunctuation(line);
+      if(punctuated === line) return false;
+      const newBase = base.slice(0, -line.length) + punctuated;
+      transcript.value = newBase + interimTail;
+      transcript.scrollTop = transcript.scrollHeight;
+      scheduleDraftSave();
+      return true;
+    }
     const m = value.match(/([^\n]+)$/);
-    if(!m) return;
+    if(!m) return false;
     const line = m[1];
     const punctuated = ensureTerminalPunctuation(line);
     if(punctuated !== line){
       transcript.value = value.slice(0, -line.length) + punctuated;
       transcript.scrollTop = transcript.scrollHeight;
       scheduleDraftSave();
+      return true;
     }
+    return false;
   }
-  function scheduleMobileSpeechBoundaries(){
+  function addMobileCommaToLastPhrase(){
+    // Same comma rule as desktop, but driven by SpeechRecognition's own
+    // speechend -> speechstart timing so mobile does not open a second mic stream.
+    if(wordsSinceLastPunctuation() < MIN_WORDS_BEFORE_COMMA) return false;
+
+    // If the previous words are still an interim tail, remember the comma at
+    // the corresponding word position so Chrome can keep rewriting the tail.
+    if(currentInterimText && interimTail && transcript.value.endsWith(interimTail)){
+      const pos = wordCount(currentInterimText);
+      if(!pos) return false;
+      addCommaMarker(pos);
+      showInterimText(currentInterimText);
+      scheduleDraftSave();
+      return true;
+    }
+
+    let value = transcript.value.replace(/[ \t]+$/g,'');
+    if(!value.trim() || /[,.!?…:;][”"')\]]?$/.test(value)) return false;
+    transcript.value = value + ',';
+    transcript.scrollTop = transcript.scrollHeight;
+    scheduleDraftSave();
+    return true;
+  }
+  function makeMobileParagraphBoundary(){
+    if($('paragraphs').value !== 'on') return false;
+    // Do not delete an interim tail. In the normal mobile flow onend has already
+    // committed it before this 1.4 s timer fires; if not, defer the newline until
+    // the next recognition cycle so no speech is lost.
+    if(interimTail && transcript.value.endsWith(interimTail)){
+      breakAfterCurrentFinal = true;
+      return false;
+    }
+    punctuateLastCommittedText();
+    if(!transcript.value.trim() || /\n\n$/.test(transcript.value)) return false;
+    transcript.value = transcript.value.replace(/[ \t]+$/g,'').replace(/\n+$/g,'') + '\n\n';
+    currentParagraphChars = 0;
+    currentParagraphTimestamp = '';
+    transcript.scrollTop = transcript.scrollHeight;
+    scheduleDraftSave();
+    return true;
+  }
+  function scheduleMobileSpeechBoundaries(speechEndAt = performance.now()){
     if(!mobileSpeechMode || !recording || paused) return;
     clearMobileSpeechTimers();
+    mobileLastSpeechEndAt = speechEndAt;
+    mobileSentenceApplied = false;
+    mobileParagraphApplied = false;
+
+    const sentenceDelay = Math.max(0, SENTENCE_PAUSE_MS - (performance.now() - speechEndAt));
     mobileSentenceTimer = setTimeout(()=>{
       mobileSentenceTimer = null;
-      if(recording && !paused) punctuateLastCommittedText();
-    }, SENTENCE_PAUSE_MS);
+      if(!recording || paused) return;
+      mobileSentenceApplied = true;
+      punctuateLastCommittedText();
+    }, sentenceDelay);
+
     if($('paragraphs').value === 'on'){
+      const paragraphDelay = Math.max(0, PARAGRAPH_PAUSE_MS - (performance.now() - speechEndAt));
       mobileParagraphTimer = setTimeout(()=>{
         mobileParagraphTimer = null;
-        if(recording && !paused && transcript.value.trim() && !/\n\n$/.test(transcript.value)){
-          punctuateLastCommittedText();
-          transcript.value = transcript.value.replace(/[ \t]+$/g,'').replace(/\n+$/g,'') + '\n\n';
-          currentParagraphChars = 0;
-          currentParagraphTimestamp = '';
-          transcript.scrollTop = transcript.scrollHeight;
-          scheduleDraftSave();
-        }
-      }, PARAGRAPH_PAUSE_MS);
+        if(!recording || paused) return;
+        mobileParagraphApplied = true;
+        makeMobileParagraphBoundary();
+      }, paragraphDelay);
     }
+  }
+  function handleMobileSpeechStart(){
+    if(!mobileSpeechMode) return;
+    const now = performance.now();
+    const pauseMs = mobileLastSpeechEndAt ? now - mobileLastSpeechEndAt : 0;
+
+    // Stop pending punctuation timers only when actual speech resumes, not when
+    // the recognizer merely starts a new service cycle.
+    clearMobileSpeechTimers();
+
+    if(mobileLastSpeechEndAt && pauseMs > 0){
+      const commaThreshold = adaptiveCommaPauseMs();
+      if(pauseMs >= commaThreshold && pauseMs < SENTENCE_PAUSE_MS && wordsSinceLastPunctuation() >= MIN_WORDS_BEFORE_COMMA){
+        addMobileCommaToLastPhrase();
+      }else if(pauseMs >= PARAGRAPH_PAUSE_MS && $('paragraphs').value === 'on'){
+        // Timer throttling can happen on phones. If 1.4 s already elapsed but the
+        // timer did not run, create the paragraph before the new words arrive.
+        makeMobileParagraphBoundary();
+      }else if(pauseMs >= SENTENCE_PAUSE_MS){
+        // Same protection for the 0.65 s sentence rule.
+        punctuateLastCommittedText();
+      }
+      rememberShortPause(pauseMs);
+    }
+
+    mobileLastSpeechEndAt = 0;
+    mobileSentenceApplied = false;
+    mobileParagraphApplied = false;
   }
 
   function buildRecognition(){
@@ -1411,21 +1503,22 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
     r.onstart = ()=>{
       recognitionActive = true;
+      if(mobileSpeechMode) mobileSpeechEndSeenThisCycle = false;
       micDot.className='mic-dot live';
       micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
       setStatus(t().listeningProcessed);
     };
     r.onspeechstart = ()=>{
       clearParagraphSilenceTimer();
-      if(mobileSpeechMode) clearMobileSpeechTimers();
+      if(mobileSpeechMode) handleMobileSpeechStart();
       setStatus(t().listeningProcessed);
     };
     r.onspeechend = ()=>{
       if(mobileSpeechMode){
-        // On phones we deliberately avoid opening a second getUserMedia stream,
-        // because it can compete with SpeechRecognition for the microphone.
-        // Use the recognizer's own speech-end event for punctuation/paragraphs.
-        scheduleMobileSpeechBoundaries();
+        // Mobile uses the recognizer's own speech timing. The thresholds are the
+        // same as desktop: adaptive comma, 0.65 s sentence, 1.4 s paragraph.
+        mobileSpeechEndSeenThisCycle = true;
+        scheduleMobileSpeechBoundaries(performance.now());
       }else{
         // Desktop keeps the acoustic detector, with this event as a fallback.
         armParagraphSilenceTimer();
@@ -1448,7 +1541,6 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
       if(finalParts.length){
         appendFinalText(finalParts.join(' '));
-        if(mobileSpeechMode) scheduleMobileSpeechBoundaries();
       }
       showInterimText(interim);
 
@@ -1487,10 +1579,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       paragraphCycleRequested = false;
       breakAfterCurrentFinal = false;
       lastRecognitionFingerprint = '';
-      if(mobileSpeechMode && recording && !paused){
-        // Some mobile Chrome sessions end with only an interim hypothesis.
-        // commitInterimTail() above preserves it; now treat the end as a speech pause.
-        scheduleMobileSpeechBoundaries();
+      if(mobileSpeechMode && recording && !paused && !mobileSpeechEndSeenThisCycle && !mobileLastSpeechEndAt){
+        // Fallback for mobile implementations that finish a recognition cycle
+        // without firing speechend. Do not reschedule when speechend already ran,
+        // because doing so used to delay the 0.65/1.4 s rules on every restart.
+        scheduleMobileSpeechBoundaries(performance.now());
       }
 
       if(recording && !paused && shouldRestart){
@@ -1552,7 +1645,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
     setStatus(t().listeningLoading);
     if(!mobileSpeechMode) startPauseDetector();
-    else clearMobileSpeechTimers();
+    else {
+      clearMobileSpeechTimers();
+      mobileLastSpeechEndAt = 0;
+      mobileSpeechEndSeenThisCycle = false;
+      mobileSentenceApplied = false;
+      mobileParagraphApplied = false;
+    }
     if(!startRecognitionCycle()){
       recording=false; shouldRestart=false;
       stopPauseDetector();
@@ -1587,7 +1686,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
       setStatus(t().listeningLoading);
       if(!mobileSpeechMode) startPauseDetector();
-      else clearMobileSpeechTimers();
+      else {
+        clearMobileSpeechTimers();
+        mobileLastSpeechEndAt = 0;
+        mobileSpeechEndSeenThisCycle = false;
+        mobileSentenceApplied = false;
+        mobileParagraphApplied = false;
+      }
       startRecognitionCycle();
     }
   }
@@ -1601,6 +1706,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     clearParagraphSilenceTimer();
     stopPauseDetector();
     clearMobileSpeechTimers();
+    mobileLastSpeechEndAt = 0;
+    mobileSpeechEndSeenThisCycle = false;
+    mobileSentenceApplied = false;
+    mobileParagraphApplied = false;
     breakAfterCurrentFinal = false;
     paragraphCycleRequested = false;
     ignoreRecognitionResultsUntilEnd = false;
