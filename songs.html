@@ -641,6 +641,114 @@ footer {
   }
 }
 
+
+
+/* Final navigation layout: HOME | ABOUT / Despre | TOOLS */
+nav {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+
+nav .home-nav,
+nav .about-nav,
+nav .tools-nav {
+  margin: 0 !important;
+  justify-self: auto !important;
+}
+
+/* ABOUT button: outlined, with text shadow, matching the index page */
+.about-nav {
+  display: inline-flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  padding: 7px 12px;
+  color: #8fd8ff !important;
+  background: rgba(0, 0, 0, 0.58);
+  border: 1px solid rgba(210, 210, 210, 0.55);
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow:
+    0 0 8px rgba(210, 210, 210, 0.12),
+    inset 0 0 8px rgba(255, 255, 255, 0.03);
+  transition: 0.3s ease;
+}
+
+.about-nav .nav-main {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.95),
+    0 0 8px rgba(143, 216, 255, 0.34);
+}
+
+.about-nav .nav-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  opacity: 0.92;
+  text-transform: none;
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.95),
+    0 0 6px rgba(143, 216, 255, 0.24);
+}
+
+.about-nav:hover {
+  color: #c00000 !important;
+  border-color: rgba(210, 210, 210, 0.78);
+  box-shadow:
+    0 0 12px rgba(210, 210, 210, 0.18),
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* TOOLS matches the HOME button dimensions */
+nav .tools-nav {
+  padding: 15px 34px !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 1.4px !important;
+  line-height: normal !important;
+}
+
+@media (max-width: 700px), (hover: none) and (pointer: coarse) {
+  nav {
+    gap: 7px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  nav .home-nav,
+  nav .tools-nav {
+    padding: 10px 14px !important;
+    font-size: .82rem !important;
+    letter-spacing: .65px !important;
+  }
+
+  nav .about-nav {
+    min-width: 66px;
+    padding: 6px 8px !important;
+    border-radius: 12px;
+  }
+
+  .about-nav .nav-main {
+    font-size: 13px;
+  }
+
+  .about-nav .nav-sub {
+    font-size: 9px;
+  }
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&amp;display=swap" rel="stylesheet"/>
 <meta content="website" property="og:type"/>
@@ -682,18 +790,15 @@ footer {
 }</script></head>
 <body>
 <nav>
-<a class="nav-left" href="index.html#video">Video</a>
 <a class="home-nav" href="index.html">
 <span class="nav-main">ACASĂ</span>
 <span class="nav-sub">HOME</span>
 </a>
-<div class="nav-right-group">
 <a class="about-nav" href="index.html#despre">
-<span class="nav-main" style="text-transform:none;">Despre</span>
-<span class="nav-sub" style="text-transform:none;">About</span>
+<span class="nav-main">ABOUT</span>
+<span class="nav-sub">Despre</span>
 </a>
 <a class="tools-nav" href="free-online-tools.html">TOOLS</a>
-</div>
 </nav>
 <main>
 <h1>ALSBKIN Songs</h1>
