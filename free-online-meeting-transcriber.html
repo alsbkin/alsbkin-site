@@ -593,12 +593,17 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let pauseDetectorNoiseFloor = 0.006;
   let pauseDetectorThreshold = 0.015;
   let lastVoiceAt = 0;
+  let acousticCommaApplied = false;
   let acousticSentenceApplied = false;
   let acousticParagraphApplied = false;
   let sentenceBoundaryLength = -1;
-  const SENTENCE_PAUSE_MS = 850;
-  const PARAGRAPH_PAUSE_MS = 1800;
-  const TEXT_FALLBACK_PAUSE_MS = 2600;
+  let pendingCommaWordCount = 0;
+  let commaWordPositions = [];
+  let currentParagraphTimestamp = '';
+  const COMMA_PAUSE_MS = 350;
+  const SENTENCE_PAUSE_MS = 650;
+  const PARAGRAPH_PAUSE_MS = 1400;
+  const TEXT_FALLBACK_PAUSE_MS = 2200;
 
   function setStatus(text){ statusEl.textContent = text; }
   function formatTime(seconds){
@@ -624,6 +629,34 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   function capitalizeStart(text){
     return String(text || '').replace(/^([\s\[\(\{"'“”]*)([a-zăâîșț])/iu, (m,prefix,ch)=>prefix+ch.toLocaleUpperCase(recognitionLanguage()));
   }
+  function wordCount(text){
+    const clean = cleanRecognitionText(text);
+    return clean ? clean.split(/\s+/).length : 0;
+  }
+  function addCommaMarker(position){
+    if(!position || position < 1) return;
+    if(!commaWordPositions.includes(position)) commaWordPositions.push(position);
+    commaWordPositions.sort((a,b)=>a-b);
+  }
+  function applyCommaMarkers(text, consume=false, keepTerminalMarker=true){
+    const clean = cleanRecognitionText(text);
+    if(!clean || !commaWordPositions.length) return clean;
+    const words = clean.split(/\s+/);
+    const positions = commaWordPositions.filter(pos => pos > 0 && pos <= words.length && (keepTerminalMarker || pos < words.length));
+    positions.forEach(pos=>{
+      const i = pos - 1;
+      if(i >= 0 && i < words.length && !/[,.!?…:;]$/.test(words[i])) words[i] += ',';
+    });
+    if(consume) commaWordPositions = [];
+    return words.join(' ');
+  }
+  function paragraphTimePrefix(base){
+    if($('timestamps').value !== 'on') return '';
+    const atParagraphStart = !base.trim() || /\n\n$/.test(base);
+    if(!atParagraphStart) return '';
+    if(!currentParagraphTimestamp) currentParagraphTimestamp = formatTime(elapsedSeconds());
+    return `[${currentParagraphTimestamp}] `;
+  }
   function clearInterimTail(){
     if(interimTail && transcript.value.endsWith(interimTail)){
       transcript.value = transcript.value.slice(0, -interimTail.length);
@@ -636,12 +669,15 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     // The visible interim tail is already in the textarea. Turn it into permanent text.
     if(asParagraph){
       const base = transcript.value.slice(0, -interimTail.length);
-      let clean = ensureTerminalPunctuation(currentInterimText || interimTail);
+      let clean = applyCommaMarkers(currentInterimText || interimTail, true, false);
+      clean = ensureTerminalPunctuation(clean);
       clean = capitalizeStart(clean);
       const hasTextBefore = !!base.trim();
       const joiner = !hasTextBefore || /\n\n$/.test(base) ? '' : ' ';
-      transcript.value = base + joiner + clean + '\n\n';
+      const timePrefix = paragraphTimePrefix(base);
+      transcript.value = base + joiner + timePrefix + clean + '\n\n';
       currentParagraphChars = 0;
+      currentParagraphTimestamp = '';
     }else{
       currentParagraphChars = transcript.value.split(/\n\n/).pop()?.trim().length || 0;
     }
@@ -658,10 +694,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     currentInterimText = '';
 
     if(phrase){
-      let clean = capitalizeStart(ensureTerminalPunctuation(phrase));
+      let clean = applyCommaMarkers(phrase, true, false);
+      clean = capitalizeStart(ensureTerminalPunctuation(clean));
       const joiner = !base.trim() || /(?:\s|\n)$/.test(base) ? '' : ' ';
-      base += joiner + clean;
+      const timePrefix = paragraphTimePrefix(base);
+      base += joiner + timePrefix + clean;
     }else{
+      // A short pause that grew into a sentence pause is a period, not a comma.
+      pendingCommaWordCount = 0;
       // If Chrome already emitted a final result, ensure the last committed line
       // still has terminal punctuation before adding the boundary.
       const trimmed = base.replace(/[ \t]+$/g,'').replace(/\n+$/g,'');
@@ -681,6 +721,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(separator === '\n\n'){
       transcript.value = base.replace(/\n+$/g,'') + '\n\n';
       currentParagraphChars = 0;
+      currentParagraphTimestamp = '';
     }else{
       transcript.value = base + ' ';
       currentParagraphChars = transcript.value.split(/\n\n/).pop()?.trim().length || 0;
@@ -698,6 +739,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       if(sentenceBoundaryLength === transcript.value.length && transcript.value.endsWith(' ')){
         transcript.value = transcript.value.slice(0,-1).replace(/\n+$/g,'') + '\n\n';
         currentParagraphChars = 0;
+        currentParagraphTimestamp = '';
         transcript.scrollTop = transcript.scrollHeight;
       }else if(!/\n\n$/.test(transcript.value) && transcript.value.trim()){
         commitPhraseNow('\n\n');
@@ -731,8 +773,11 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       pauseDetectorStream = null;
     }
     lastVoiceAt = 0;
+    acousticCommaApplied = false;
     acousticSentenceApplied = false;
     acousticParagraphApplied = false;
+    pendingCommaWordCount = 0;
+    commaWordPositions = [];
     sentenceBoundaryLength = -1;
   }
 
@@ -789,7 +834,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
         const voiced = rms >= pauseDetectorThreshold;
         if(voiced){
+          // If speech resumes after a short pause, keep that pause as a comma.
+          // If the pause reached sentence length, it was already promoted to a period.
+          if(pendingCommaWordCount && !acousticSentenceApplied){
+            addCommaMarker(pendingCommaWordCount);
+          }
+          pendingCommaWordCount = 0;
           lastVoiceAt = now;
+          acousticCommaApplied = false;
           acousticSentenceApplied = false;
           acousticParagraphApplied = false;
           sentenceBoundaryLength = -1;
@@ -806,8 +858,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         if(!lastVoiceAt) return;
         const silenceMs = now - lastVoiceAt;
 
+        if(!acousticCommaApplied && silenceMs >= COMMA_PAUSE_MS){
+          acousticCommaApplied = true;
+          pendingCommaWordCount = wordCount(currentInterimText);
+        }
         if(!acousticSentenceApplied && silenceMs >= SENTENCE_PAUSE_MS){
           acousticSentenceApplied = true;
+          pendingCommaWordCount = 0;
           forceRecognitionBoundary(false);
         }
         if(!acousticParagraphApplied && $('paragraphs').value === 'on' && silenceMs >= PARAGRAPH_PAUSE_MS){
@@ -843,15 +900,18 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     }
     transcript.value = value + '\n\n';
     currentParagraphChars = 0;
+    currentParagraphTimestamp = '';
     transcript.scrollTop = transcript.scrollHeight;
   }
   function previewParagraphBoundary(){
     if(!interimTail || !currentInterimText) return;
     const base = transcript.value.slice(0, -interimTail.length);
-    let clean = capitalizeStart(ensureTerminalPunctuation(currentInterimText));
+    let clean = applyCommaMarkers(currentInterimText, false, false);
+    clean = capitalizeStart(ensureTerminalPunctuation(clean));
     const hasTextBefore = !!base.trim();
     const joiner = !hasTextBefore || /\n\n$/.test(base) ? '' : ' ';
-    interimTail = joiner + clean + '\n\n';
+    const timePrefix = paragraphTimePrefix(base);
+    interimTail = joiner + timePrefix + clean + '\n\n';
     transcript.value = base + interimTail;
     transcript.scrollTop = transcript.scrollHeight;
   }
@@ -879,17 +939,19 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     clearInterimTail();
     let clean = cleanRecognitionText(text);
     if(!clean) return;
-    clean = capitalizeStart(ensureTerminalPunctuation(clean));
+    clean = applyCommaMarkers(clean, true, true);
+    clean = capitalizeStart(clean);
 
     const hasText = !!transcript.value.trim();
     const alreadyAtParagraphStart = /\n\n$/.test(transcript.value);
     const joiner = !hasText || alreadyAtParagraphStart ? '' : ' ';
-    const withTime = $('timestamps').value === 'on' ? `[${formatTime(elapsedSeconds())}] ` : '';
+    const withTime = (!hasText || alreadyAtParagraphStart) ? paragraphTimePrefix(transcript.value) : '';
     transcript.value += joiner + withTime + clean;
 
     if(breakAfterCurrentFinal && $('paragraphs').value === 'on'){
       transcript.value = transcript.value.replace(/[ \t]+$/g,'').replace(/\n+$/g,'') + '\n\n';
       currentParagraphChars = 0;
+      currentParagraphTimestamp = '';
       breakAfterCurrentFinal = false;
     }else{
       currentParagraphChars = transcript.value.split(/\n\n/).pop()?.trim().length || 0;
@@ -905,7 +967,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const hasText = !!transcript.value.trim();
     const atParagraphStart = /\n\n$/.test(transcript.value);
     const joiner = !hasText || atParagraphStart ? '' : ' ';
-    interimTail = joiner + capitalizeStart(clean);
+    const withTime = (!hasText || atParagraphStart) ? paragraphTimePrefix(transcript.value) : '';
+    const punctuatedPreview = applyCommaMarkers(clean, false, true);
+    interimTail = joiner + withTime + capitalizeStart(punctuatedPreview);
     transcript.value += interimTail;
     transcript.scrollTop = transcript.scrollHeight;
   }
@@ -916,6 +980,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const joiner = transcript.value.trim() ? '\n\n' : '';
     transcript.value += `${joiner}${time}${name}:`;
     currentParagraphChars = 0;
+    currentParagraphTimestamp = '';
     breakAfterCurrentFinal = false;
     transcript.focus();
     transcript.scrollTop = transcript.scrollHeight;
@@ -1083,6 +1148,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     lastRecognitionFingerprint = '';
     paragraphCycleRequested = false;
     breakAfterCurrentFinal = false;
+    pendingCommaWordCount = 0;
+    commaWordPositions = [];
+    currentParagraphTimestamp = '';
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
     setStatus(t().listeningLoading);
@@ -1133,8 +1201,12 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     breakAfterCurrentFinal = false;
     paragraphCycleRequested = false;
     ignoreRecognitionResultsUntilEnd = false;
+    acousticCommaApplied = false;
     acousticSentenceApplied = false;
     acousticParagraphApplied = false;
+    pendingCommaWordCount = 0;
+    commaWordPositions = [];
+    currentParagraphTimestamp = '';
     sentenceBoundaryLength = -1;
     lastRecognitionFingerprint = '';
     if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
@@ -1181,7 +1253,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
     catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
   });
-  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;breakAfterCurrentFinal=false;paragraphCycleRequested=false;ignoreRecognitionResultsUntilEnd=false;lastRecognitionFingerprint='';setStatus(t().cleared);} });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;breakAfterCurrentFinal=false;paragraphCycleRequested=false;ignoreRecognitionResultsUntilEnd=false;lastRecognitionFingerprint='';pendingCommaWordCount=0;commaWordPositions=[];currentParagraphTimestamp='';setStatus(t().cleared);} });
   $('docxBtn').addEventListener('click',exportDocx);
   $('txtBtn').addEventListener('click',exportTxt);
   $('paragraphs').addEventListener('change',()=>{
