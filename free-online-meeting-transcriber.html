@@ -575,8 +575,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let interimTail = '';
   let lastSpeechEndAt = 0;
   let pendingParagraphBreak = false;
+  let breakAfterCurrentFinal = false;
+  let paragraphSilenceTimer = null;
   let currentParagraphChars = 0;
-  const PARAGRAPH_PAUSE_MS = 1800;
+  const PARAGRAPH_PAUSE_MS = 1600;
   const PARAGRAPH_SOFT_LIMIT = 420;
 
   function setStatus(text){ statusEl.textContent = text; }
@@ -597,6 +599,25 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(transcript.value.endsWith(interimTail)) transcript.value = transcript.value.slice(0, -interimTail.length);
     interimTail = '';
   }
+  function clearParagraphSilenceTimer(){
+    if(paragraphSilenceTimer){
+      clearTimeout(paragraphSilenceTimer);
+      paragraphSilenceTimer = null;
+    }
+  }
+  function armParagraphSilenceTimer(){
+    clearParagraphSilenceTimer();
+    if(!recording || paused || $('paragraphs').value !== 'on') return;
+    paragraphSilenceTimer = setTimeout(()=>{
+      paragraphSilenceTimer = null;
+      if(!recording || paused || $('paragraphs').value !== 'on') return;
+      if(interimTail){
+        breakAfterCurrentFinal = true;
+      }else if(transcript.value.trim()){
+        pendingParagraphBreak = true;
+      }
+    }, PARAGRAPH_PAUSE_MS);
+  }
   function appendFinalText(text){
     clearInterimTail();
     const clean = String(text || '').replace(/\s+/g,' ').trim();
@@ -615,7 +636,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
     if(shouldBreak || !hasText) currentParagraphChars = clean.length;
     else currentParagraphChars += clean.length + 1;
+
+    const breakAfterThisFinal = breakAfterCurrentFinal;
     pendingParagraphBreak = false;
+    breakAfterCurrentFinal = false;
+    if(paragraphsOn && breakAfterThisFinal && transcript.value.trim()){
+      pendingParagraphBreak = true;
+    }
     transcript.scrollTop = transcript.scrollHeight;
   }
   function showInterimText(text){
@@ -692,15 +719,22 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       setStatus(t().listeningProcessed);
     };
     r.onspeechstart = ()=>{
-      if(lastSpeechEndAt && performance.now() - lastSpeechEndAt >= PARAGRAPH_PAUSE_MS){
+      clearParagraphSilenceTimer();
+      if(lastSpeechEndAt && performance.now() - lastSpeechEndAt >= PARAGRAPH_PAUSE_MS && $('paragraphs').value === 'on'){
         pendingParagraphBreak = true;
       }
       setStatus(t().listeningProcessed);
     };
     r.onspeechend = ()=>{
       lastSpeechEndAt = performance.now();
+      if($('paragraphs').value === 'on'){
+        if(interimTail) breakAfterCurrentFinal = true;
+        else if(transcript.value.trim()) pendingParagraphBreak = true;
+      }
+      armParagraphSilenceTimer();
     };
     r.onresult = (event)=>{
+      clearParagraphSilenceTimer();
       let interim = '';
       for(let i=event.resultIndex; i<event.results.length; i++){
         const result = event.results[i];
@@ -709,6 +743,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         else interim += ' ' + text;
       }
       showInterimText(interim);
+      // Chrome does not always emit speechstart/speechend for every natural pause,
+      // so a period with no recognition updates is used as a second pause detector.
+      armParagraphSilenceTimer();
     };
     r.onerror = (event)=>{
       const code = event.error || 'unknown';
@@ -773,8 +810,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     totalPausedMs = 0;
     pausedAt = 0;
     clearInterimTail();
+    clearParagraphSilenceTimer();
     lastSpeechEndAt = 0;
     pendingParagraphBreak = false;
+    breakAfterCurrentFinal = false;
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
     setStatus(t().listeningLoading);
@@ -790,6 +829,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       pausedAt = performance.now();
       shouldRestart = false;
       clearInterimTail();
+      clearParagraphSilenceTimer();
+      if($('paragraphs').value === 'on' && transcript.value.trim()) pendingParagraphBreak = true;
       if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
       pauseBtn.textContent=t().resume;
       micDot.className='mic-dot paused';
@@ -814,6 +855,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     paused=false;
     shouldRestart=false;
     clearInterimTail();
+    clearParagraphSilenceTimer();
+    breakAfterCurrentFinal = false;
     if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
     startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true; pauseBtn.textContent=t().pause;
     micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
@@ -858,9 +901,16 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
     catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
   });
-  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();transcript.value='';currentParagraphChars=0;pendingParagraphBreak=false;lastSpeechEndAt=0;setStatus(t().cleared);} });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;pendingParagraphBreak=false;breakAfterCurrentFinal=false;lastSpeechEndAt=0;setStatus(t().cleared);} });
   $('docxBtn').addEventListener('click',exportDocx);
   $('txtBtn').addEventListener('click',exportTxt);
+  $('paragraphs').addEventListener('change',()=>{
+    clearParagraphSilenceTimer();
+    pendingParagraphBreak = false;
+    breakAfterCurrentFinal = false;
+    currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
+    if(recording && !paused && $('paragraphs').value === 'on') armParagraphSilenceTimer();
+  });
   uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
   window.addEventListener('beforeunload',()=>{ shouldRestart=false; if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
 
