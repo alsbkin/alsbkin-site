@@ -578,8 +578,19 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let breakAfterCurrentFinal = false;
   let paragraphSilenceTimer = null;
   let currentParagraphChars = 0;
+  let vadStream = null;
+  let vadContext = null;
+  let vadAnalyser = null;
+  let vadFrame = 0;
+  let vadActive = false;
+  let vadNoiseFloor = 0.006;
+  let vadLastVoiceAt = 0;
+  let vadVoiceStartedAt = 0;
+  let vadParagraphCommitted = false;
+  let speechSinceLastFinal = false;
   const PARAGRAPH_PAUSE_MS = 1600;
   const PARAGRAPH_SOFT_LIMIT = 420;
+  const VAD_MIN_VOICE_MS = 140;
 
   function setStatus(text){ statusEl.textContent = text; }
   function formatTime(seconds){
@@ -605,18 +616,102 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       paragraphSilenceTimer = null;
     }
   }
+  function requestParagraphBreakAfterPause(){
+    if(!recording || paused || $('paragraphs').value !== 'on' || !transcript.value.trim()) return;
+
+    // If speech has happened since the last committed final result, the pause belongs
+    // AFTER that still-uncommitted phrase. Otherwise the next phrase starts a paragraph.
+    if(speechSinceLastFinal || interimTail){
+      breakAfterCurrentFinal = true;
+    }else{
+      pendingParagraphBreak = true;
+    }
+  }
   function armParagraphSilenceTimer(){
     clearParagraphSilenceTimer();
-    if(!recording || paused || $('paragraphs').value !== 'on') return;
+    // Audio-level VAD is the primary detector. This timer is only a fallback for
+    // browsers/devices where a second microphone stream cannot be opened.
+    if(vadActive || !recording || paused || $('paragraphs').value !== 'on') return;
     paragraphSilenceTimer = setTimeout(()=>{
       paragraphSilenceTimer = null;
-      if(!recording || paused || $('paragraphs').value !== 'on') return;
-      if(interimTail){
-        breakAfterCurrentFinal = true;
-      }else if(transcript.value.trim()){
-        pendingParagraphBreak = true;
-      }
+      requestParagraphBreakAfterPause();
     }, PARAGRAPH_PAUSE_MS);
+  }
+  function stopAudioPauseDetector(){
+    vadActive = false;
+    if(vadFrame){ cancelAnimationFrame(vadFrame); vadFrame = 0; }
+    if(vadStream){
+      try{ vadStream.getTracks().forEach(track=>track.stop()); }catch{}
+      vadStream = null;
+    }
+    if(vadContext){
+      try{ vadContext.close(); }catch{}
+      vadContext = null;
+    }
+    vadAnalyser = null;
+    vadLastVoiceAt = 0;
+    vadVoiceStartedAt = 0;
+    vadParagraphCommitted = false;
+  }
+  async function startAudioPauseDetector(){
+    stopAudioPauseDetector();
+    if(!navigator.mediaDevices?.getUserMedia) return false;
+    try{
+      vadStream = await navigator.mediaDevices.getUserMedia({
+        audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true},
+        video:false
+      });
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if(!AudioCtx){ stopAudioPauseDetector(); return false; }
+      vadContext = new AudioCtx();
+      if(vadContext.state === 'suspended'){ try{ await vadContext.resume(); }catch{} }
+      const source = vadContext.createMediaStreamSource(vadStream);
+      vadAnalyser = vadContext.createAnalyser();
+      vadAnalyser.fftSize = 1024;
+      vadAnalyser.smoothingTimeConstant = 0.15;
+      source.connect(vadAnalyser);
+      const data = new Float32Array(vadAnalyser.fftSize);
+      vadNoiseFloor = 0.006;
+      vadLastVoiceAt = performance.now();
+      vadVoiceStartedAt = 0;
+      vadParagraphCommitted = false;
+      vadActive = true;
+
+      const tick = ()=>{
+        if(!vadActive || !vadAnalyser || !recording || paused) return;
+        vadAnalyser.getFloatTimeDomainData(data);
+        let sum = 0;
+        for(let i=0;i<data.length;i++) sum += data[i]*data[i];
+        const rms = Math.sqrt(sum / data.length);
+        const now = performance.now();
+        const threshold = Math.max(0.014, vadNoiseFloor * 2.8);
+        const voiced = rms >= threshold;
+
+        if(voiced){
+          if(!vadVoiceStartedAt) vadVoiceStartedAt = now;
+          if(now - vadVoiceStartedAt >= VAD_MIN_VOICE_MS){
+            vadLastVoiceAt = now;
+            vadParagraphCommitted = false;
+            speechSinceLastFinal = true;
+          }
+        }else{
+          vadVoiceStartedAt = 0;
+          // Adapt the noise floor slowly only while the signal looks like background noise.
+          vadNoiseFloor = Math.min(0.03, Math.max(0.002, vadNoiseFloor * 0.97 + rms * 0.03));
+          if($('paragraphs').value === 'on' && !vadParagraphCommitted && vadLastVoiceAt &&
+             now - vadLastVoiceAt >= PARAGRAPH_PAUSE_MS){
+            requestParagraphBreakAfterPause();
+            vadParagraphCommitted = true;
+          }
+        }
+        vadFrame = requestAnimationFrame(tick);
+      };
+      vadFrame = requestAnimationFrame(tick);
+      return true;
+    }catch(err){
+      stopAudioPauseDetector();
+      return false;
+    }
   }
   function appendFinalText(text){
     clearInterimTail();
@@ -640,6 +735,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const breakAfterThisFinal = breakAfterCurrentFinal;
     pendingParagraphBreak = false;
     breakAfterCurrentFinal = false;
+    speechSinceLastFinal = false;
     if(paragraphsOn && breakAfterThisFinal && transcript.value.trim()){
       pendingParagraphBreak = true;
     }
@@ -720,6 +816,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     };
     r.onspeechstart = ()=>{
       clearParagraphSilenceTimer();
+      speechSinceLastFinal = true;
       if(lastSpeechEndAt && performance.now() - lastSpeechEndAt >= PARAGRAPH_PAUSE_MS && $('paragraphs').value === 'on'){
         pendingParagraphBreak = true;
       }
@@ -727,10 +824,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     };
     r.onspeechend = ()=>{
       lastSpeechEndAt = performance.now();
-      if($('paragraphs').value === 'on'){
-        if(interimTail) breakAfterCurrentFinal = true;
-        else if(transcript.value.trim()) pendingParagraphBreak = true;
-      }
+      if(!vadActive) requestParagraphBreakAfterPause();
       armParagraphSilenceTimer();
     };
     r.onresult = (event)=>{
@@ -759,6 +853,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         shouldRestart = false;
         recording = false;
         paused = false;
+        stopAudioPauseDetector();
         startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true;
         micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
       }
@@ -792,7 +887,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       return false;
     }
   }
-  function startRecording(){
+  async function startRecording(){
     if(recording) return;
     if(!SpeechRecognitionCtor){
       const msg = uiLang === 'ro'
@@ -814,15 +909,18 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     lastSpeechEndAt = 0;
     pendingParagraphBreak = false;
     breakAfterCurrentFinal = false;
+    speechSinceLastFinal = false;
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
     setStatus(t().listeningLoading);
+    await startAudioPauseDetector();
     if(!startRecognitionCycle()){
       recording=false; shouldRestart=false;
+      stopAudioPauseDetector();
       startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true;
     }
   }
-  function togglePause(){
+  async function togglePause(){
     if(!recording) return;
     if(!paused){
       paused = true;
@@ -830,6 +928,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       shouldRestart = false;
       clearInterimTail();
       clearParagraphSilenceTimer();
+      stopAudioPauseDetector();
       if($('paragraphs').value === 'on' && transcript.value.trim()) pendingParagraphBreak = true;
       if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
       pauseBtn.textContent=t().resume;
@@ -845,6 +944,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       micDot.className='mic-dot live';
       micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
       setStatus(t().listeningLoading);
+      await startAudioPauseDetector();
       startRecognitionCycle();
     }
   }
@@ -856,7 +956,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     shouldRestart=false;
     clearInterimTail();
     clearParagraphSilenceTimer();
+    stopAudioPauseDetector();
     breakAfterCurrentFinal = false;
+    speechSinceLastFinal = false;
     if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
     startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true; pauseBtn.textContent=t().pause;
     micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
@@ -901,7 +1003,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
     catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
   });
-  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;pendingParagraphBreak=false;breakAfterCurrentFinal=false;lastSpeechEndAt=0;setStatus(t().cleared);} });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;pendingParagraphBreak=false;breakAfterCurrentFinal=false;speechSinceLastFinal=false;lastSpeechEndAt=0;vadParagraphCommitted=false;setStatus(t().cleared);} });
   $('docxBtn').addEventListener('click',exportDocx);
   $('txtBtn').addEventListener('click',exportTxt);
   $('paragraphs').addEventListener('change',()=>{
@@ -912,7 +1014,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(recording && !paused && $('paragraphs').value === 'on') armParagraphSilenceTimer();
   });
   uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
-  window.addEventListener('beforeunload',()=>{ shouldRestart=false; if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
+  window.addEventListener('beforeunload',()=>{ shouldRestart=false; stopAudioPauseDetector(); if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
 
   applyLanguage();
 })();
