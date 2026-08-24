@@ -573,24 +573,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let pausedAt = 0;
   let totalPausedMs = 0;
   let interimTail = '';
-  let lastSpeechEndAt = 0;
-  let pendingParagraphBreak = false;
-  let breakAfterCurrentFinal = false;
+  let currentInterimText = '';
+  let lastRecognitionFingerprint = '';
   let paragraphSilenceTimer = null;
+  let paragraphCycleRequested = false;
+  let breakAfterCurrentFinal = false;
   let currentParagraphChars = 0;
-  let vadStream = null;
-  let vadContext = null;
-  let vadAnalyser = null;
-  let vadFrame = 0;
-  let vadActive = false;
-  let vadNoiseFloor = 0.006;
-  let vadLastVoiceAt = 0;
-  let vadVoiceStartedAt = 0;
-  let vadParagraphCommitted = false;
-  let speechSinceLastFinal = false;
-  const PARAGRAPH_PAUSE_MS = 1600;
-  const PARAGRAPH_SOFT_LIMIT = 420;
-  const VAD_MIN_VOICE_MS = 140;
+  const PARAGRAPH_PAUSE_MS = 2000;
 
   function setStatus(text){ statusEl.textContent = text; }
   function formatTime(seconds){
@@ -605,20 +594,40 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const end = paused && pausedAt ? pausedAt : performance.now();
     return (end - startedAt - totalPausedMs) / 1000;
   }
-  function clearInterimTail(){
-    if(!interimTail) return;
-    if(transcript.value.endsWith(interimTail)) transcript.value = transcript.value.slice(0, -interimTail.length);
-    interimTail = '';
+  function cleanRecognitionText(text){
+    return String(text || '').replace(/\s+/g,' ').trim();
   }
-  function commitInterimTail(){
-    if(!interimTail) return;
-    const committed = interimTail.replace(/^\s+/, '').trim();
-    if(committed){
-      if(/^\n\n/.test(interimTail)) currentParagraphChars = committed.length;
-      else currentParagraphChars += committed.length + (currentParagraphChars ? 1 : 0);
+  function ensureTerminalPunctuation(text){
+    const clean = cleanRecognitionText(text);
+    if(!clean) return '';
+    return /[.!?…:;][”"')\]]?$/.test(clean) ? clean : clean + '.';
+  }
+  function capitalizeStart(text){
+    return String(text || '').replace(/^([\s\[\(\{"'“”]*)([a-zăâîșț])/iu, (m,prefix,ch)=>prefix+ch.toLocaleUpperCase(recognitionLanguage()));
+  }
+  function clearInterimTail(){
+    if(interimTail && transcript.value.endsWith(interimTail)){
+      transcript.value = transcript.value.slice(0, -interimTail.length);
     }
     interimTail = '';
-    pendingParagraphBreak = false;
+    currentInterimText = '';
+  }
+  function commitInterimTail(asParagraph=false){
+    if(!interimTail) return;
+    // The visible interim tail is already in the textarea. Turn it into permanent text.
+    if(asParagraph){
+      const base = transcript.value.slice(0, -interimTail.length);
+      let clean = ensureTerminalPunctuation(currentInterimText || interimTail);
+      clean = capitalizeStart(clean);
+      const hasTextBefore = !!base.trim();
+      const joiner = !hasTextBefore || /\n\n$/.test(base) ? '' : ' ';
+      transcript.value = base + joiner + clean + '\n\n';
+      currentParagraphChars = 0;
+    }else{
+      currentParagraphChars = transcript.value.split(/\n\n/).pop()?.trim().length || 0;
+    }
+    interimTail = '';
+    currentInterimText = '';
   }
   function clearParagraphSilenceTimer(){
     if(paragraphSilenceTimer){
@@ -626,128 +635,91 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       paragraphSilenceTimer = null;
     }
   }
-  function requestParagraphBreakAfterPause(){
-    if(!recording || paused || $('paragraphs').value !== 'on' || !transcript.value.trim()) return;
-    // A paragraph break is applied to the NEXT recognized phrase. This is deliberately
-    // independent of speechstart/speechend because Chrome does not emit them reliably.
-    pendingParagraphBreak = true;
+  function closeCommittedParagraph(){
+    clearInterimTail();
+    let value = transcript.value.replace(/[ \t]+$/g,'').replace(/\n+$/g,'');
+    if(!value.trim()) return;
+    const m = value.match(/([^\n]+)$/);
+    if(m){
+      const line = m[1];
+      const punctuated = ensureTerminalPunctuation(line);
+      if(punctuated !== line) value = value.slice(0, -line.length) + punctuated;
+    }
+    transcript.value = value + '\n\n';
+    currentParagraphChars = 0;
+    transcript.scrollTop = transcript.scrollHeight;
+  }
+  function previewParagraphBoundary(){
+    if(!interimTail || !currentInterimText) return;
+    const base = transcript.value.slice(0, -interimTail.length);
+    let clean = capitalizeStart(ensureTerminalPunctuation(currentInterimText));
+    const hasTextBefore = !!base.trim();
+    const joiner = !hasTextBefore || /\n\n$/.test(base) ? '' : ' ';
+    interimTail = joiner + clean + '\n\n';
+    transcript.value = base + interimTail;
+    transcript.scrollTop = transcript.scrollHeight;
+  }
+  function paragraphPauseReached(){
+    paragraphSilenceTimer = null;
+    if(!recording || paused || $('paragraphs').value !== 'on') return;
+    if(!transcript.value.trim() && !currentInterimText) return;
+
+    if(currentInterimText){
+      // The browser has not finalized the phrase yet. Show the paragraph immediately,
+      // then stop this recognition cycle so Chrome finalizes the utterance before restart.
+      breakAfterCurrentFinal = true;
+      previewParagraphBoundary();
+    }else{
+      closeCommittedParagraph();
+      breakAfterCurrentFinal = false;
+    }
+
+    if(recognitionActive && recognition && !paragraphCycleRequested){
+      paragraphCycleRequested = true;
+      try{ recognition.stop(); }catch{}
+    }
   }
   function armParagraphSilenceTimer(){
     clearParagraphSilenceTimer();
     if(!recording || paused || $('paragraphs').value !== 'on') return;
-    paragraphSilenceTimer = setTimeout(()=>{
-      paragraphSilenceTimer = null;
-      requestParagraphBreakAfterPause();
-    }, PARAGRAPH_PAUSE_MS);
+    paragraphSilenceTimer = setTimeout(paragraphPauseReached, PARAGRAPH_PAUSE_MS);
   }
-  function stopAudioPauseDetector(){
-    vadActive = false;
-    if(vadFrame){ cancelAnimationFrame(vadFrame); vadFrame = 0; }
-    if(vadStream){
-      try{ vadStream.getTracks().forEach(track=>track.stop()); }catch{}
-      vadStream = null;
-    }
-    if(vadContext){
-      try{ vadContext.close(); }catch{}
-      vadContext = null;
-    }
-    vadAnalyser = null;
-    vadLastVoiceAt = 0;
-    vadVoiceStartedAt = 0;
-    vadParagraphCommitted = false;
-  }
-  async function startAudioPauseDetector(){
-    stopAudioPauseDetector();
-    if(!navigator.mediaDevices?.getUserMedia) return false;
-    try{
-      vadStream = await navigator.mediaDevices.getUserMedia({
-        audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true},
-        video:false
-      });
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if(!AudioCtx){ stopAudioPauseDetector(); return false; }
-      vadContext = new AudioCtx();
-      if(vadContext.state === 'suspended'){ try{ await vadContext.resume(); }catch{} }
-      const source = vadContext.createMediaStreamSource(vadStream);
-      vadAnalyser = vadContext.createAnalyser();
-      vadAnalyser.fftSize = 1024;
-      vadAnalyser.smoothingTimeConstant = 0.15;
-      source.connect(vadAnalyser);
-      const data = new Float32Array(vadAnalyser.fftSize);
-      vadNoiseFloor = 0.006;
-      vadLastVoiceAt = performance.now();
-      vadVoiceStartedAt = 0;
-      vadParagraphCommitted = false;
-      vadActive = true;
-
-      const tick = ()=>{
-        if(!vadActive || !vadAnalyser || !recording || paused) return;
-        vadAnalyser.getFloatTimeDomainData(data);
-        let sum = 0;
-        for(let i=0;i<data.length;i++) sum += data[i]*data[i];
-        const rms = Math.sqrt(sum / data.length);
-        const now = performance.now();
-        const threshold = Math.max(0.014, vadNoiseFloor * 2.8);
-        const voiced = rms >= threshold;
-
-        if(voiced){
-          if(!vadVoiceStartedAt) vadVoiceStartedAt = now;
-          if(now - vadVoiceStartedAt >= VAD_MIN_VOICE_MS){
-            vadLastVoiceAt = now;
-            vadParagraphCommitted = false;
-            speechSinceLastFinal = true;
-          }
-        }else{
-          vadVoiceStartedAt = 0;
-          // Adapt the noise floor slowly only while the signal looks like background noise.
-          vadNoiseFloor = Math.min(0.03, Math.max(0.002, vadNoiseFloor * 0.97 + rms * 0.03));
-          if($('paragraphs').value === 'on' && !vadParagraphCommitted && vadLastVoiceAt &&
-             now - vadLastVoiceAt >= PARAGRAPH_PAUSE_MS){
-            requestParagraphBreakAfterPause();
-            vadParagraphCommitted = true;
-          }
-        }
-        vadFrame = requestAnimationFrame(tick);
-      };
-      vadFrame = requestAnimationFrame(tick);
-      return true;
-    }catch(err){
-      stopAudioPauseDetector();
-      return false;
-    }
+  function noteRecognitionChanged(fingerprint){
+    if(fingerprint === lastRecognitionFingerprint) return;
+    lastRecognitionFingerprint = fingerprint;
+    armParagraphSilenceTimer();
   }
   function appendFinalText(text){
     clearInterimTail();
-    const clean = String(text || '').replace(/\s+/g,' ').trim();
+    let clean = cleanRecognitionText(text);
     if(!clean) return;
+    clean = capitalizeStart(ensureTerminalPunctuation(clean));
 
-    const paragraphsOn = $('paragraphs').value === 'on';
     const hasText = !!transcript.value.trim();
-    const shouldBreak = paragraphsOn && hasText && (
-      pendingParagraphBreak ||
-      (currentParagraphChars >= PARAGRAPH_SOFT_LIMIT && /[.!?…]$/.test(transcript.value.trim()))
-    );
-
-    const joiner = !hasText ? '' : (shouldBreak ? '\n\n' : ' ');
+    const alreadyAtParagraphStart = /\n\n$/.test(transcript.value);
+    const joiner = !hasText || alreadyAtParagraphStart ? '' : ' ';
     const withTime = $('timestamps').value === 'on' ? `[${formatTime(elapsedSeconds())}] ` : '';
     transcript.value += joiner + withTime + clean;
 
-    if(shouldBreak || !hasText) currentParagraphChars = clean.length;
-    else currentParagraphChars += clean.length + 1;
-
-    pendingParagraphBreak = false;
-    breakAfterCurrentFinal = false;
-    speechSinceLastFinal = false;
+    if(breakAfterCurrentFinal && $('paragraphs').value === 'on'){
+      transcript.value = transcript.value.replace(/[ \t]+$/g,'').replace(/\n+$/g,'') + '\n\n';
+      currentParagraphChars = 0;
+      breakAfterCurrentFinal = false;
+    }else{
+      currentParagraphChars = transcript.value.split(/\n\n/).pop()?.trim().length || 0;
+    }
     transcript.scrollTop = transcript.scrollHeight;
   }
   function showInterimText(text){
     clearInterimTail();
     if($('interimResults').value !== 'on') return;
-    const clean = String(text || '').replace(/\s+/g,' ').trim();
+    const clean = cleanRecognitionText(text);
     if(!clean) return;
+    currentInterimText = clean;
     const hasText = !!transcript.value.trim();
-    const joiner = !hasText ? '' : (($('paragraphs').value === 'on' && pendingParagraphBreak) ? '\n\n' : ' ');
-    interimTail = joiner + clean;
+    const atParagraphStart = /\n\n$/.test(transcript.value);
+    const joiner = !hasText || atParagraphStart ? '' : ' ';
+    interimTail = joiner + capitalizeStart(clean);
     transcript.value += interimTail;
     transcript.scrollTop = transcript.scrollHeight;
   }
@@ -758,7 +730,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const joiner = transcript.value.trim() ? '\n\n' : '';
     transcript.value += `${joiner}${time}${name}:`;
     currentParagraphChars = 0;
-    pendingParagraphBreak = false;
+    breakAfterCurrentFinal = false;
     transcript.focus();
     transcript.scrollTop = transcript.scrollHeight;
   }
@@ -816,29 +788,36 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     };
     r.onspeechstart = ()=>{
       clearParagraphSilenceTimer();
-      speechSinceLastFinal = true;
-      if(lastSpeechEndAt && performance.now() - lastSpeechEndAt >= PARAGRAPH_PAUSE_MS && $('paragraphs').value === 'on'){
-        pendingParagraphBreak = true;
-      }
       setStatus(t().listeningProcessed);
     };
     r.onspeechend = ()=>{
-      lastSpeechEndAt = performance.now();
+      // Chrome does not always fire this event, but when it does it is useful as
+      // an additional signal. The main detector below uses actual text changes.
       armParagraphSilenceTimer();
     };
     r.onresult = (event)=>{
-      clearParagraphSilenceTimer();
       let interim = '';
+      const finalParts = [];
+      const fingerprintParts = [];
       for(let i=event.resultIndex; i<event.results.length; i++){
         const result = event.results[i];
         const text = result[0] && result[0].transcript ? result[0].transcript : '';
-        if(result.isFinal) appendFinalText(text);
-        else interim += ' ' + text;
+        const clean = cleanRecognitionText(text);
+        if(!clean) continue;
+        fingerprintParts.push((result.isFinal ? 'F:' : 'I:') + clean);
+        if(result.isFinal) finalParts.push(clean);
+        else interim += ' ' + clean;
       }
+
+      if(finalParts.length) appendFinalText(finalParts.join(' '));
       showInterimText(interim);
-      // Primary paragraph detector: if Chrome produces no recognition update for
-      // PARAGRAPH_PAUSE_MS, the next phrase is rendered as a new paragraph.
-      armParagraphSilenceTimer();
+
+      // IMPORTANT: do not restart the pause timer for duplicate interim events.
+      // Chrome may emit the same interim result repeatedly during silence. That was
+      // the reason the previous implementation never reached the paragraph timeout.
+      if(fingerprintParts.length && !paragraphCycleRequested){
+        noteRecognitionChanged(fingerprintParts.join('|'));
+      }
     };
     r.onerror = (event)=>{
       const code = event.error || 'unknown';
@@ -858,10 +837,21 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     };
     r.onend = ()=>{
       recognitionActive = false;
-      // Some Chrome sessions (especially privacy/incognito sessions) may end before
-      // returning a final result. Preserve the last visible interim text instead of
-      // deleting it when the recognizer restarts.
-      commitInterimTail();
+      clearParagraphSilenceTimer();
+
+      // If the 2-second pause detector stopped this recognition cycle and Chrome did
+      // not send a final result first, preserve the visible interim phrase as a real
+      // paragraph instead of losing it.
+      if(paragraphCycleRequested && breakAfterCurrentFinal && interimTail){
+        commitInterimTail(true);
+        breakAfterCurrentFinal = false;
+      }else{
+        commitInterimTail(false);
+      }
+
+      paragraphCycleRequested = false;
+      lastRecognitionFingerprint = '';
+
       if(recording && !paused && shouldRestart){
         setTimeout(()=>{
           if(recording && !paused && !recognitionActive){
@@ -907,10 +897,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     pausedAt = 0;
     clearInterimTail();
     clearParagraphSilenceTimer();
-    lastSpeechEndAt = 0;
-    pendingParagraphBreak = false;
+    lastRecognitionFingerprint = '';
+    paragraphCycleRequested = false;
     breakAfterCurrentFinal = false;
-    speechSinceLastFinal = false;
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
     setStatus(t().listeningLoading);
@@ -927,7 +916,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       shouldRestart = false;
       commitInterimTail();
       clearParagraphSilenceTimer();
-      if($('paragraphs').value === 'on' && transcript.value.trim()) pendingParagraphBreak = true;
+      if($('paragraphs').value === 'on' && transcript.value.trim()) closeCommittedParagraph();
       if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
       pauseBtn.textContent=t().resume;
       micDot.className='mic-dot paused';
@@ -954,7 +943,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     commitInterimTail();
     clearParagraphSilenceTimer();
     breakAfterCurrentFinal = false;
-    speechSinceLastFinal = false;
+    paragraphCycleRequested = false;
+    lastRecognitionFingerprint = '';
     if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
     startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true; pauseBtn.textContent=t().pause;
     micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
@@ -999,15 +989,15 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     try{await navigator.clipboard.writeText(transcript.value);setStatus(t().copied);}
     catch{transcript.select();document.execCommand('copy');setStatus(t().copied);}
   });
-  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;pendingParagraphBreak=false;breakAfterCurrentFinal=false;speechSinceLastFinal=false;lastSpeechEndAt=0;vadParagraphCommitted=false;setStatus(t().cleared);} });
+  $('clearBtn').addEventListener('click',()=>{ if(confirm(t().clearConfirm)){clearInterimTail();clearParagraphSilenceTimer();transcript.value='';currentParagraphChars=0;breakAfterCurrentFinal=false;paragraphCycleRequested=false;lastRecognitionFingerprint='';setStatus(t().cleared);} });
   $('docxBtn').addEventListener('click',exportDocx);
   $('txtBtn').addEventListener('click',exportTxt);
   $('paragraphs').addEventListener('change',()=>{
     clearParagraphSilenceTimer();
-    pendingParagraphBreak = false;
     breakAfterCurrentFinal = false;
+    paragraphCycleRequested = false;
+    lastRecognitionFingerprint = '';
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
-    if(recording && !paused && $('paragraphs').value === 'on') armParagraphSilenceTimer();
   });
   uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
   window.addEventListener('beforeunload',()=>{ shouldRestart=false; if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
