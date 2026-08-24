@@ -596,11 +596,17 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   let acousticCommaApplied = false;
   let acousticSentenceApplied = false;
   let acousticParagraphApplied = false;
+  let acousticWasVoiced = false;
   let sentenceBoundaryLength = -1;
   let pendingCommaWordCount = 0;
   let commaWordPositions = [];
+  let recentShortPauses = [];
   let currentParagraphTimestamp = '';
-  const COMMA_PAUSE_MS = 320;
+  const COMMA_BASE_MS = 420;
+  const COMMA_MIN_MS = 380;
+  const COMMA_MAX_MS = 500;
+  const COMMA_SAMPLE_MIN_MS = 180;
+  const MIN_WORDS_BEFORE_COMMA = 4;
   const SENTENCE_PAUSE_MS = 650;
   const PARAGRAPH_PAUSE_MS = 1400;
   const TEXT_FALLBACK_PAUSE_MS = 2200;
@@ -635,6 +641,27 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   function wordCount(text){
     const clean = cleanRecognitionText(text);
     return clean ? clean.split(/\s+/).length : 0;
+  }
+  function wordsSinceLastPunctuation(){
+    // Count only the current clause. This prevents commas after very short
+    // hesitations such as "da ..." or "și ...". Timestamps are ignored.
+    const visible = transcript.value.replace(/\[\d{2}(?::\d{2}){1,2}\]\s*/g,' ');
+    const clause = visible.split(/[,.!?…:;\n]/).pop() || '';
+    return wordCount(clause);
+  }
+  function adaptiveCommaPauseMs(){
+    if(!recentShortPauses.length) return COMMA_BASE_MS;
+    const sorted = recentShortPauses.slice().sort((a,b)=>a-b);
+    const median = sorted[Math.floor(sorted.length/2)];
+    // Typical micro-pauses should NOT automatically become commas. Requiring
+    // about 60 ms more than the recent median makes punctuation conservative
+    // while still adapting to a faster or slower speaking rhythm.
+    return Math.max(COMMA_MIN_MS, Math.min(COMMA_MAX_MS, median + 60));
+  }
+  function rememberShortPause(ms){
+    if(ms < COMMA_SAMPLE_MIN_MS || ms >= SENTENCE_PAUSE_MS) return;
+    recentShortPauses.push(ms);
+    if(recentShortPauses.length > 8) recentShortPauses.shift();
   }
   function addCommaMarker(position){
     if(!position || position < 1) return;
@@ -800,8 +827,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     acousticCommaApplied = false;
     acousticSentenceApplied = false;
     acousticParagraphApplied = false;
+    acousticWasVoiced = false;
     pendingCommaWordCount = 0;
     commaWordPositions = [];
+    recentShortPauses = [];
     sentenceBoundaryLength = -1;
   }
 
@@ -858,18 +887,27 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 
         const voiced = rms >= pauseDetectorThreshold;
         if(voiced){
-          // A short-pause comma is already visible before speech resumes.
-          // If the silence reached sentence length it has already been promoted.
+          // A comma is decided only when speech actually resumes. This avoids
+          // guessing too early during a hesitation and avoids showing a comma
+          // that immediately turns into a period.
+          if(!acousticWasVoiced && lastVoiceAt){
+            const pauseMs = now - lastVoiceAt;
+            const commaThreshold = adaptiveCommaPauseMs();
+            if(!acousticSentenceApplied && pauseMs >= commaThreshold && pauseMs < SENTENCE_PAUSE_MS && wordsSinceLastPunctuation() >= MIN_WORDS_BEFORE_COMMA){
+              acousticCommaApplied = showAcousticCommaNow();
+            }
+            rememberShortPause(pauseMs);
+          }
+          acousticWasVoiced = true;
           pendingCommaWordCount = 0;
           lastVoiceAt = now;
-          acousticCommaApplied = false;
           acousticSentenceApplied = false;
           acousticParagraphApplied = false;
           sentenceBoundaryLength = -1;
-          // Let the noise floor adapt slowly only upward/downward while speech is absent.
           return;
         }
 
+        acousticWasVoiced = false;
         // Slowly follow a quiet room without allowing background noise to raise the
         // threshold too aggressively.
         if(rms < pauseDetectorThreshold * 0.75){
@@ -879,12 +917,6 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         if(!lastVoiceAt) return;
         const silenceMs = now - lastVoiceAt;
 
-        if(!acousticCommaApplied && silenceMs >= COMMA_PAUSE_MS){
-          acousticCommaApplied = true;
-          // Insert the comma immediately. If the pause grows to sentence length,
-          // ensureTerminalPunctuation() promotes this trailing comma to a period.
-          showAcousticCommaNow();
-        }
         if(!acousticSentenceApplied && silenceMs >= SENTENCE_PAUSE_MS){
           acousticSentenceApplied = true;
           pendingCommaWordCount = 0;
@@ -1173,6 +1205,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     breakAfterCurrentFinal = false;
     pendingCommaWordCount = 0;
     commaWordPositions = [];
+    recentShortPauses = [];
+    acousticWasVoiced = false;
     currentParagraphTimestamp = '';
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
