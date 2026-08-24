@@ -610,6 +610,16 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(transcript.value.endsWith(interimTail)) transcript.value = transcript.value.slice(0, -interimTail.length);
     interimTail = '';
   }
+  function commitInterimTail(){
+    if(!interimTail) return;
+    const committed = interimTail.replace(/^\s+/, '').trim();
+    if(committed){
+      if(/^\n\n/.test(interimTail)) currentParagraphChars = committed.length;
+      else currentParagraphChars += committed.length + (currentParagraphChars ? 1 : 0);
+    }
+    interimTail = '';
+    pendingParagraphBreak = false;
+  }
   function clearParagraphSilenceTimer(){
     if(paragraphSilenceTimer){
       clearTimeout(paragraphSilenceTimer);
@@ -618,20 +628,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   }
   function requestParagraphBreakAfterPause(){
     if(!recording || paused || $('paragraphs').value !== 'on' || !transcript.value.trim()) return;
-
-    // If speech has happened since the last committed final result, the pause belongs
-    // AFTER that still-uncommitted phrase. Otherwise the next phrase starts a paragraph.
-    if(speechSinceLastFinal || interimTail){
-      breakAfterCurrentFinal = true;
-    }else{
-      pendingParagraphBreak = true;
-    }
+    // A paragraph break is applied to the NEXT recognized phrase. This is deliberately
+    // independent of speechstart/speechend because Chrome does not emit them reliably.
+    pendingParagraphBreak = true;
   }
   function armParagraphSilenceTimer(){
     clearParagraphSilenceTimer();
-    // Audio-level VAD is the primary detector. This timer is only a fallback for
-    // browsers/devices where a second microphone stream cannot be opened.
-    if(vadActive || !recording || paused || $('paragraphs').value !== 'on') return;
+    if(!recording || paused || $('paragraphs').value !== 'on') return;
     paragraphSilenceTimer = setTimeout(()=>{
       paragraphSilenceTimer = null;
       requestParagraphBreakAfterPause();
@@ -732,13 +735,9 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(shouldBreak || !hasText) currentParagraphChars = clean.length;
     else currentParagraphChars += clean.length + 1;
 
-    const breakAfterThisFinal = breakAfterCurrentFinal;
     pendingParagraphBreak = false;
     breakAfterCurrentFinal = false;
     speechSinceLastFinal = false;
-    if(paragraphsOn && breakAfterThisFinal && transcript.value.trim()){
-      pendingParagraphBreak = true;
-    }
     transcript.scrollTop = transcript.scrollHeight;
   }
   function showInterimText(text){
@@ -746,7 +745,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if($('interimResults').value !== 'on') return;
     const clean = String(text || '').replace(/\s+/g,' ').trim();
     if(!clean) return;
-    const joiner = transcript.value.trim() ? ' ' : '';
+    const hasText = !!transcript.value.trim();
+    const joiner = !hasText ? '' : (($('paragraphs').value === 'on' && pendingParagraphBreak) ? '\n\n' : ' ');
     interimTail = joiner + clean;
     transcript.value += interimTail;
     transcript.scrollTop = transcript.scrollHeight;
@@ -824,7 +824,6 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     };
     r.onspeechend = ()=>{
       lastSpeechEndAt = performance.now();
-      if(!vadActive) requestParagraphBreakAfterPause();
       armParagraphSilenceTimer();
     };
     r.onresult = (event)=>{
@@ -837,8 +836,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         else interim += ' ' + text;
       }
       showInterimText(interim);
-      // Chrome does not always emit speechstart/speechend for every natural pause,
-      // so a period with no recognition updates is used as a second pause detector.
+      // Primary paragraph detector: if Chrome produces no recognition update for
+      // PARAGRAPH_PAUSE_MS, the next phrase is rendered as a new paragraph.
       armParagraphSilenceTimer();
     };
     r.onerror = (event)=>{
@@ -853,14 +852,16 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
         shouldRestart = false;
         recording = false;
         paused = false;
-        stopAudioPauseDetector();
         startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true;
         micDot.className='mic-dot'; micLabel.innerHTML=`<strong>${t().micIdle}</strong>`;
       }
     };
     r.onend = ()=>{
       recognitionActive = false;
-      clearInterimTail();
+      // Some Chrome sessions (especially privacy/incognito sessions) may end before
+      // returning a final result. Preserve the last visible interim text instead of
+      // deleting it when the recognizer restarts.
+      commitInterimTail();
       if(recording && !paused && shouldRestart){
         setTimeout(()=>{
           if(recording && !paused && !recognitionActive){
@@ -913,10 +914,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     currentParagraphChars = transcript.value.split(/\n\n/).pop()?.length || 0;
     startBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
     setStatus(t().listeningLoading);
-    await startAudioPauseDetector();
     if(!startRecognitionCycle()){
       recording=false; shouldRestart=false;
-      stopAudioPauseDetector();
       startBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true;
     }
   }
@@ -926,9 +925,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       paused = true;
       pausedAt = performance.now();
       shouldRestart = false;
-      clearInterimTail();
+      commitInterimTail();
       clearParagraphSilenceTimer();
-      stopAudioPauseDetector();
       if($('paragraphs').value === 'on' && transcript.value.trim()) pendingParagraphBreak = true;
       if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
       pauseBtn.textContent=t().resume;
@@ -944,7 +942,6 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       micDot.className='mic-dot live';
       micLabel.innerHTML=`<strong>${t().micListening}</strong>`;
       setStatus(t().listeningLoading);
-      await startAudioPauseDetector();
       startRecognitionCycle();
     }
   }
@@ -954,9 +951,8 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     recording=false;
     paused=false;
     shouldRestart=false;
-    clearInterimTail();
+    commitInterimTail();
     clearParagraphSilenceTimer();
-    stopAudioPauseDetector();
     breakAfterCurrentFinal = false;
     speechSinceLastFinal = false;
     if(recognitionActive && recognition){ try{ recognition.stop(); }catch{} }
@@ -1014,7 +1010,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     if(recording && !paused && $('paragraphs').value === 'on') armParagraphSilenceTimer();
   });
   uiLangButtons.forEach(btn => btn.addEventListener('click', ()=>{ uiLang = btn.dataset.uiLang; applyLanguage(); }));
-  window.addEventListener('beforeunload',()=>{ shouldRestart=false; stopAudioPauseDetector(); if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
+  window.addEventListener('beforeunload',()=>{ shouldRestart=false; if(recognitionActive && recognition){ try{ recognition.abort(); }catch{} } });
 
   applyLanguage();
 })();
