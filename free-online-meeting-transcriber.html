@@ -78,24 +78,29 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .progress{height:10px;margin:10px auto 0;max-width:780px;background:rgba(0,0,0,.32);border-radius:999px;overflow:hidden;display:none}
 .progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#167b00,#39ff14);transition:width .25s ease}
 .transcript-wrap{text-align:left}
-.transcript-toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
-.transcript-title{font-size:20px;font-weight:800;color:var(--blue)}
-#transcript{width:100%;min-height:340px;resize:vertical;padding:18px;border:1px solid rgba(79,155,234,.45);border-radius:16px;background:rgba(0,0,0,.34);color:#fff;font:500 16px/1.65 "Exo 2",sans-serif;text-shadow:none;outline:none}
+.transcript-toolbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-bottom:12px}
+.transcript-title{justify-self:start;font-size:20px;font-weight:800;color:var(--blue)}
+#copyBtn{justify-self:center}
+#clearBtn{justify-self:end;background:linear-gradient(135deg,#e00000 0%,#ff1717 52%,#ff3a3a 100%);color:#fff;border:1px solid rgba(255,255,255,.32);box-shadow:0 0 18px rgba(255,20,20,.38)}
+#clearBtn:hover{background:linear-gradient(135deg,#f00000 0%,#ff2828 52%,#ff5050 100%);box-shadow:0 0 24px rgba(255,20,20,.58)}
+#transcript{width:100%;min-height:510px;resize:vertical;padding:18px;border:1px solid rgba(79,155,234,.45);border-radius:16px;background:#000;color:#fff;font:500 16px/1.65 "Exo 2",sans-serif;text-shadow:none;outline:none}
 #transcript:focus{border-color:#70b3ff;box-shadow:0 0 0 3px rgba(45,125,220,.14)}
 .small{font-size:13px;opacity:.88;line-height:1.6}
 .switch-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
-.backup-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px solid rgba(79,155,234,.26);border-radius:14px;background:rgba(0,0,0,.18);text-align:center}
-.backup-row .backup-state{color:var(--cyan);font-weight:700}
+.backup-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 18px;padding:12px 14px;border:1px solid rgba(57,255,20,.30);border-radius:14px;background:rgba(0,0,0,.22);text-align:center}
+.backup-row .backup-state{color:var(--green)!important;font-weight:800;text-shadow:0 0 10px rgba(57,255,20,.30)}
+.export-row{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+
 .speaker-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;margin-top:14px}
 .speaker-row select{padding:10px 14px;border-radius:20px;background:#0b0500;color:#fff;border:1px solid rgba(255,255,255,.24);font:inherit}
-.seo-info{margin:24px auto 0;padding:24px;max-width:900px;background:rgba(0,0,0,.18);border:1px solid rgba(79,155,234,.28);border-radius:18px;text-align:left}
+.seo-info{margin:24px auto 0;padding:24px;max-width:900px;background:rgba(0,0,0,.18);border:1px solid rgba(79,155,234,.28);border-radius:18px;text-align:center}
 .seo-info h2{margin:0 0 12px;color:var(--blue);text-align:center;text-shadow:0 2px 4px rgba(0,0,0,.95),0 0 8px rgba(45,125,220,.55)}
-.seo-info p{margin:10px auto;max-width:820px;line-height:1.7;color:#d8f6d2}
+.seo-info p{margin:10px auto;max-width:820px;line-height:1.7;color:#d8f6d2;text-align:center}
 .seo-info strong{color:#fff}
 .warning{max-width:900px;margin:18px auto 0;padding:13px 16px;border-radius:14px;background:rgba(126,75,0,.25);border:1px solid rgba(255,185,70,.38);color:#ffd08a}
 footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 @media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){main{padding-top:30px}.panel{padding:16px}.grid{grid-template-columns:1fr}nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}.subtitle{font-size:16px}#transcript{min-height:300px}.flag-btn{width:78px;height:48px}.flag-btn .flag-text{font-size:16px}}
+@media(max-width:560px){main{padding-top:30px}.panel{padding:16px}.grid{grid-template-columns:1fr}nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}.subtitle{font-size:16px}#transcript{min-height:450px}.flag-btn{width:78px;height:48px}.flag-btn .flag-text{font-size:16px}}
 </style>
 <script type="application/ld+json">
 {
@@ -208,6 +213,13 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       </div>
     </div>
 
+    <div class="backup-row small">
+      <button id="backupBtn" class="btn-ghost">SELECT BACKUP TXT</button>
+      <span id="browserAutosaveStatus" class="backup-state">Browser autosave: ON</span>
+      <span>•</span>
+      <span id="backupStatus" class="backup-state">TXT backup: not selected</span>
+    </div>
+
     <div class="mic-card">
       <span id="micDot" class="mic-dot"></span>
       <div>
@@ -256,22 +268,14 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
   <section class="panel transcript-wrap">
     <div class="transcript-toolbar">
       <div id="transcriptTitle" class="transcript-title">Live Transcript</div>
-      <div class="controls" style="margin:0">
-        <button id="copyBtn" class="btn-ghost">COPY</button>
-        <button id="clearBtn" class="btn-ghost">CLEAR</button>
-      </div>
+      <button id="copyBtn" class="btn-ghost">COPY</button>
+      <button id="clearBtn" class="btn-ghost">CLEAR</button>
     </div>
     <textarea id="transcript" spellcheck="true" placeholder="Your transcript will appear here. You can edit it at any time while the meeting continues."></textarea>
 
-    <div class="controls" style="margin-top:18px">
+    <div class="export-row">
       <button id="docxBtn" class="btn-blue">EXPORT WORD (.DOCX)</button>
-      <button id="txtBtn" class="btn-blue">EXPORT TXT</button>
-    </div>
-    <div class="backup-row small">
-      <button id="backupBtn" class="btn-ghost">SELECT BACKUP TXT</button>
-      <span id="browserAutosaveStatus" class="backup-state">Browser autosave: ON</span>
-      <span>•</span>
-      <span id="backupStatus" class="backup-state">TXT backup: not selected</span>
+      <button id="txtBtn" class="btn-blue">EXPORT .TXT</button>
     </div>
     <div id="switchRow" class="switch-row small" style="margin-top:12px">
       <span id="noAccount">No account.</span><span>•</span><span id="noUpload">No transcript upload.</span><span>•</span><span id="noDatabase">No meeting database.</span><span>•</span><span id="localExport">Export stays local.</span>
@@ -342,7 +346,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       clear: 'CLEAR',
       transcriptPlaceholder: 'Your transcript will appear here. You can edit it at any time while the meeting continues.',
       exportWord: 'EXPORT WORD (.DOCX)',
-      exportTxt: 'EXPORT TXT',
+      exportTxt: 'EXPORT .TXT',
       backupSelect: 'SELECT BACKUP TXT',
       browserAutosaveOn: 'Browser autosave: ON',
       browserAutosaveUnavailable: 'Browser autosave: unavailable',
@@ -417,7 +421,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       clear: 'ȘTERGE',
       transcriptPlaceholder: 'Transcriptul va apărea aici. Îl poți edita în orice moment, chiar și în timp ce ședința continuă.',
       exportWord: 'EXPORTĂ WORD (.DOCX)',
-      exportTxt: 'EXPORTĂ TXT',
+      exportTxt: 'EXPORTĂ .TXT',
       backupSelect: 'ALEGE FIȘIER BACKUP TXT',
       browserAutosaveOn: 'Salvare automată în browser: ACTIVĂ',
       browserAutosaveUnavailable: 'Salvare automată în browser: indisponibilă',
@@ -492,7 +496,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
       clear: 'EFFACER',
       transcriptPlaceholder: 'Votre transcription apparaîtra ici. Vous pouvez la modifier à tout moment pendant que la réunion continue.',
       exportWord: 'EXPORTER WORD (.DOCX)',
-      exportTxt: 'EXPORTER TXT',
+      exportTxt: 'EXPORTER .TXT',
       backupSelect: 'CHOISIR LE BACKUP TXT',
       browserAutosaveOn: 'Sauvegarde navigateur : ACTIVE',
       browserAutosaveUnavailable: 'Sauvegarde navigateur : indisponible',
@@ -669,7 +673,10 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
     const tr = t();
     const browserEl = $('browserAutosaveStatus');
     const backupEl = $('backupStatus');
-    if(browserEl) browserEl.textContent = browserAutosaveAvailable ? tr.browserAutosaveOn : tr.browserAutosaveUnavailable;
+    if(browserEl){
+      browserEl.textContent = browserAutosaveAvailable ? tr.browserAutosaveOn : tr.browserAutosaveUnavailable;
+      browserEl.style.color = browserAutosaveAvailable ? 'var(--green)' : '#ff4040';
+    }
     if(!backupEl) return;
     if(!('showSaveFilePicker' in window)){
       backupEl.textContent = tr.backupUnavailable;
