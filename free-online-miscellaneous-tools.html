@@ -46,11 +46,13 @@ h1{margin:0 0 8px;font-family:"Marck Script",cursive;font-size:clamp(46px,7vw,80
   border-color:rgba(172,255,191,.60) !important;
   box-shadow:0 8px 20px rgba(0,0,0,.30),0 0 24px rgba(53,201,90,.34) !important;
 }
-/* MISCELLANEOUS — dark gray gradient */
+/* MISCELLANEOUS / DIVERSE — vivid metallic silver */
 [data-cat="misc"]{
-  background:linear-gradient(135deg,#202020 0%,#353535 52%,#505050 100%) !important;
-  border-color:rgba(210,210,210,.42) !important;
-  box-shadow:0 8px 20px rgba(0,0,0,.38),0 0 20px rgba(120,120,120,.20) !important;
+  background:linear-gradient(135deg,#666a70 0%,#d8dde2 18%,#ffffff 38%,#aeb4bb 58%,#f8fafb 78%,#777c82 100%) !important;
+  color:#111 !important;
+  border-color:rgba(255,255,255,.92) !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.36),0 0 26px rgba(240,244,248,.68),inset 0 1px 0 rgba(255,255,255,.98) !important;
+  text-shadow:0 1px 1px rgba(255,255,255,.72) !important;
 }
 
 /* Keep the same category colors on hover/active states instead of reverting to blue. */
@@ -58,7 +60,7 @@ h1{margin:0 0 8px;font-family:"Marck Script",cursive;font-size:clamp(46px,7vw,80
 .category-jump a[data-cat="pdf"]:hover,.category-jump a[data-cat="pdf"].active{background:linear-gradient(135deg,#c40000 0%,#f00000 52%,#ff4545 100%) !important;}
 .category-jump a[data-cat="video"]:hover,.category-jump a[data-cat="video"].active{background:linear-gradient(135deg,#cf5900 0%,#ff7a0a 52%,#ffad4f 100%) !important;}
 .category-jump a[data-cat="mobile"]:hover,.category-jump a[data-cat="mobile"].active{background:linear-gradient(135deg,#147837 0%,#20a64b 52%,#49dd6b 100%) !important;}
-.category-jump a[data-cat="misc"]:hover,.category-jump a[data-cat="misc"].active{background:linear-gradient(135deg,#2b2b2b 0%,#454545 52%,#626262 100%) !important;}
+.category-jump a[data-cat="misc"]:hover,.category-jump a[data-cat="misc"].active{background:linear-gradient(135deg,#7a7f85 0%,#edf1f4 18%,#ffffff 38%,#c4c9cf 58%,#ffffff 78%,#8d9298 100%) !important;color:#111 !important;box-shadow:0 9px 22px rgba(0,0,0,.36),0 0 30px rgba(255,255,255,.82),inset 0 1px 0 rgba(255,255,255,1) !important;}
 
 /* IMAGE remains unavailable for now, but keep its rainbow identity clearly visible. */
 .hub-card.disabled[data-cat="image"],.category-jump .disabled-category[data-cat="image"]{opacity:.82 !important;}
