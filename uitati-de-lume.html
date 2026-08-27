@@ -857,19 +857,41 @@ main {
 .misc-link:hover,[data-cat="misc"]:hover{background:linear-gradient(135deg,#7a7f85 0%,#edf1f4 18%,#ffffff 38%,#c4c9cf 58%,#ffffff 78%,#8d9298 100%)!important;box-shadow:0 9px 22px rgba(0,0,0,.36),0 0 31px rgba(255,20,20,.76),inset 0 1px 0 rgba(255,255,255,1)!important}
 @media(max-width:600px){.alsbkin-support{width:min(94%,900px);padding-left:6px;padding-right:6px}.alsbkin-support-text{font-size:13px!important}.alsbkin-subscribe-btn{font-size:12px!important;padding:11px 16px}}
 
-</style></head>
+</style>
+<style id="alsbkin-language-selector-style">
+.language-switcher.site-language-switcher{display:flex!important;justify-content:center!important;align-items:center!important;gap:14px!important;flex-wrap:wrap!important;width:min(100%,620px)!important;margin:16px auto 18px!important}
+.language-switcher.site-language-switcher .flag-btn{position:relative!important;display:inline-flex!important;justify-content:center!important;align-items:center!important;width:82px!important;height:50px!important;border-radius:12px!important;border:2px solid #fff!important;cursor:pointer!important;overflow:hidden!important;box-shadow:0 8px 18px rgba(0,0,0,.30)!important;transition:.22s ease!important;padding:0!important}
+.language-switcher.site-language-switcher .flag-btn:hover{transform:translateY(-2px) scale(1.03)!important}
+.language-switcher.site-language-switcher .flag-btn.active{box-shadow:0 0 0 3px rgba(57,255,20,.34),0 10px 24px rgba(0,0,0,.30)!important;border-color:#fff!important}
+.language-switcher.site-language-switcher .flag-text{position:relative!important;z-index:3!important;font-weight:900!important;font-size:18px!important;letter-spacing:.8px!important;color:#fff!important;text-shadow:0 2px 0 rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.85)!important}
+.language-switcher.site-language-switcher .flag-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.05),rgba(0,0,0,.10));z-index:2}
+.language-switcher.site-language-switcher .flag-en{background-color:#012169!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='s'%3E%3Cpath d='M0 0v30h60V0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23s)'%3E%3Cpath d='M0 0v30h60V0z' fill='%23012169'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E")!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.language-switcher.site-language-switcher .flag-fr{background:linear-gradient(90deg,#0055A4 0 33.333%,#fff 33.333% 66.666%,#EF4135 66.666% 100%)!important}
+.language-switcher.site-language-switcher .flag-ro{background:linear-gradient(90deg,#002B7F 0 33.333%,#FCD116 33.333% 66.666%,#CE1126 66.666% 100%)!important}
+.language-switcher.site-language-switcher .flag-hu{background:linear-gradient(to bottom,#CE2939 0 33.333%,#fff 33.333% 66.666%,#477050 66.666% 100%)!important}
+@media(max-width:560px){.language-switcher.site-language-switcher{gap:9px!important}.language-switcher.site-language-switcher .flag-btn{width:70px!important;height:44px!important}.language-switcher.site-language-switcher .flag-text{font-size:16px!important}}
+</style>
+</head>
 <body>
 <nav><a class="top-prev" href="uncared-for.html"><span aria-hidden="true" class="arrow">←</span><span class="top-song-name">Uncared For</span></a><a class="songs-nav" href="songs.html">Songs</a><a class="top-next" href="side-by-side.html"><span class="top-song-name">Side by Side</span><span aria-hidden="true" class="arrow">→</span></a></nav>
-<main><div aria-label="Quick navigation" class="song-utility-nav"><a class="song-utility-home" href="index.html">HOME</a><a class="song-utility-tools" href="free-online-tools.html">TOOLS</a></div>
+<main>
+<div class="language-switcher site-language-switcher" data-alsbkin-language-selector aria-label="Interface language selector">
+<button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English"><span class="flag-text">EN</span></button>
+<button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Français"><span class="flag-text">FR</span></button>
+<button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Română"><span class="flag-text">RO</span></button>
+<button type="button" class="flag-btn flag-hu" data-ui-lang="hu" aria-label="Magyar"><span class="flag-text">HU</span></button>
+</div>
+<div aria-label="Quick navigation" class="song-utility-nav"><a class="song-utility-home" href="index.html">HOME</a><a class="song-utility-tools" href="free-online-tools.html">TOOLS</a></div>
 <h1 class="song-title">Uitați de lume</h1>
-<h2 class="section-title versions-title">Versiunile piesei</h2>
-<div class="version-buttons"><button class="version-btn has-player" data-player="poprock" type="button">Rock | Metal | Folk</button></div>
-<div class="player-area" id="playerArea"><div class="variant-player-group" id="poprock"><iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen="" frameborder="0" height="232" loading="lazy" src="https://open.spotify.com/embed/track/7l0y2neRQuKNH9h7ZyJQKp?utm_source=generator&amp;si=7b7042485a0e402a" style="border-radius:12px" title="Uitați de lume — Pop-Rock" width="100%"></iframe></div></div>
-<div class="painting-source"><strong>Tablou: “Uncared For” (1871) — Augustus Edwin Mulready</strong><br/>Imagine la rezoluție înaltă: <a href="https://upload.wikimedia.org/wikipedia/commons/7/74/Augustus_Edwin_Mulready_Uncared_for_1871.jpg" rel="noopener noreferrer" target="_blank">Wikimedia Commons</a></div>
 <div class="alsbkin-support" data-alsbkin-support>
   <p class="alsbkin-support-text">Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.</p>
   <a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" target="_blank" rel="noopener noreferrer">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
 </div>
+<h2 class="section-title versions-title">Versiunile piesei</h2>
+<div class="version-buttons"><button class="version-btn has-player" data-player="poprock" type="button">Rock | Metal | Folk</button></div>
+<div class="player-area" id="playerArea"><div class="variant-player-group" id="poprock"><iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen="" frameborder="0" height="232" loading="lazy" src="https://open.spotify.com/embed/track/7l0y2neRQuKNH9h7ZyJQKp?utm_source=generator&amp;si=7b7042485a0e402a" style="border-radius:12px" title="Uitați de lume — Pop-Rock" width="100%"></iframe></div></div>
+<div class="painting-source"><strong>Tablou: “Uncared For” (1871) — Augustus Edwin Mulready</strong><br/>Imagine la rezoluție înaltă: <a href="https://upload.wikimedia.org/wikipedia/commons/7/74/Augustus_Edwin_Mulready_Uncared_for_1871.jpg" rel="noopener noreferrer" target="_blank">Wikimedia Commons</a></div>
+
 <h2 class="section-title lyrics-title">Lyrics</h2>
 <div class="lyrics">Mânuțe mici muncesc întreaga zi
 Fără-ajutor, cu speranțe vii
@@ -930,14 +952,67 @@ versionButtons.forEach((button)=>{button.addEventListener("click",()=>{const tar
 (()=>{
   'use strict';
   const T={
-    en:{support:'Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.',subscribe:'SUBSCRIBE TO MY YOUTUBE CHANNEL',audio:'AUDIO TOOLS',pdf:'PDF TOOLS',video:'VIDEO TOOLS',misc:'MISCELLANEOUS TOOLS',songs:'SONGS',home:'HOME',tools:'TOOLS',versions:'Song versions',lyrics:'Lyrics',aboutSong:'About the song'},
-    ro:{support:'Tot ce găsești pe ALSBKIN este gratuit. Dacă îți place muzica sau instrumentele îți sunt utile, te rog să vizitezi canalul YouTube ALSBKIN și să te abonezi pentru a-mi susține munca.',subscribe:'ABONEAZĂ-TE LA CANALUL MEU DE YOUTUBE',audio:'INSTRUMENTE AUDIO',pdf:'INSTRUMENTE PDF',video:'INSTRUMENTE VIDEO',misc:'DIVERSE',songs:'PIESE',home:'ACASĂ',tools:'INSTRUMENTE',versions:'Versiuni ale piesei',lyrics:'Versuri',aboutSong:'Despre piesă'},
-    fr:{support:'Tout ce que vous trouvez sur ALSBKIN est gratuit. Si vous aimez la musique ou trouvez les outils utiles, merci de visiter la chaîne YouTube ALSBKIN et de vous abonner pour soutenir mon travail.',subscribe:'ABONNEZ-VOUS À MA CHAÎNE YOUTUBE',audio:'OUTILS AUDIO',pdf:'OUTILS PDF',video:'OUTILS VIDÉO',misc:'OUTILS DIVERS',songs:'CHANSONS',home:'ACCUEIL',tools:'OUTILS',versions:'Versions de la chanson',lyrics:'Paroles',aboutSong:'À propos de la chanson'}
+    en:{
+      support:'Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.',
+      subscribe:'SUBSCRIBE TO MY YOUTUBE CHANNEL',
+      audio:'AUDIO TOOLS',pdf:'PDF TOOLS',video:'VIDEO TOOLS',misc:'MISCELLANEOUS TOOLS',mobile:'MOBILE APPS',
+      songs:'SONGS',home:'HOME',tools:'TOOLS',about:'ABOUT',versions:'Song versions',lyrics:'Lyrics',aboutSong:'About the song'
+    },
+    fr:{
+      support:'Tout ce que vous trouvez sur ALSBKIN est gratuit. Si vous aimez la musique ou trouvez les outils utiles, merci de visiter la chaîne YouTube ALSBKIN et de vous abonner pour soutenir mon travail.',
+      subscribe:'ABONNEZ-VOUS À MA CHAÎNE YOUTUBE',
+      audio:'OUTILS AUDIO',pdf:'OUTILS PDF',video:'OUTILS VIDÉO',misc:'OUTILS DIVERS',mobile:'APPLICATIONS MOBILES',
+      songs:'CHANSONS',home:'ACCUEIL',tools:'OUTILS',about:'À PROPOS',versions:'Versions de la chanson',lyrics:'Paroles',aboutSong:'À propos de la chanson'
+    },
+    ro:{
+      support:'Tot ce găsești pe ALSBKIN este gratuit. Dacă îți place muzica sau instrumentele îți sunt utile, te rog să vizitezi canalul YouTube ALSBKIN și să te abonezi pentru a-mi susține munca.',
+      subscribe:'ABONEAZĂ-TE LA CANALUL MEU DE YOUTUBE',
+      audio:'INSTRUMENTE AUDIO',pdf:'INSTRUMENTE PDF',video:'INSTRUMENTE VIDEO',misc:'DIVERSE',mobile:'APLICAȚII MOBILE',
+      songs:'PIESE',home:'ACASĂ',tools:'INSTRUMENTE',about:'DESPRE',versions:'Versiuni ale piesei',lyrics:'Versuri',aboutSong:'Despre piesă'
+    },
+    hu:{
+      support:'Az ALSBKIN minden tartalma ingyenesen használható. Ha tetszik a zene, vagy hasznosnak találod az eszközöket, kérlek, látogasd meg az ALSBKIN YouTube-csatornáját, és iratkozz fel, hogy támogasd a munkámat.',
+      subscribe:'IRATKOZZ FEL A YOUTUBE-CSATORNÁMRA',
+      audio:'AUDIOESZKÖZÖK',pdf:'PDF-ESZKÖZÖK',video:'VIDEÓESZKÖZÖK',misc:'EGYÉB ESZKÖZÖK',mobile:'MOBILALKALMAZÁSOK',
+      songs:'DALOK',home:'FŐOLDAL',tools:'ESZKÖZÖK',about:'RÓLAM',versions:'DALVÁLTOZATOK',lyrics:'DALSZÖVEG',aboutSong:'A DALRÓL'
+    }
   };
-  const getLang=()=>{const saved=localStorage.getItem('alsbkinToolsUiLang');if(T[saved])return saved;const d=(document.documentElement.lang||'en').slice(0,2).toLowerCase();return T[d]?d:'en'};
-  function applyShared(){const l=getLang(),t=T[l];document.querySelectorAll('[data-alsbkin-support]').forEach(box=>{const p=box.querySelector('.alsbkin-support-text'),a=box.querySelector('.alsbkin-subscribe-btn');if(p)p.textContent=t.support;if(a)a.textContent=t.subscribe});document.querySelectorAll('[data-category-back="audio"]').forEach(e=>e.textContent=t.audio);document.querySelectorAll('[data-category-back="pdf"]').forEach(e=>e.textContent=t.pdf);document.querySelectorAll('[data-category-back="video"]').forEach(e=>e.textContent=t.video);document.querySelectorAll('[data-category-back="misc"],.misc-link').forEach(e=>e.textContent=t.misc);const lt=document.querySelector('.lyrics-title');if(lt)lt.textContent=t.lyrics;const vt=document.querySelector('.versions-title');if(vt)vt.textContent=t.versions;document.querySelectorAll('.song-utility-home').forEach(e=>e.textContent=t.home);document.querySelectorAll('.song-utility-tools').forEach(e=>e.textContent=t.tools);document.querySelectorAll('.songs-nav').forEach(e=>{if(!e.id)e.textContent=t.songs});const about=document.querySelector('.song-description h2');if(about)about.textContent=t.aboutSong;}
+  const allowed=['en','fr','ro','hu'];
+  const getLang=()=>{
+    const saved=(localStorage.getItem('alsbkinToolsUiLang')||'').toLowerCase();
+    if(allowed.includes(saved)) return saved;
+    const d=(document.documentElement.lang||'en').slice(0,2).toLowerCase();
+    return allowed.includes(d)?d:'en';
+  };
+  function applyShared(){
+    const l=getLang(),t=T[l];
+    document.documentElement.lang=l;
+    document.querySelectorAll('[data-alsbkin-support]').forEach(box=>{
+      const p=box.querySelector('.alsbkin-support-text'),a=box.querySelector('.alsbkin-subscribe-btn');
+      if(p)p.textContent=t.support;
+      if(a)a.textContent=t.subscribe;
+    });
+    document.querySelectorAll('[data-category-back="audio"]').forEach(e=>e.textContent=t.audio);
+    document.querySelectorAll('[data-category-back="pdf"]').forEach(e=>e.textContent=t.pdf);
+    document.querySelectorAll('[data-category-back="video"]').forEach(e=>e.textContent=t.video);
+    document.querySelectorAll('[data-category-back="misc"],.misc-link').forEach(e=>e.textContent=t.misc);
+    document.querySelectorAll('[data-cat="mobile"]').forEach(e=>{if(e.tagName!=='SECTION')e.textContent=t.mobile});
+    document.querySelectorAll('.song-utility-home,.home-nav,nav .home').forEach(e=>e.textContent=t.home);
+    document.querySelectorAll('.song-utility-tools,.tools-nav,nav .tools').forEach(e=>e.textContent=t.tools);
+    document.querySelectorAll('.songs-nav,nav .songs').forEach(e=>{if(!e.id)e.textContent=t.songs});
+    document.querySelectorAll('.about-nav').forEach(e=>{if(!e.id)e.textContent=t.about});
+    const lt=document.querySelector('.lyrics-title');if(lt)lt.textContent=t.lyrics;
+    const vt=document.querySelector('.versions-title');if(vt)vt.textContent=t.versions;
+    const about=document.querySelector('.song-description h2');if(about)about.textContent=t.aboutSong;
+    document.querySelectorAll('[data-ui-lang]').forEach(b=>b.classList.toggle('active',b.dataset.uiLang===l));
+  }
+  function choose(lang){
+    if(!allowed.includes(lang))return;
+    localStorage.setItem('alsbkinToolsUiLang',lang);
+    setTimeout(applyShared,0);
+  }
   document.addEventListener('DOMContentLoaded',applyShared);
-  document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>setTimeout(applyShared,0)));
+  document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.uiLang)));
   window.addEventListener('storage',applyShared);
 })();
 </script>

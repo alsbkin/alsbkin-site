@@ -86,7 +86,7 @@ select,input[type="number"]{height:44px;padding:0 12px;border-radius:12px;border
 @media(max-width:760px){nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}main{padding-top:30px}.flag-btn{width:78px;height:48px}.flag-btn .flag-text{font-size:16px}.subtitle{font-size:16px}.panel{padding:17px}.detector-grid,.key-grid{grid-template-columns:1fr 1fr}.metric.note-card{grid-column:1/-1}.controls{align-items:stretch}.control{min-width:calc(50% - 8px)}.action{width:100%}}
 @media(max-width:480px){.detector-grid,.key-grid{grid-template-columns:1fr}.metric.note-card{grid-column:auto}.control{min-width:100%}.range-wrap input[type="range"]{width:100%}}
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["MusicGroup","Organization"],"@id":"https://alsbkin.ro/#artist","name":"ALSBKIN","url":"https://alsbkin.ro/"},{"@type":"WebApplication","name":"Free Note, Key & Scale Detector, Tone & Chord Generator","url":"https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html","applicationCategory":"MusicApplication","operatingSystem":"Any modern browser","isAccessibleForFree":true,"inLanguage":["en","ro","fr"],"creator":{"@id":"https://alsbkin.ro/#artist"},"publisher":{"@id":"https://alsbkin.ro/#artist"},"description":"Detect monophonic notes in real time, estimate a major or minor key/scale from a live melody, and generate reference tones or common musical chords in the browser."}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["MusicGroup","Organization"],"@id":"https://alsbkin.ro/#artist","name":"ALSBKIN","url":"https://alsbkin.ro/"},{"@type":"WebApplication","name":"Free Note, Key & Scale Detector, Tone & Chord Generator","url":"https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html","applicationCategory":"MusicApplication","operatingSystem":"Any modern browser","isAccessibleForFree":true,"inLanguage":["en","fr","ro","hu"],"creator":{"@id":"https://alsbkin.ro/#artist"},"publisher":{"@id":"https://alsbkin.ro/#artist"},"description":"Detect monophonic notes in real time, estimate a major or minor key/scale from a live melody, and generate reference tones or common musical chords in the browser."}]}</script>
 <style id="alsbkin-enhancements">
 
 /* === ALSBKIN shared support + category navigation === */
@@ -105,12 +105,37 @@ select,input[type="number"]{height:44px;padding:0 12px;border-radius:12px;border
 .misc-link:hover,[data-cat="misc"]:hover{background:linear-gradient(135deg,#7a7f85 0%,#edf1f4 18%,#ffffff 38%,#c4c9cf 58%,#ffffff 78%,#8d9298 100%)!important;box-shadow:0 9px 22px rgba(0,0,0,.36),0 0 31px rgba(255,20,20,.76),inset 0 1px 0 rgba(255,255,255,1)!important}
 @media(max-width:600px){.alsbkin-support{width:min(94%,900px);padding-left:6px;padding-right:6px}.alsbkin-support-text{font-size:13px!important}.alsbkin-subscribe-btn{font-size:12px!important;padding:11px 16px}}
 
-</style></head>
+</style>
+<style id="alsbkin-language-selector-style">
+.language-switcher.site-language-switcher{display:flex!important;justify-content:center!important;align-items:center!important;gap:14px!important;flex-wrap:wrap!important;width:min(100%,620px)!important;margin:16px auto 18px!important}
+.language-switcher.site-language-switcher .flag-btn{position:relative!important;display:inline-flex!important;justify-content:center!important;align-items:center!important;width:82px!important;height:50px!important;border-radius:12px!important;border:2px solid #fff!important;cursor:pointer!important;overflow:hidden!important;box-shadow:0 8px 18px rgba(0,0,0,.30)!important;transition:.22s ease!important;padding:0!important}
+.language-switcher.site-language-switcher .flag-btn:hover{transform:translateY(-2px) scale(1.03)!important}
+.language-switcher.site-language-switcher .flag-btn.active{box-shadow:0 0 0 3px rgba(57,255,20,.34),0 10px 24px rgba(0,0,0,.30)!important;border-color:#fff!important}
+.language-switcher.site-language-switcher .flag-text{position:relative!important;z-index:3!important;font-weight:900!important;font-size:18px!important;letter-spacing:.8px!important;color:#fff!important;text-shadow:0 2px 0 rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.85)!important}
+.language-switcher.site-language-switcher .flag-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.05),rgba(0,0,0,.10));z-index:2}
+.language-switcher.site-language-switcher .flag-en{background-color:#012169!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='s'%3E%3Cpath d='M0 0v30h60V0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23s)'%3E%3Cpath d='M0 0v30h60V0z' fill='%23012169'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E")!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.language-switcher.site-language-switcher .flag-fr{background:linear-gradient(90deg,#0055A4 0 33.333%,#fff 33.333% 66.666%,#EF4135 66.666% 100%)!important}
+.language-switcher.site-language-switcher .flag-ro{background:linear-gradient(90deg,#002B7F 0 33.333%,#FCD116 33.333% 66.666%,#CE1126 66.666% 100%)!important}
+.language-switcher.site-language-switcher .flag-hu{background:linear-gradient(to bottom,#CE2939 0 33.333%,#fff 33.333% 66.666%,#477050 66.666% 100%)!important}
+@media(max-width:560px){.language-switcher.site-language-switcher{gap:9px!important}.language-switcher.site-language-switcher .flag-btn{width:70px!important;height:44px!important}.language-switcher.site-language-switcher .flag-text{font-size:16px!important}}
+</style>
+</head>
 <body>
 <nav aria-label="Main navigation"><a class="home" href="/">HOME</a><a class="tools" href="/free-online-tools.html">TOOLS</a><a class="songs" href="/songs.html">SONGS</a></nav>
 <main>
-<div class="language-switcher" aria-label="Interface language selector"><button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English interface"><span class="flag-text">ENG</span></button><button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Interfață în română"><span class="flag-text">RO</span></button><button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Interface en français"><span class="flag-text">FR</span></button></div>
+<div class="language-switcher site-language-switcher" data-alsbkin-language-selector aria-label="Interface language selector">
+<button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English"><span class="flag-text">EN</span></button>
+<button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Français"><span class="flag-text">FR</span></button>
+<button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Română"><span class="flag-text">RO</span></button>
+<button type="button" class="flag-btn flag-hu" data-ui-lang="hu" aria-label="Magyar"><span class="flag-text">HU</span></button>
+</div>
+
+
 <h1 id="pageTitle">Live Note &amp; Key Detector + Sound Generator</h1><div class="brand-byline">by ALSBKIN</div>
+<div class="alsbkin-support" data-alsbkin-support>
+  <p class="alsbkin-support-text">Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.</p>
+  <a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" target="_blank" rel="noopener noreferrer">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
+</div>
 <p id="subtitle" class="subtitle">Detect live notes, estimate the key and major/minor scale of a melody, generate reference tones and play musical chords directly in your browser.</p>
 <a id="audioLink" class="audio-link" data-category-back="audio" href="free-online-audio-tools.html">AUDIO TOOLS</a>
 <div class="tabs" role="tablist" aria-label="Tool sections"><button class="tab-btn active" type="button" data-tab="detector" id="tabDetector">NOTE DETECTOR</button><button class="tab-btn" type="button" data-tab="key" id="tabKey">KEY / SCALE DETECTOR</button><button class="tab-btn" type="button" data-tab="tone" id="tabTone">TONE GENERATOR</button><button class="tab-btn" type="button" data-tab="chord" id="tabChord">CHORD GENERATOR</button></div>
@@ -173,10 +198,7 @@ select,input[type="number"]{height:44px;padding:0 12px;border-radius:12px;border
 <div id="privacy" class="privacy-note">🔒 Microphone audio is analyzed locally in your browser. ALSBKIN does not record or upload it.</div>
 <div id="notice" class="notice">For the most stable detection, use one sustained voice or instrument note at a time. Headphones are recommended while using the generators with the microphone active.</div>
 <section class="seo-info"><h2 id="infoTitle">Online Note Detector, Key &amp; Scale Detector, Tone Generator and Chord Generator</h2><p id="info1">This browser tool uses microphone pitch analysis for monophonic notes, a rolling note-history model to estimate major/minor key and scale, and the Web Audio API to synthesize reference tones and common chords. No audio file or account is required.</p></section>
-</main><footer><div id="footerText">© 2026 ALSBKIN. All rights reserved.</div><div class="alsbkin-support" data-alsbkin-support>
-  <p class="alsbkin-support-text">Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.</p>
-  <a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" target="_blank" rel="noopener noreferrer">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
-</div></footer>
+</main><footer><div id="footerText">© 2026 ALSBKIN. All rights reserved.</div></footer>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
@@ -195,6 +217,8 @@ const I18N={
  ro:{htmlLang:'ro',titleTag:'Detector de Note, Gamă și Tonalitate + Generator de Tonuri și Acorduri | ALSBKIN',metaDesc:'Detectează note live, estimează tonalitatea și gama majoră/minoră, generează tonuri de referință și acorduri direct în browser.',pageTitle:'Detector de Note & Tonalitate + Generator de Sunete',subtitle:'Detectează note în timp real, estimează tonalitatea și gama majoră/minoră a unei melodii, generează tonuri de referință și redă acorduri direct în browser.',audio:'INSTRUMENTE AUDIO',tabs:['DETECTOR DE NOTE','DETECTOR TONALITATE / GAMĂ','GENERATOR DE TONURI','GENERATOR DE ACORDURI'],detectorTitle:'Detector de Note Live / Tuner',detectorDesc:'Permite accesul la microfon, apoi cântă vocal sau la instrument câte o singură notă susținută. Detectorul este optimizat pentru sunet monofonic.',startMic:'PORNEȘTE MICROFONUL',stopMic:'OPREȘTE MICROFONUL',refA:'REFERINȚĂ LA4',currentNote:'NOTA CURENTĂ',frequency:'FRECVENȚĂ',tuning:'ACORDAJ',flat:'♭ PREA JOS',inTune:'ACORDAT',sharp:'PREA SUS ♯',micOff:'Microfonul este oprit.',listening:'Ascult… cântă o notă susținută.',noPitch:'Ascult… încă nu este detectată o înălțime stabilă.',micDenied:'Accesul la microfon a eșuat. Verifică permisiunea browserului și asigură-te că pagina este deschisă prin HTTPS.',keyTitle:'Detector Live de Tonalitate / Gamă',keyDesc:'Cântă vocal sau la instrument o melodie monofonică scurtă. Detectorul analizează istoricul notelor și estimează cea mai probabilă tonalitate și gamă majoră sau minoră. Tonalitățile relative major/minor pot fi în mod real ambigue, iar rezultatul va indica acest lucru.',startKey:'PORNEȘTE ANALIZA',resetKey:'RESETEAZĂ ANALIZA',detectedKey:'TONALITATE / GAMĂ DETECTATĂ',confidence:'ÎNCREDERE',observed:'NOTE OBSERVATE',modeHint:'Estimare major / minor',keyReady:'Pornește analiza, apoi cântă o melodie notă cu notă.',keyListening:'Ascult și colectez note…',keyCollecting:'Mai sunt necesare câteva note pentru estimarea tonalității…',scaleLabel:'Notele gamei',keyPianoTitle:'GAMA DETECTATĂ PE CLAVIATURĂ',keyPianoLegend:'Clapele roșii aparțin gamei detectate. Tonica este conturată cu verde.',tonePianoTitle:'NOTA SELECTATĂ PE CLAVIATURĂ',tonePianoLegend:'Nota selectată este evidențiată cu roșu.',chordPianoTitle:'NOTELE ACORDULUI PE CLAVIATURĂ',chordPianoLegend:'Clapele roșii aparțin acordului. Nota de bază este conturată cu verde.',prevRoot:'Nota de bază precedentă',nextRoot:'Nota de bază următoare',ambiguous:'Posibilă ambiguitate între tonalități relative',major:'Major',minor:'Minor',toneTitle:'Generator de Tonuri',toneDesc:'Generează o frecvență de referință precisă folosind nota, octava, forma de undă și referința La4 selectate.',note:'NOTĂ',octave:'OCTAVĂ',waveform:'FORMĂ DE UNDĂ',volume:'VOLUM',playTone:'REDĂ TONUL',stop:'STOP',chordTitle:'Generator de Acorduri',chordDesc:'Alege nota de bază și tipul acordului. Browserul generează simultan toate notele acordului.',root:'NOTĂ DE BAZĂ',chordType:'TIP ACORD',playChord:'REDĂ ACORDUL',pauseDetector:'Pune pe pauză detectorul de note/tonalitate cât timp este redat sunetul generat',paused:'Detecția live este în pauză cât timp se redă sunetul generat.',privacy:'🔒 Sunetul de la microfon este analizat local în browser. ALSBKIN nu îl înregistrează și nu îl încarcă.',notice:'Pentru rezultate stabile, cântă câte o singură notă odată. Detectorul de tonalitate/gamă are nevoie de o melodie scurtă și poate rămâne ambiguu între tonalități relative major și minor. Sunt recomandate căștile când folosești generatoarele cu microfonul activ.',infoTitle:'Detector de Note, Tonalitate și Gamă, Generator de Tonuri și Acorduri',info1:'Instrumentul folosește analiza înălțimii sunetului din microfon pentru note monofonice, un istoric glisant al notelor pentru estimarea tonalității și gamei major/minor și Web Audio API pentru tonuri de referință și acorduri. Nu este necesar niciun fișier audio sau cont.',footer:'© 2026 ALSBKIN. Toate drepturile rezervate.',cents:'cenți'},
  fr:{htmlLang:'fr',titleTag:'Détecteur de Notes, Tonalité et Gamme + Générateur de Sons et d’Accords | ALSBKIN',metaDesc:'Détectez des notes live, estimez la tonalité et la gamme majeure/mineure, puis générez des sons de référence et des accords dans le navigateur.',pageTitle:'Détecteur de Notes & Tonalité + Générateur de Sons',subtitle:'Détectez les notes en temps réel, estimez la tonalité et la gamme majeure/mineure d’une mélodie, générez des sons de référence et jouez des accords directement dans le navigateur.',audio:'OUTILS AUDIO',tabs:['DÉTECTEUR DE NOTES','TONALITÉ / GAMME','GÉNÉRATEUR DE SONS','GÉNÉRATEUR D’ACCORDS'],detectorTitle:'Détecteur de Notes Live / Accordeur',detectorDesc:'Autorisez le microphone, puis chantez ou jouez une seule note tenue à la fois. Le détecteur est optimisé pour les sons monophoniques.',startMic:'ACTIVER LE MICROPHONE',stopMic:'ARRÊTER LE MICROPHONE',refA:'RÉFÉRENCE LA4',currentNote:'NOTE ACTUELLE',frequency:'FRÉQUENCE',tuning:'ACCORDAGE',flat:'♭ TROP BAS',inTune:'JUSTE',sharp:'TROP HAUT ♯',micOff:'Le microphone est désactivé.',listening:'Écoute… chantez ou jouez une note tenue.',noPitch:'Écoute… aucune hauteur stable détectée pour le moment.',micDenied:'L’accès au microphone a échoué. Vérifiez l’autorisation du navigateur et assurez-vous que la page est ouverte en HTTPS.',keyTitle:'Détecteur Live de Tonalité / Gamme',keyDesc:'Chantez ou jouez une courte mélodie monophonique. Le détecteur analyse l’historique des notes et estime la tonalité et la gamme majeure ou mineure les plus probables. Les tonalités relatives majeure/mineure peuvent être réellement ambiguës et le résultat le signalera.',startKey:'DÉMARRER L’ANALYSE',resetKey:'RÉINITIALISER',detectedKey:'TONALITÉ / GAMME DÉTECTÉE',confidence:'CONFIANCE',observed:'NOTES OBSERVÉES',modeHint:'Estimation majeur / mineur',keyReady:'Démarrez l’analyse, puis jouez une mélodie note par note.',keyListening:'Écoute et collecte des notes…',keyCollecting:'Collecte de quelques notes supplémentaires avant l’estimation…',scaleLabel:'Notes de la gamme',keyPianoTitle:'GAMME DÉTECTÉE SUR LE PIANO',keyPianoLegend:'Les touches rouges appartiennent à la gamme détectée. La tonique est entourée en vert.',tonePianoTitle:'NOTE SÉLECTIONNÉE SUR LE PIANO',tonePianoLegend:'La note sélectionnée est surlignée en rouge.',chordPianoTitle:'NOTES DE L’ACCORD SUR LE PIANO',chordPianoLegend:'Les touches rouges appartiennent à l’accord. La fondamentale est entourée en vert.',prevRoot:'Fondamentale précédente',nextRoot:'Fondamentale suivante',ambiguous:'Ambiguïté possible entre tonalités relatives',major:'Majeur',minor:'Mineur',toneTitle:'Générateur de Sons',toneDesc:'Générez une hauteur de référence précise à partir de la note, de l’octave, de la forme d’onde et de la référence La4 sélectionnées.',note:'NOTE',octave:'OCTAVE',waveform:'FORME D’ONDE',volume:'VOLUME',playTone:'JOUER LE SON',stop:'STOP',chordTitle:'Générateur d’Accords',chordDesc:'Choisissez la fondamentale et le type d’accord. Le navigateur génère simultanément toutes les notes de l’accord.',root:'FONDAMENTALE',chordType:'TYPE D’ACCORD',playChord:'JOUER L’ACCORD',pauseDetector:'Mettre en pause la détection de note/tonalité pendant la lecture du son généré',paused:'La détection live est en pause pendant la lecture du son généré.',privacy:'🔒 Le son du microphone est analysé localement dans votre navigateur. ALSBKIN ne l’enregistre pas et ne l’envoie pas.',notice:'Pour des résultats stables, jouez une seule note à la fois. La détection de tonalité/gamme nécessite une courte mélodie et peut rester ambiguë entre tonalités relatives majeure et mineure. Un casque est recommandé avec les générateurs lorsque le microphone est actif.',infoTitle:'Détecteur de Notes, Tonalité et Gamme, Générateur de Sons et d’Accords',info1:'Cet outil utilise l’analyse de hauteur du microphone pour les notes monophoniques, un historique glissant des notes pour estimer la tonalité et la gamme majeure/mineure, et Web Audio API pour synthétiser des sons de référence et des accords. Aucun fichier audio ni compte n’est nécessaire.',footer:'© 2026 ALSBKIN. Tous droits réservés.',cents:'cents'}
 };
+I18N.hu={...I18N.en,htmlLang:'hu',titleTag:'Hangjegy-, Hangnem- és Skáladetektor + Hang- és Akkordgenerátor | ALSBKIN',metaDesc:'Élő hangjegyek felismerése, hangnem és skála becslése, referenciahangok és akkordok generálása a böngészőben.',pageTitle:'Hangjegy- és Hangnemdetektor + Hanggenerátor',subtitle:'Ismerd fel valós időben a hangjegyeket, becsüld meg a dallam hangnemét és skáláját, majd generálj referenciahangokat és akkordokat.',audio:'AUDIOESZKÖZÖK',tabs:['HANGJEGYDETEKTOR','HANGNEM / SKÁLA','HANGGENERÁTOR','AKKORDGENERÁTOR'],detectorTitle:'Élő Hangjegydetektor / Hangoló',startMic:'MIKROFON INDÍTÁSA',stopMic:'MIKROFON LEÁLLÍTÁSA',keyTitle:'Élő Hangnem / Skála Detektor',startKey:'ELEMZÉS INDÍTÁSA',resetKey:'ELEMZÉS TÖRLÉSE',toneTitle:'Hanggenerátor',playTone:'HANG LEJÁTSZÁSA',chordTitle:'Akkordgenerátor',playChord:'AKKORD LEJÁTSZÁSA',stop:'STOP',footer:'© 2026 ALSBKIN. Minden jog fenntartva.'};
+
 let uiLang=localStorage.getItem('alsbkinToolsUiLang')||'en';if(!I18N[uiLang])uiLang='en';
 let audioCtx=null,micStream=null,micSource=null,analyser=null,animationId=0,micOn=false,smoothedMidi=null,lastPitchTime=0;
 let activeSources=[],generatedActive=false;
@@ -390,14 +414,67 @@ applyLanguage();updateToneOutput();updateChordOutput();
 (()=>{
   'use strict';
   const T={
-    en:{support:'Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.',subscribe:'SUBSCRIBE TO MY YOUTUBE CHANNEL',audio:'AUDIO TOOLS',pdf:'PDF TOOLS',video:'VIDEO TOOLS',misc:'MISCELLANEOUS TOOLS',songs:'SONGS',home:'HOME',tools:'TOOLS',versions:'Song versions',lyrics:'Lyrics',aboutSong:'About the song'},
-    ro:{support:'Tot ce găsești pe ALSBKIN este gratuit. Dacă îți place muzica sau instrumentele îți sunt utile, te rog să vizitezi canalul YouTube ALSBKIN și să te abonezi pentru a-mi susține munca.',subscribe:'ABONEAZĂ-TE LA CANALUL MEU DE YOUTUBE',audio:'INSTRUMENTE AUDIO',pdf:'INSTRUMENTE PDF',video:'INSTRUMENTE VIDEO',misc:'DIVERSE',songs:'PIESE',home:'ACASĂ',tools:'INSTRUMENTE',versions:'Versiuni ale piesei',lyrics:'Versuri',aboutSong:'Despre piesă'},
-    fr:{support:'Tout ce que vous trouvez sur ALSBKIN est gratuit. Si vous aimez la musique ou trouvez les outils utiles, merci de visiter la chaîne YouTube ALSBKIN et de vous abonner pour soutenir mon travail.',subscribe:'ABONNEZ-VOUS À MA CHAÎNE YOUTUBE',audio:'OUTILS AUDIO',pdf:'OUTILS PDF',video:'OUTILS VIDÉO',misc:'OUTILS DIVERS',songs:'CHANSONS',home:'ACCUEIL',tools:'OUTILS',versions:'Versions de la chanson',lyrics:'Paroles',aboutSong:'À propos de la chanson'}
+    en:{
+      support:'Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.',
+      subscribe:'SUBSCRIBE TO MY YOUTUBE CHANNEL',
+      audio:'AUDIO TOOLS',pdf:'PDF TOOLS',video:'VIDEO TOOLS',misc:'MISCELLANEOUS TOOLS',mobile:'MOBILE APPS',
+      songs:'SONGS',home:'HOME',tools:'TOOLS',about:'ABOUT',versions:'Song versions',lyrics:'Lyrics',aboutSong:'About the song'
+    },
+    fr:{
+      support:'Tout ce que vous trouvez sur ALSBKIN est gratuit. Si vous aimez la musique ou trouvez les outils utiles, merci de visiter la chaîne YouTube ALSBKIN et de vous abonner pour soutenir mon travail.',
+      subscribe:'ABONNEZ-VOUS À MA CHAÎNE YOUTUBE',
+      audio:'OUTILS AUDIO',pdf:'OUTILS PDF',video:'OUTILS VIDÉO',misc:'OUTILS DIVERS',mobile:'APPLICATIONS MOBILES',
+      songs:'CHANSONS',home:'ACCUEIL',tools:'OUTILS',about:'À PROPOS',versions:'Versions de la chanson',lyrics:'Paroles',aboutSong:'À propos de la chanson'
+    },
+    ro:{
+      support:'Tot ce găsești pe ALSBKIN este gratuit. Dacă îți place muzica sau instrumentele îți sunt utile, te rog să vizitezi canalul YouTube ALSBKIN și să te abonezi pentru a-mi susține munca.',
+      subscribe:'ABONEAZĂ-TE LA CANALUL MEU DE YOUTUBE',
+      audio:'INSTRUMENTE AUDIO',pdf:'INSTRUMENTE PDF',video:'INSTRUMENTE VIDEO',misc:'DIVERSE',mobile:'APLICAȚII MOBILE',
+      songs:'PIESE',home:'ACASĂ',tools:'INSTRUMENTE',about:'DESPRE',versions:'Versiuni ale piesei',lyrics:'Versuri',aboutSong:'Despre piesă'
+    },
+    hu:{
+      support:'Az ALSBKIN minden tartalma ingyenesen használható. Ha tetszik a zene, vagy hasznosnak találod az eszközöket, kérlek, látogasd meg az ALSBKIN YouTube-csatornáját, és iratkozz fel, hogy támogasd a munkámat.',
+      subscribe:'IRATKOZZ FEL A YOUTUBE-CSATORNÁMRA',
+      audio:'AUDIOESZKÖZÖK',pdf:'PDF-ESZKÖZÖK',video:'VIDEÓESZKÖZÖK',misc:'EGYÉB ESZKÖZÖK',mobile:'MOBILALKALMAZÁSOK',
+      songs:'DALOK',home:'FŐOLDAL',tools:'ESZKÖZÖK',about:'RÓLAM',versions:'DALVÁLTOZATOK',lyrics:'DALSZÖVEG',aboutSong:'A DALRÓL'
+    }
   };
-  const getLang=()=>{const saved=localStorage.getItem('alsbkinToolsUiLang');if(T[saved])return saved;const d=(document.documentElement.lang||'en').slice(0,2).toLowerCase();return T[d]?d:'en'};
-  function applyShared(){const l=getLang(),t=T[l];document.querySelectorAll('[data-alsbkin-support]').forEach(box=>{const p=box.querySelector('.alsbkin-support-text'),a=box.querySelector('.alsbkin-subscribe-btn');if(p)p.textContent=t.support;if(a)a.textContent=t.subscribe});document.querySelectorAll('[data-category-back="audio"]').forEach(e=>e.textContent=t.audio);document.querySelectorAll('[data-category-back="pdf"]').forEach(e=>e.textContent=t.pdf);document.querySelectorAll('[data-category-back="video"]').forEach(e=>e.textContent=t.video);document.querySelectorAll('[data-category-back="misc"],.misc-link').forEach(e=>e.textContent=t.misc);const lt=document.querySelector('.lyrics-title');if(lt)lt.textContent=t.lyrics;const vt=document.querySelector('.versions-title');if(vt)vt.textContent=t.versions;document.querySelectorAll('.song-utility-home').forEach(e=>e.textContent=t.home);document.querySelectorAll('.song-utility-tools').forEach(e=>e.textContent=t.tools);document.querySelectorAll('.songs-nav').forEach(e=>{if(!e.id)e.textContent=t.songs});const about=document.querySelector('.song-description h2');if(about)about.textContent=t.aboutSong;}
+  const allowed=['en','fr','ro','hu'];
+  const getLang=()=>{
+    const saved=(localStorage.getItem('alsbkinToolsUiLang')||'').toLowerCase();
+    if(allowed.includes(saved)) return saved;
+    const d=(document.documentElement.lang||'en').slice(0,2).toLowerCase();
+    return allowed.includes(d)?d:'en';
+  };
+  function applyShared(){
+    const l=getLang(),t=T[l];
+    document.documentElement.lang=l;
+    document.querySelectorAll('[data-alsbkin-support]').forEach(box=>{
+      const p=box.querySelector('.alsbkin-support-text'),a=box.querySelector('.alsbkin-subscribe-btn');
+      if(p)p.textContent=t.support;
+      if(a)a.textContent=t.subscribe;
+    });
+    document.querySelectorAll('[data-category-back="audio"]').forEach(e=>e.textContent=t.audio);
+    document.querySelectorAll('[data-category-back="pdf"]').forEach(e=>e.textContent=t.pdf);
+    document.querySelectorAll('[data-category-back="video"]').forEach(e=>e.textContent=t.video);
+    document.querySelectorAll('[data-category-back="misc"],.misc-link').forEach(e=>e.textContent=t.misc);
+    document.querySelectorAll('[data-cat="mobile"]').forEach(e=>{if(e.tagName!=='SECTION')e.textContent=t.mobile});
+    document.querySelectorAll('.song-utility-home,.home-nav,nav .home').forEach(e=>e.textContent=t.home);
+    document.querySelectorAll('.song-utility-tools,.tools-nav,nav .tools').forEach(e=>e.textContent=t.tools);
+    document.querySelectorAll('.songs-nav,nav .songs').forEach(e=>{if(!e.id)e.textContent=t.songs});
+    document.querySelectorAll('.about-nav').forEach(e=>{if(!e.id)e.textContent=t.about});
+    const lt=document.querySelector('.lyrics-title');if(lt)lt.textContent=t.lyrics;
+    const vt=document.querySelector('.versions-title');if(vt)vt.textContent=t.versions;
+    const about=document.querySelector('.song-description h2');if(about)about.textContent=t.aboutSong;
+    document.querySelectorAll('[data-ui-lang]').forEach(b=>b.classList.toggle('active',b.dataset.uiLang===l));
+  }
+  function choose(lang){
+    if(!allowed.includes(lang))return;
+    localStorage.setItem('alsbkinToolsUiLang',lang);
+    setTimeout(applyShared,0);
+  }
   document.addEventListener('DOMContentLoaded',applyShared);
-  document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>setTimeout(applyShared,0)));
+  document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.uiLang)));
   window.addEventListener('storage',applyShared);
 })();
 </script>

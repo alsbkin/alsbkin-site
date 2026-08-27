@@ -84,7 +84,7 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 .grade.mid{background:linear-gradient(135deg,#9b6500,#e1a900);box-shadow:0 0 28px rgba(225,169,0,.34)}
 @media(max-width:760px){nav{gap:7px;padding:9px 6px}nav a{padding:8px 11px;font-size:12px}main{padding-top:30px}.flag-btn{width:78px;height:48px}.flag-btn .flag-text{font-size:16px}.subtitle{font-size:16px}.panel{padding:16px}.result-grid{grid-template-columns:1fr 1fr}.security-item{grid-template-columns:26px 1fr}.security-value{grid-column:2}}
 @media(max-width:480px){.result-grid{grid-template-columns:1fr}}
-</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": ["MusicGroup", "Organization"], "@id": "https://alsbkin.ro/#artist", "name": "ALSBKIN", "url": "https://alsbkin.ro/"}, {"@type": "WebApplication", "name": "Free Internet Speed Test", "url": "https://alsbkin.ro/free-online-internet-speed-test.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any modern browser", "isAccessibleForFree": true, "inLanguage": ["en", "ro", "fr"], "creator": {"@id": "https://alsbkin.ro/#artist"}, "publisher": {"@id": "https://alsbkin.ro/#artist"}, "description": "Test approximate internet download speed, upload speed and latency in your browser using Cloudflare test endpoints."}]}</script><style id="alsbkin-enhancements">
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": ["MusicGroup", "Organization"], "@id": "https://alsbkin.ro/#artist", "name": "ALSBKIN", "url": "https://alsbkin.ro/"}, {"@type": "WebApplication", "name": "Free Internet Speed Test", "url": "https://alsbkin.ro/free-online-internet-speed-test.html", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any modern browser", "isAccessibleForFree": true, "inLanguage": ["en", "fr", "ro", "hu"], "creator": {"@id": "https://alsbkin.ro/#artist"}, "publisher": {"@id": "https://alsbkin.ro/#artist"}, "description": "Test approximate internet download speed, upload speed and latency in your browser using Cloudflare test endpoints."}]}</script><style id="alsbkin-enhancements">
 
 /* === ALSBKIN shared support + category navigation === */
 .alsbkin-support{width:min(900px,calc(100% - 28px));margin:18px auto 8px;text-align:center!important;padding:14px 12px}
@@ -102,15 +102,36 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 .misc-link:hover,[data-cat="misc"]:hover{background:linear-gradient(135deg,#7a7f85 0%,#edf1f4 18%,#ffffff 38%,#c4c9cf 58%,#ffffff 78%,#8d9298 100%)!important;box-shadow:0 9px 22px rgba(0,0,0,.36),0 0 31px rgba(255,20,20,.76),inset 0 1px 0 rgba(255,255,255,1)!important}
 @media(max-width:600px){.alsbkin-support{width:min(94%,900px);padding-left:6px;padding-right:6px}.alsbkin-support-text{font-size:13px!important}.alsbkin-subscribe-btn{font-size:12px!important;padding:11px 16px}}
 
-</style></head><body><nav aria-label="Main navigation">
+</style>
+<style id="alsbkin-language-selector-style">
+.language-switcher.site-language-switcher{display:flex!important;justify-content:center!important;align-items:center!important;gap:14px!important;flex-wrap:wrap!important;width:min(100%,620px)!important;margin:16px auto 18px!important}
+.language-switcher.site-language-switcher .flag-btn{position:relative!important;display:inline-flex!important;justify-content:center!important;align-items:center!important;width:82px!important;height:50px!important;border-radius:12px!important;border:2px solid #fff!important;cursor:pointer!important;overflow:hidden!important;box-shadow:0 8px 18px rgba(0,0,0,.30)!important;transition:.22s ease!important;padding:0!important}
+.language-switcher.site-language-switcher .flag-btn:hover{transform:translateY(-2px) scale(1.03)!important}
+.language-switcher.site-language-switcher .flag-btn.active{box-shadow:0 0 0 3px rgba(57,255,20,.34),0 10px 24px rgba(0,0,0,.30)!important;border-color:#fff!important}
+.language-switcher.site-language-switcher .flag-text{position:relative!important;z-index:3!important;font-weight:900!important;font-size:18px!important;letter-spacing:.8px!important;color:#fff!important;text-shadow:0 2px 0 rgba(0,0,0,.95),0 0 10px rgba(0,0,0,.85)!important}
+.language-switcher.site-language-switcher .flag-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.05),rgba(0,0,0,.10));z-index:2}
+.language-switcher.site-language-switcher .flag-en{background-color:#012169!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3CclipPath id='s'%3E%3Cpath d='M0 0v30h60V0z'/%3E%3C/clipPath%3E%3Cg clip-path='url(%23s)'%3E%3Cpath d='M0 0v30h60V0z' fill='%23012169'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='m0 0 60 30m0-30L0 30' stroke='%23C8102E' stroke-width='4'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/g%3E%3C/svg%3E")!important;background-size:100% 100%!important;background-repeat:no-repeat!important;background-position:center!important}
+.language-switcher.site-language-switcher .flag-fr{background:linear-gradient(90deg,#0055A4 0 33.333%,#fff 33.333% 66.666%,#EF4135 66.666% 100%)!important}
+.language-switcher.site-language-switcher .flag-ro{background:linear-gradient(90deg,#002B7F 0 33.333%,#FCD116 33.333% 66.666%,#CE1126 66.666% 100%)!important}
+.language-switcher.site-language-switcher .flag-hu{background:linear-gradient(to bottom,#CE2939 0 33.333%,#fff 33.333% 66.666%,#477050 66.666% 100%)!important}
+@media(max-width:560px){.language-switcher.site-language-switcher{gap:9px!important}.language-switcher.site-language-switcher .flag-btn{width:70px!important;height:44px!important}.language-switcher.site-language-switcher .flag-text{font-size:16px!important}}
+</style>
+</head><body><nav aria-label="Main navigation">
 <a class="home" href="/">HOME</a>
 <a class="tools" href="/free-online-tools.html">TOOLS</a>
 <a class="songs" href="/songs.html">SONGS</a>
-</nav><main><div class="language-switcher" aria-label="Interface language selector">
-<button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English interface"><span class="flag-text">ENG</span></button>
-<button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Interfață în română"><span class="flag-text">RO</span></button>
-<button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Interface en français"><span class="flag-text">FR</span></button>
-</div><h1 id="pageTitle">Internet Speed Test</h1><div class="brand-byline">by ALSBKIN</div>
+</nav><main>
+<div class="language-switcher site-language-switcher" data-alsbkin-language-selector aria-label="Interface language selector">
+<button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English"><span class="flag-text">EN</span></button>
+<button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Français"><span class="flag-text">FR</span></button>
+<button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Română"><span class="flag-text">RO</span></button>
+<button type="button" class="flag-btn flag-hu" data-ui-lang="hu" aria-label="Magyar"><span class="flag-text">HU</span></button>
+</div>
+<h1 id="pageTitle">Internet Speed Test</h1><div class="brand-byline">by ALSBKIN</div>
+<div class="alsbkin-support" data-alsbkin-support>
+  <p class="alsbkin-support-text">Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.</p>
+  <a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" target="_blank" rel="noopener noreferrer">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
+</div>
 <p id="subtitle" class="subtitle"></p><a class="misc-link" data-category-back="misc" href="free-online-miscellaneous-tools.html">MISCELLANEOUS TOOLS</a>
 <section class="panel">
 <button id="startBtn" class="action">START SPEED TEST</button>
@@ -123,13 +144,12 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 </div></section>
 <div id="privacy" class="privacy-note"></div><div id="notice" class="notice"></div>
 <section class="seo-info"><h2 id="infoTitle"></h2><p id="info1"></p></section>
-</main><footer><div id="footerText"></div><div class="alsbkin-support" data-alsbkin-support>
-  <p class="alsbkin-support-text">Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.</p>
-  <a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" target="_blank" rel="noopener noreferrer">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
-</div></footer>
+</main><footer><div id="footerText"></div></footer>
 <script>
 (()=>{'use strict';
-const I18N={"en": {"title": "Free Internet Speed Test – Download, Upload & Ping | ALSBKIN", "meta": "Test approximate internet download speed, upload speed and latency in your browser using Cloudflare test endpoints.", "page": "Internet Speed Test", "subtitle": "Measure approximate ping, download speed and upload speed directly in your browser.", "start": "START SPEED TEST", "ready": "Ready to test your connection.", "latency": "Ping", "download": "Download", "upload": "Upload", "testingPing": "Measuring latency…", "testingDown": "Testing download speed…", "testingUp": "Testing upload speed…", "done": "Speed test complete.", "error": "The speed test could not be completed. Your browser, network, VPN or firewall may be blocking the test endpoint.", "privacy": "🔒 ALSBKIN does not receive your speed-test traffic. Test requests are sent directly from your browser to Cloudflare's speed-test network.", "notice": "The result is an estimate and can vary with Wi-Fi quality, VPN/proxy use, browser load, routing and other network traffic. The test transfers several megabytes of data.", "infoTitle": "Browser-based internet speed test", "info1": "The test measures round-trip request time and transfers sample data to estimate download and upload throughput. For a stable result, pause large downloads and run the test more than once.", "footer": "© 2026 ALSBKIN. All rights reserved."}, "ro": {"title": "Test Viteză Internet Gratuit – Download, Upload & Ping | ALSBKIN", "meta": "Testează aproximativ viteza de download, upload și latența conexiunii direct în browser, folosind endpoint-uri Cloudflare.", "page": "Test Viteză Internet", "subtitle": "Măsoară aproximativ ping-ul, viteza de download și viteza de upload direct în browser.", "start": "PORNEȘTE TESTUL", "ready": "Gata pentru testarea conexiunii.", "latency": "Ping", "download": "Download", "upload": "Upload", "testingPing": "Se măsoară latența…", "testingDown": "Se testează viteza de download…", "testingUp": "Se testează viteza de upload…", "done": "Testul de viteză este finalizat.", "error": "Testul nu a putut fi finalizat. Browserul, rețeaua, VPN-ul sau firewall-ul poate bloca endpoint-ul de test.", "privacy": "🔒 ALSBKIN nu primește traficul testului de viteză. Cererile sunt trimise direct din browser către rețeaua de test Cloudflare.", "notice": "Rezultatul este estimativ și poate varia în funcție de Wi-Fi, VPN/proxy, încărcarea browserului, rutare și alt trafic din rețea. Testul transferă câțiva MB de date.", "infoTitle": "Test de viteză internet direct în browser", "info1": "Testul măsoară timpul de răspuns și transferă date de probă pentru a estima vitezele de download și upload. Pentru un rezultat stabil, oprește descărcările mari și rulează testul de mai multe ori.", "footer": "© 2026 ALSBKIN. Toate drepturile rezervate."}, "fr": {"title": "Test de Vitesse Internet Gratuit – Débit & Ping | ALSBKIN", "meta": "Testez approximativement le débit descendant, montant et la latence dans votre navigateur avec les points de test Cloudflare.", "page": "Test de Vitesse Internet", "subtitle": "Mesurez approximativement le ping, le débit descendant et le débit montant directement dans votre navigateur.", "start": "LANCER LE TEST", "ready": "Prêt à tester votre connexion.", "latency": "Ping", "download": "Téléchargement", "upload": "Envoi", "testingPing": "Mesure de la latence…", "testingDown": "Test du débit descendant…", "testingUp": "Test du débit montant…", "done": "Test de vitesse terminé.", "error": "Le test n’a pas pu être effectué. Le navigateur, le réseau, le VPN ou le pare-feu peut bloquer le point de test.", "privacy": "🔒 ALSBKIN ne reçoit pas le trafic du test. Les requêtes sont envoyées directement depuis votre navigateur vers le réseau de test Cloudflare.", "notice": "Le résultat est une estimation et varie selon le Wi-Fi, le VPN/proxy, la charge du navigateur, le routage et les autres trafics réseau. Le test transfère plusieurs mégaoctets.", "infoTitle": "Test de vitesse Internet dans le navigateur", "info1": "Le test mesure le temps aller-retour et transfère des données d’échantillon pour estimer les débits descendant et montant. Pour un résultat stable, suspendez les gros téléchargements et répétez le test.", "footer": "© 2026 ALSBKIN. Tous droits réservés."}};let lang=localStorage.getItem('alsbkinToolsUiLang')||'en';if(!I18N[lang])lang='en';
+const I18N={"en": {"title": "Free Internet Speed Test – Download, Upload & Ping | ALSBKIN", "meta": "Test approximate internet download speed, upload speed and latency in your browser using Cloudflare test endpoints.", "page": "Internet Speed Test", "subtitle": "Measure approximate ping, download speed and upload speed directly in your browser.", "start": "START SPEED TEST", "ready": "Ready to test your connection.", "latency": "Ping", "download": "Download", "upload": "Upload", "testingPing": "Measuring latency…", "testingDown": "Testing download speed…", "testingUp": "Testing upload speed…", "done": "Speed test complete.", "error": "The speed test could not be completed. Your browser, network, VPN or firewall may be blocking the test endpoint.", "privacy": "🔒 ALSBKIN does not receive your speed-test traffic. Test requests are sent directly from your browser to Cloudflare's speed-test network.", "notice": "The result is an estimate and can vary with Wi-Fi quality, VPN/proxy use, browser load, routing and other network traffic. The test transfers several megabytes of data.", "infoTitle": "Browser-based internet speed test", "info1": "The test measures round-trip request time and transfers sample data to estimate download and upload throughput. For a stable result, pause large downloads and run the test more than once.", "footer": "© 2026 ALSBKIN. All rights reserved."}, "ro": {"title": "Test Viteză Internet Gratuit – Download, Upload & Ping | ALSBKIN", "meta": "Testează aproximativ viteza de download, upload și latența conexiunii direct în browser, folosind endpoint-uri Cloudflare.", "page": "Test Viteză Internet", "subtitle": "Măsoară aproximativ ping-ul, viteza de download și viteza de upload direct în browser.", "start": "PORNEȘTE TESTUL", "ready": "Gata pentru testarea conexiunii.", "latency": "Ping", "download": "Download", "upload": "Upload", "testingPing": "Se măsoară latența…", "testingDown": "Se testează viteza de download…", "testingUp": "Se testează viteza de upload…", "done": "Testul de viteză este finalizat.", "error": "Testul nu a putut fi finalizat. Browserul, rețeaua, VPN-ul sau firewall-ul poate bloca endpoint-ul de test.", "privacy": "🔒 ALSBKIN nu primește traficul testului de viteză. Cererile sunt trimise direct din browser către rețeaua de test Cloudflare.", "notice": "Rezultatul este estimativ și poate varia în funcție de Wi-Fi, VPN/proxy, încărcarea browserului, rutare și alt trafic din rețea. Testul transferă câțiva MB de date.", "infoTitle": "Test de viteză internet direct în browser", "info1": "Testul măsoară timpul de răspuns și transferă date de probă pentru a estima vitezele de download și upload. Pentru un rezultat stabil, oprește descărcările mari și rulează testul de mai multe ori.", "footer": "© 2026 ALSBKIN. Toate drepturile rezervate."}, "fr": {"title": "Test de Vitesse Internet Gratuit – Débit & Ping | ALSBKIN", "meta": "Testez approximativement le débit descendant, montant et la latence dans votre navigateur avec les points de test Cloudflare.", "page": "Test de Vitesse Internet", "subtitle": "Mesurez approximativement le ping, le débit descendant et le débit montant directement dans votre navigateur.", "start": "LANCER LE TEST", "ready": "Prêt à tester votre connexion.", "latency": "Ping", "download": "Téléchargement", "upload": "Envoi", "testingPing": "Mesure de la latence…", "testingDown": "Test du débit descendant…", "testingUp": "Test du débit montant…", "done": "Test de vitesse terminé.", "error": "Le test n’a pas pu être effectué. Le navigateur, le réseau, le VPN ou le pare-feu peut bloquer le point de test.", "privacy": "🔒 ALSBKIN ne reçoit pas le trafic du test. Les requêtes sont envoyées directement depuis votre navigateur vers le réseau de test Cloudflare.", "notice": "Le résultat est une estimation et varie selon le Wi-Fi, le VPN/proxy, la charge du navigateur, le routage et les autres trafics réseau. Le test transfère plusieurs mégaoctets.", "infoTitle": "Test de vitesse Internet dans le navigateur", "info1": "Le test mesure le temps aller-retour et transfère des données d’échantillon pour estimer les débits descendant et montant. Pour un résultat stable, suspendez les gros téléchargements et répétez le test.", "footer": "© 2026 ALSBKIN. Tous droits réservés."}};
+I18N.hu={...I18N.en,title:'Ingyenes Internetsebesség-mérő | ALSBKIN',meta:'Mérd meg a hozzávetőleges letöltési és feltöltési sebességet, valamint a késleltetést a böngészőben.',page:'Internetsebesség-mérő',subtitle:'Mérd meg a pinget, a letöltési és feltöltési sebességet közvetlenül a böngészőben.',start:'SEBESSÉGTESZT INDÍTÁSA',ready:'Készen áll a kapcsolat tesztelésére.',latency:'Ping',download:'Letöltés',upload:'Feltöltés',miscLink:'EGYÉB ESZKÖZÖK',footer:'© 2026 ALSBKIN. Minden jog fenntartva.'};
+let lang=localStorage.getItem('alsbkinToolsUiLang')||'en';if(!I18N[lang])lang='en';
 const $=id=>document.getElementById(id), buttons=document.querySelectorAll('.flag-btn[data-ui-lang]');
 function setMeta(n,v){const e=document.querySelector(`meta[name="${n}"]`);if(e)e.content=v}function setProp(n,v){const e=document.querySelector(`meta[property="${n}"]`);if(e)e.content=v}
 function applyLang(){const t=I18N[lang];document.documentElement.lang=lang;document.title=t.title;setMeta('description',t.meta);setProp('og:title',t.title);setProp('og:description',t.meta);setMeta('twitter:title',t.title);setMeta('twitter:description',t.meta);
@@ -151,14 +171,67 @@ $('startBtn').addEventListener('click',run);buttons.forEach(b=>b.addEventListene
 (()=>{
   'use strict';
   const T={
-    en:{support:'Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.',subscribe:'SUBSCRIBE TO MY YOUTUBE CHANNEL',audio:'AUDIO TOOLS',pdf:'PDF TOOLS',video:'VIDEO TOOLS',misc:'MISCELLANEOUS TOOLS',songs:'SONGS',home:'HOME',tools:'TOOLS',versions:'Song versions',lyrics:'Lyrics',aboutSong:'About the song'},
-    ro:{support:'Tot ce găsești pe ALSBKIN este gratuit. Dacă îți place muzica sau instrumentele îți sunt utile, te rog să vizitezi canalul YouTube ALSBKIN și să te abonezi pentru a-mi susține munca.',subscribe:'ABONEAZĂ-TE LA CANALUL MEU DE YOUTUBE',audio:'INSTRUMENTE AUDIO',pdf:'INSTRUMENTE PDF',video:'INSTRUMENTE VIDEO',misc:'DIVERSE',songs:'PIESE',home:'ACASĂ',tools:'INSTRUMENTE',versions:'Versiuni ale piesei',lyrics:'Versuri',aboutSong:'Despre piesă'},
-    fr:{support:'Tout ce que vous trouvez sur ALSBKIN est gratuit. Si vous aimez la musique ou trouvez les outils utiles, merci de visiter la chaîne YouTube ALSBKIN et de vous abonner pour soutenir mon travail.',subscribe:'ABONNEZ-VOUS À MA CHAÎNE YOUTUBE',audio:'OUTILS AUDIO',pdf:'OUTILS PDF',video:'OUTILS VIDÉO',misc:'OUTILS DIVERS',songs:'CHANSONS',home:'ACCUEIL',tools:'OUTILS',versions:'Versions de la chanson',lyrics:'Paroles',aboutSong:'À propos de la chanson'}
+    en:{
+      support:'Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.',
+      subscribe:'SUBSCRIBE TO MY YOUTUBE CHANNEL',
+      audio:'AUDIO TOOLS',pdf:'PDF TOOLS',video:'VIDEO TOOLS',misc:'MISCELLANEOUS TOOLS',mobile:'MOBILE APPS',
+      songs:'SONGS',home:'HOME',tools:'TOOLS',about:'ABOUT',versions:'Song versions',lyrics:'Lyrics',aboutSong:'About the song'
+    },
+    fr:{
+      support:'Tout ce que vous trouvez sur ALSBKIN est gratuit. Si vous aimez la musique ou trouvez les outils utiles, merci de visiter la chaîne YouTube ALSBKIN et de vous abonner pour soutenir mon travail.',
+      subscribe:'ABONNEZ-VOUS À MA CHAÎNE YOUTUBE',
+      audio:'OUTILS AUDIO',pdf:'OUTILS PDF',video:'OUTILS VIDÉO',misc:'OUTILS DIVERS',mobile:'APPLICATIONS MOBILES',
+      songs:'CHANSONS',home:'ACCUEIL',tools:'OUTILS',about:'À PROPOS',versions:'Versions de la chanson',lyrics:'Paroles',aboutSong:'À propos de la chanson'
+    },
+    ro:{
+      support:'Tot ce găsești pe ALSBKIN este gratuit. Dacă îți place muzica sau instrumentele îți sunt utile, te rog să vizitezi canalul YouTube ALSBKIN și să te abonezi pentru a-mi susține munca.',
+      subscribe:'ABONEAZĂ-TE LA CANALUL MEU DE YOUTUBE',
+      audio:'INSTRUMENTE AUDIO',pdf:'INSTRUMENTE PDF',video:'INSTRUMENTE VIDEO',misc:'DIVERSE',mobile:'APLICAȚII MOBILE',
+      songs:'PIESE',home:'ACASĂ',tools:'INSTRUMENTE',about:'DESPRE',versions:'Versiuni ale piesei',lyrics:'Versuri',aboutSong:'Despre piesă'
+    },
+    hu:{
+      support:'Az ALSBKIN minden tartalma ingyenesen használható. Ha tetszik a zene, vagy hasznosnak találod az eszközöket, kérlek, látogasd meg az ALSBKIN YouTube-csatornáját, és iratkozz fel, hogy támogasd a munkámat.',
+      subscribe:'IRATKOZZ FEL A YOUTUBE-CSATORNÁMRA',
+      audio:'AUDIOESZKÖZÖK',pdf:'PDF-ESZKÖZÖK',video:'VIDEÓESZKÖZÖK',misc:'EGYÉB ESZKÖZÖK',mobile:'MOBILALKALMAZÁSOK',
+      songs:'DALOK',home:'FŐOLDAL',tools:'ESZKÖZÖK',about:'RÓLAM',versions:'DALVÁLTOZATOK',lyrics:'DALSZÖVEG',aboutSong:'A DALRÓL'
+    }
   };
-  const getLang=()=>{const saved=localStorage.getItem('alsbkinToolsUiLang');if(T[saved])return saved;const d=(document.documentElement.lang||'en').slice(0,2).toLowerCase();return T[d]?d:'en'};
-  function applyShared(){const l=getLang(),t=T[l];document.querySelectorAll('[data-alsbkin-support]').forEach(box=>{const p=box.querySelector('.alsbkin-support-text'),a=box.querySelector('.alsbkin-subscribe-btn');if(p)p.textContent=t.support;if(a)a.textContent=t.subscribe});document.querySelectorAll('[data-category-back="audio"]').forEach(e=>e.textContent=t.audio);document.querySelectorAll('[data-category-back="pdf"]').forEach(e=>e.textContent=t.pdf);document.querySelectorAll('[data-category-back="video"]').forEach(e=>e.textContent=t.video);document.querySelectorAll('[data-category-back="misc"],.misc-link').forEach(e=>e.textContent=t.misc);const lt=document.querySelector('.lyrics-title');if(lt)lt.textContent=t.lyrics;const vt=document.querySelector('.versions-title');if(vt)vt.textContent=t.versions;document.querySelectorAll('.song-utility-home').forEach(e=>e.textContent=t.home);document.querySelectorAll('.song-utility-tools').forEach(e=>e.textContent=t.tools);document.querySelectorAll('.songs-nav').forEach(e=>{if(!e.id)e.textContent=t.songs});const about=document.querySelector('.song-description h2');if(about)about.textContent=t.aboutSong;}
+  const allowed=['en','fr','ro','hu'];
+  const getLang=()=>{
+    const saved=(localStorage.getItem('alsbkinToolsUiLang')||'').toLowerCase();
+    if(allowed.includes(saved)) return saved;
+    const d=(document.documentElement.lang||'en').slice(0,2).toLowerCase();
+    return allowed.includes(d)?d:'en';
+  };
+  function applyShared(){
+    const l=getLang(),t=T[l];
+    document.documentElement.lang=l;
+    document.querySelectorAll('[data-alsbkin-support]').forEach(box=>{
+      const p=box.querySelector('.alsbkin-support-text'),a=box.querySelector('.alsbkin-subscribe-btn');
+      if(p)p.textContent=t.support;
+      if(a)a.textContent=t.subscribe;
+    });
+    document.querySelectorAll('[data-category-back="audio"]').forEach(e=>e.textContent=t.audio);
+    document.querySelectorAll('[data-category-back="pdf"]').forEach(e=>e.textContent=t.pdf);
+    document.querySelectorAll('[data-category-back="video"]').forEach(e=>e.textContent=t.video);
+    document.querySelectorAll('[data-category-back="misc"],.misc-link').forEach(e=>e.textContent=t.misc);
+    document.querySelectorAll('[data-cat="mobile"]').forEach(e=>{if(e.tagName!=='SECTION')e.textContent=t.mobile});
+    document.querySelectorAll('.song-utility-home,.home-nav,nav .home').forEach(e=>e.textContent=t.home);
+    document.querySelectorAll('.song-utility-tools,.tools-nav,nav .tools').forEach(e=>e.textContent=t.tools);
+    document.querySelectorAll('.songs-nav,nav .songs').forEach(e=>{if(!e.id)e.textContent=t.songs});
+    document.querySelectorAll('.about-nav').forEach(e=>{if(!e.id)e.textContent=t.about});
+    const lt=document.querySelector('.lyrics-title');if(lt)lt.textContent=t.lyrics;
+    const vt=document.querySelector('.versions-title');if(vt)vt.textContent=t.versions;
+    const about=document.querySelector('.song-description h2');if(about)about.textContent=t.aboutSong;
+    document.querySelectorAll('[data-ui-lang]').forEach(b=>b.classList.toggle('active',b.dataset.uiLang===l));
+  }
+  function choose(lang){
+    if(!allowed.includes(lang))return;
+    localStorage.setItem('alsbkinToolsUiLang',lang);
+    setTimeout(applyShared,0);
+  }
   document.addEventListener('DOMContentLoaded',applyShared);
-  document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>setTimeout(applyShared,0)));
+  document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.uiLang)));
   window.addEventListener('storage',applyShared);
 })();
 </script>
