@@ -1223,16 +1223,6 @@ nav .tools-nav {
 <article class="playlist-card"><h3>💃 Kizomba</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexNeqqvjseeNo3udGv7hfsU3" title="ALSBKIN Kizomba Playlist"></iframe></div></article>
 </div>
 </section>
-<section id="video">
-<div class="video-box">
-<p class="video-description" id="videoDescription">
-        Videoclipurile oficiale și promo-urile sunt disponibile pe canalul YouTube ALSBKIN.
-      </p>
-<div class="buttons">
-<a id="youtubeChannelBtn" href="https://www.youtube.com/@ALSBKIN" rel="noopener noreferrer" target="_blank">VEZI CANALUL YOUTUBE</a>
-</div>
-</div>
-</section>
 <section id="despre">
 <h2 id="aboutTitle">Despre</h2>
 <p id="aboutText">
@@ -1265,23 +1255,22 @@ nav .tools-nav {
 <script id="alsbkin-index-language-script">
 (()=>{'use strict';
 const I={
-ro:{html:'ro',title:'ALSBKIN | Muzică originală – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',desc:'Site-ul oficial ALSBKIN. Descoperă muzică originală și reinterpretări moderne în stiluri Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata și Kizomba.',songs:'PIESE',about:'DESPRE',tools:'INSTRUMENTE',homeTitle:'ALSBKIN – Muzică originală și reinterpretări moderne',videoDesc:'Videoclipurile oficiale și materialele promo sunt disponibile pe canalul YouTube ALSBKIN.',youtube:'VEZI CANALUL YOUTUBE',aboutTitle:'Despre',aboutText:'ALSBKIN este un proiect muzical independent de muzică originală și reinterpretări moderne, care explorează Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata și Kizomba.',contact:'Contact',contactText:'Pentru colaborări, promovare sau întrebări:',email:'TRIMITE EMAIL'},
-en:{html:'en',title:'ALSBKIN | Original Music – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',desc:'Official ALSBKIN website. Discover original music and modern reinterpretations across Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata and Kizomba.',songs:'SONGS',about:'ABOUT',tools:'TOOLS',homeTitle:'ALSBKIN – Original Music and Modern Reinterpretations',videoDesc:'Official videos and promotional content are available on the ALSBKIN YouTube channel.',youtube:'VIEW YOUTUBE CHANNEL',aboutTitle:'About',aboutText:'ALSBKIN is an independent music project creating original music and modern reinterpretations across Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata and Kizomba.',contact:'Contact',contactText:'For collaborations, promotion or questions:',email:'SEND EMAIL'},
-fr:{html:'fr',title:'ALSBKIN | Musique originale – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',desc:'Site officiel ALSBKIN. Découvrez de la musique originale et des réinterprétations modernes en Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata et Kizomba.',songs:'CHANSONS',about:'À PROPOS',tools:'OUTILS',homeTitle:'ALSBKIN – Musique originale et réinterprétations modernes',videoDesc:'Les vidéos officielles et contenus promotionnels sont disponibles sur la chaîne YouTube ALSBKIN.',youtube:'VOIR LA CHAÎNE YOUTUBE',aboutTitle:'À propos',aboutText:'ALSBKIN est un projet musical indépendant de musique originale et de réinterprétations modernes explorant Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata et Kizomba.',contact:'Contact',contactText:'Pour les collaborations, la promotion ou les questions :',email:'ENVOYER UN E-MAIL'}};
+ro:{html:'ro',title:'ALSBKIN | Muzică originală – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',desc:'Site-ul oficial ALSBKIN. Descoperă muzică originală și reinterpretări moderne în stiluri Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata și Kizomba.',songs:'PIESE',about:'DESPRE',tools:'INSTRUMENTE',homeTitle:'ALSBKIN – Muzică originală și reinterpretări moderne',aboutTitle:'Despre',aboutText:'ALSBKIN este un proiect muzical independent de muzică originală și reinterpretări moderne, care explorează Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata și Kizomba.',contact:'Contact',contactText:'Pentru colaborări, promovare sau întrebări:',email:'TRIMITE EMAIL'},
+en:{html:'en',title:'ALSBKIN | Original Music – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',desc:'Official ALSBKIN website. Discover original music and modern reinterpretations across Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata and Kizomba.',songs:'SONGS',about:'ABOUT',tools:'TOOLS',homeTitle:'ALSBKIN – Original Music and Modern Reinterpretations',aboutTitle:'About',aboutText:'ALSBKIN is an independent music project creating original music and modern reinterpretations across Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata and Kizomba.',contact:'Contact',contactText:'For collaborations, promotion or questions:',email:'SEND EMAIL'},
+fr:{html:'fr',title:'ALSBKIN | Musique originale – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',desc:'Site officiel ALSBKIN. Découvrez de la musique originale et des réinterprétations modernes en Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata et Kizomba.',songs:'CHANSONS',about:'À PROPOS',tools:'OUTILS',homeTitle:'ALSBKIN – Musique originale et réinterprétations modernes',aboutTitle:'À propos',aboutText:'ALSBKIN est un projet musical indépendant de musique originale et de réinterprétations modernes explorant Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata et Kizomba.',contact:'Contact',contactText:'Pour les collaborations, la promotion ou les questions :',email:'ENVOYER UN E-MAIL'}};
 I.hu={...I.en,
 html:'hu',
 title:'ALSBKIN | Eredeti zene – Rock, Metal, Folk, EDM, Balkan Pop-Folk & Latin',
 desc:'Az ALSBKIN hivatalos oldala. Fedezd fel az eredeti zenéket és modern újraértelmezéseket Rock, Metal, Folk, EDM, House, Dance, Balkan Pop-Folk, Salsa, Bachata és Kizomba stílusban.',
 songs:'DALOK',about:'RÓLAM',tools:'ESZKÖZÖK',
 homeTitle:'ALSBKIN – Eredeti zene és modern újraértelmezések',
-videoDesc:'A hivatalos videók és promóciós tartalmak az ALSBKIN YouTube-csatornáján érhetők el.',
-youtube:'YOUTUBE-CSATORNA MEGTEKINTÉSE',
+
 aboutTitle:'Az ALSBKIN-ről',
 aboutText:'Az ALSBKIN egy független zenei projekt, amely eredeti zenéket és modern újraértelmezéseket készít Rock, Metal, Folk, EDM, Balkan Pop-Folk, Salsa, Bachata és Kizomba stílusban.',
 contact:'Kapcsolat',contactText:'Együttműködéshez, promócióhoz vagy kérdésekhez:',email:'E-MAIL KÜLDÉSE'};
 
 const qs=s=>document.querySelector(s),setMeta=(sel,v)=>{const e=qs(sel);if(e)e.setAttribute('content',v)};let lang=localStorage.getItem('alsbkinToolsUiLang')||'ro';if(!I[lang])lang='ro';
-function apply(){const t=I[lang];document.documentElement.lang=t.html;document.title=t.title;setMeta('meta[name="description"]',t.desc);setMeta('meta[property="og:title"]',t.title);setMeta('meta[property="og:description"]',t.desc);setMeta('meta[name="twitter:title"]',t.title);setMeta('meta[name="twitter:description"]',t.desc);qs('#navSongs').textContent=t.songs;qs('#navAbout').textContent=t.about;qs('#navTools').textContent=t.tools;qs('#homeTitle').textContent=t.homeTitle;qs('#videoDescription').textContent=t.videoDesc;qs('#youtubeChannelBtn').textContent=t.youtube;qs('#aboutTitle').textContent=t.aboutTitle;qs('#aboutText').textContent=t.aboutText;qs('#contactTitle').textContent=t.contact;qs('#contactText').firstChild.nodeValue=t.contactText;qs('#contactEmailBtn').textContent=t.email;document.querySelectorAll('.flag-btn[data-ui-lang]').forEach(b=>b.classList.toggle('active',b.dataset.uiLang===lang));localStorage.setItem('alsbkinToolsUiLang',lang);}
+function apply(){const t=I[lang];document.documentElement.lang=t.html;document.title=t.title;setMeta('meta[name="description"]',t.desc);setMeta('meta[property="og:title"]',t.title);setMeta('meta[property="og:description"]',t.desc);setMeta('meta[name="twitter:title"]',t.title);setMeta('meta[name="twitter:description"]',t.desc);qs('#navSongs').textContent=t.songs;qs('#navAbout').textContent=t.about;qs('#navTools').textContent=t.tools;qs('#homeTitle').textContent=t.homeTitle;qs('#aboutTitle').textContent=t.aboutTitle;qs('#aboutText').textContent=t.aboutText;qs('#contactTitle').textContent=t.contact;qs('#contactText').firstChild.nodeValue=t.contactText;qs('#contactEmailBtn').textContent=t.email;document.querySelectorAll('.flag-btn[data-ui-lang]').forEach(b=>b.classList.toggle('active',b.dataset.uiLang===lang));localStorage.setItem('alsbkinToolsUiLang',lang);}
 document.querySelectorAll('.flag-btn[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.uiLang;apply()}));apply();})();
 </script>
 
