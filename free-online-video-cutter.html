@@ -21,7 +21,7 @@
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&amp;family=Marck+Script&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&amp;family=Dancing+Script:wght@600&amp;display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box}
 :root{
@@ -71,7 +71,7 @@ nav a:hover{transform:translateY(-2px) scale(1.04)}
 main{width:min(1120px,94%);margin:0 auto;padding:44px 0 72px}
 h1{
   margin:0 0 10px;
-  font-family:"Marck Script",cursive;
+  font-family:"Dancing Script","Segoe Script",cursive;
   font-size:clamp(46px,7vw,78px);
   color:var(--green);
   text-shadow:0 0 18px rgba(57,255,20,.18),0 3px 18px rgba(0,0,0,.5);
@@ -350,10 +350,15 @@ footer{padding:28px 18px 36px;color:var(--cyan);font-size:14px}
 .language-switcher.site-language-switcher .flag-ro{background:linear-gradient(90deg,#002B7F 0 33.333%,#FCD116 33.333% 66.666%,#CE1126 66.666% 100%)!important}
 .language-switcher.site-language-switcher .flag-hu{background:linear-gradient(to bottom,#CE2939 0 33.333%,#fff 33.333% 66.666%,#477050 66.666% 100%)!important}
 @media(max-width:560px){.language-switcher.site-language-switcher{gap:9px!important}.language-switcher.site-language-switcher .flag-btn{width:70px!important;height:44px!important}.language-switcher.site-language-switcher .flag-text{font-size:16px!important}}
-</style>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5755962917183536"
-     crossorigin="anonymous"></script>
+/* ALSBKIN visual consistency: Dancing Script title */
+h1{font-family:"Dancing Script","Segoe Script",cursive!important;font-weight:600!important;letter-spacing:.01em!important}
+
+/* ALSBKIN central file selector: green + pronounced pulse */
+.drop-zone{border-color:#39ff14!important;background:linear-gradient(135deg,#0b6d18 0%,#159b24 48%,#39d353 78%,#39ff14 100%)!important;box-shadow:0 0 18px rgba(57,255,20,.26)!important;animation:toolSelectPulse 1.8s ease-in-out infinite!important;transform-origin:center center}
+@keyframes toolSelectPulse{0%,100%{transform:scale(.96);box-shadow:0 0 14px rgba(57,255,20,.22)}50%{transform:scale(1.045);box-shadow:0 0 42px rgba(57,255,20,.88),0 12px 30px rgba(0,0,0,.36)}}
+.drop-zone:hover{filter:brightness(1.08)}
+</style>
 </head>
 <body>
 <nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav>
