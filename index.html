@@ -1173,6 +1173,100 @@ nav .tools-nav {
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5755962917183536"
      crossorigin="anonymous"></script>
+
+<style id="alsbkin-youtube-click-to-load-style">
+/*
+  YouTube click-to-load facade.
+  No YouTube iframe/network request is created until the visitor explicitly clicks.
+*/
+.youtube-facade {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,.08), transparent 34%),
+    linear-gradient(145deg, #111 0%, #050505 62%, #000 100%);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.youtube-facade:hover .youtube-facade-play,
+.youtube-facade:focus-visible .youtube-facade-play {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 5px rgba(255,0,0,.16), 0 8px 24px rgba(0,0,0,.45);
+}
+
+.youtube-facade:focus-visible {
+  outline: 3px solid #8fd8ff;
+  outline-offset: -3px;
+}
+
+.youtube-facade-play {
+  width: 64px;
+  height: 44px;
+  border-radius: 12px;
+  background: #ff0000;
+  position: relative;
+  box-shadow: 0 7px 20px rgba(0,0,0,.45);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.youtube-facade-play::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  top: 12px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid #fff;
+}
+
+.youtube-facade-brand {
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: .2px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.8);
+}
+
+.youtube-player > iframe,
+.youtube-player > .youtube-facade,
+.about-short > iframe,
+.about-short > .youtube-facade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.about-short {
+  position: relative;
+}
+
+.about-short > .youtube-facade {
+  border-radius: inherit;
+}
+
+.youtube-player > iframe,
+.about-short > iframe {
+  background: #000;
+}
+</style>
+
 </head>
 <body>
 <nav><a class="songs-nav" id="navSongs" href="songs.html">PIESE</a><a class="about-nav" id="navAbout" href="#despre">DESPRE</a><a class="tools-nav" id="navTools" href="free-online-tools.html">INSTRUMENTE</a></nav>
@@ -1218,12 +1312,12 @@ nav .tools-nav {
 </header>
 <section id="muzica">
 <div class="youtube-playlists">
-<article class="playlist-card"><h3>🎸 Rock | Metal | Folk</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexN3XLRj2rGLeWre779BN_OM" title="ALSBKIN Rock Metal Folk Playlist"></iframe></div></article>
-<article class="playlist-card"><h3>🪗 Balkan Pop-Folk</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PLSS-petF8scw" title="ALSBKIN Balkan Pop-Folk Playlist"></iframe></div></article>
-<article class="playlist-card"><h3>🎧 EDM | House | Dance</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PLMnipVzbCs6Y" title="ALSBKIN EDM House Dance Playlist"></iframe></div></article>
-<article class="playlist-card"><h3>💃 Salsa</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexNcbQaqyxxYfm8akVGdy2xw" title="ALSBKIN Salsa Playlist"></iframe></div></article>
-<article class="playlist-card"><h3>💃 Bachata</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexMyNxfm9v_S8tu9vieus6XD" title="ALSBKIN Bachata Playlist"></iframe></div></article>
-<article class="playlist-card"><h3>💃 Kizomba</h3><div class="youtube-player"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexNeqqvjseeNo3udGv7hfsU3" title="ALSBKIN Kizomba Playlist"></iframe></div></article>
+<article class="playlist-card"><h3>🎸 Rock | Metal | Folk</h3><div class="youtube-player"><button class="youtube-facade" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexN3XLRj2rGLeWre779BN_OM" data-youtube-title="ALSBKIN Rock Metal Folk Playlist" aria-label="Load ALSBKIN Rock Metal Folk Playlist"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div></article>
+<article class="playlist-card"><h3>🪗 Balkan Pop-Folk</h3><div class="youtube-player"><button class="youtube-facade" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLSS-petF8scw" data-youtube-title="ALSBKIN Balkan Pop-Folk Playlist" aria-label="Load ALSBKIN Balkan Pop-Folk Playlist"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div></article>
+<article class="playlist-card"><h3>🎧 EDM | House | Dance</h3><div class="youtube-player"><button class="youtube-facade" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLMnipVzbCs6Y" data-youtube-title="ALSBKIN EDM House Dance Playlist" aria-label="Load ALSBKIN EDM House Dance Playlist"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div></article>
+<article class="playlist-card"><h3>💃 Salsa</h3><div class="youtube-player"><button class="youtube-facade" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexNcbQaqyxxYfm8akVGdy2xw" data-youtube-title="ALSBKIN Salsa Playlist" aria-label="Load ALSBKIN Salsa Playlist"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div></article>
+<article class="playlist-card"><h3>💃 Bachata</h3><div class="youtube-player"><button class="youtube-facade" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexMyNxfm9v_S8tu9vieus6XD" data-youtube-title="ALSBKIN Bachata Playlist" aria-label="Load ALSBKIN Bachata Playlist"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div></article>
+<article class="playlist-card"><h3>💃 Kizomba</h3><div class="youtube-player"><button class="youtube-facade" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexNeqqvjseeNo3udGv7hfsU3" data-youtube-title="ALSBKIN Kizomba Playlist" aria-label="Load ALSBKIN Kizomba Playlist"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div></article>
 </div>
 </section>
 <section id="despre">
@@ -1231,16 +1325,7 @@ nav .tools-nav {
 <p id="aboutText">
       ALSBKIN este un proiect muzical de muzică originală și reinterpretări moderne, care combină storytelling-ul, energia Metal/Rock, influențele folk, EDM și atmosfera latino într-un stil inedit.
     </p>
-<div class="about-short">
-<iframe
-  src="https://www.youtube.com/embed/171mBBieKtY"
-  title="This Is ALSBKIN"
-  loading="lazy"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
-</div>
+<div class="about-short"><button class="youtube-facade youtube-facade-short" type="button" data-youtube-src="https://www.youtube-nocookie.com/embed/171mBBieKtY" data-youtube-title="This Is ALSBKIN" aria-label="Load This Is ALSBKIN"><span class="youtube-facade-play" aria-hidden="true"></span><span class="youtube-facade-brand" aria-hidden="true">YouTube</span></button></div>
 </section>
 <section id="contact">
 <h2 id="contactTitle">Contact</h2>
@@ -1343,6 +1428,52 @@ document.querySelectorAll('.flag-btn[data-ui-lang]').forEach(b=>b.addEventListen
   document.addEventListener('DOMContentLoaded',applyShared);
   document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.uiLang)));
   window.addEventListener('storage',applyShared);
+})();
+</script>
+
+
+<script id="alsbkin-youtube-click-to-load-script">
+(() => {
+  'use strict';
+
+  const addPlaybackParams = (rawUrl) => {
+    const url = new URL(rawUrl, window.location.href);
+    url.searchParams.set('autoplay', '1');
+    url.searchParams.set('playsinline', '1');
+    return url.toString();
+  };
+
+  const loadYouTubePlayer = (button) => {
+    if (!button || button.dataset.youtubeLoaded === '1') return;
+
+    const rawSrc = button.dataset.youtubeSrc;
+    if (!rawSrc) return;
+
+    button.dataset.youtubeLoaded = '1';
+
+    const iframe = document.createElement('iframe');
+    iframe.src = addPlaybackParams(rawSrc);
+    iframe.title = button.dataset.youtubeTitle || 'YouTube player';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'eager';
+
+    button.replaceWith(iframe);
+  };
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('.youtube-facade[data-youtube-src]');
+    if (button) loadYouTubePlayer(button);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const button = event.target.closest('.youtube-facade[data-youtube-src]');
+    if (!button) return;
+    event.preventDefault();
+    loadYouTubePlayer(button);
+  });
 })();
 </script>
 
