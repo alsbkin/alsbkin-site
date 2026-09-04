@@ -154,6 +154,37 @@ h1{font-family:"Dancing Script","Segoe Script",cursive!important;font-weight:600
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5755962917183536"
      crossorigin="anonymous"></script>
+
+<style id="alsbkin-double-pdf-preview">
+/* Larger PDF page previews: approximately 2x the previous thumbnail width on desktop. */
+@media (min-width:761px){
+  .pdf-page-grid{grid-template-columns:repeat(auto-fill,minmax(440px,1fr))!important;gap:24px!important}
+}
+</style>
+
+
+<style id="alsbkin-pdf-workflow-states">
+/* Guided Select -> Action -> Download workflow */
+@keyframes alsbkinWorkflowPulse{
+  0%,100%{transform:scale(.96);box-shadow:0 0 14px rgba(57,255,20,.22)}
+  50%{transform:scale(1.045);box-shadow:0 0 42px rgba(57,255,20,.88),0 12px 30px rgba(0,0,0,.36)}
+}
+.drop:not(.workflow-pulse){animation:none!important}
+.drop.workflow-pulse,.op.workflow-pulse,.download.workflow-pulse{
+  animation:alsbkinWorkflowPulse 1.8s ease-in-out infinite!important;
+  transform-origin:center;
+}
+.workflow-inactive{
+  animation:none!important;
+  opacity:.32!important;
+  filter:grayscale(.75) brightness(.62)!important;
+  box-shadow:none!important;
+  transform:none!important;
+  cursor:not-allowed!important;
+}
+a.download.workflow-inactive{pointer-events:none}
+</style>
+
 </head><body><nav><a class="home" href="index.html">HOME</a><a class="tools" href="free-online-tools.html">TOOLS</a><a class="songs" href="songs.html">SONGS</a></nav><main>
 <div class="language-switcher site-language-switcher" data-alsbkin-language-selector aria-label="Interface language selector">
 <button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English"><span class="flag-text">EN</span></button>
@@ -173,7 +204,7 @@ let file,pdf,pdfPreviewDoc,draggedThumb=null;
 async function renderPagePreview(){
   pdfPageGrid.innerHTML="";pdfPreviewWrap.style.display="block";
   for(let n=1;n<=pdfPreviewDoc.numPages;n++){
-    const page=await pdfPreviewDoc.getPage(n),vp0=page.getViewport({scale:1}),scale=Math.min(1.75,260/vp0.width),vp=page.getViewport({scale});
+    const page=await pdfPreviewDoc.getPage(n),vp0=page.getViewport({scale:1}),scale=Math.min(1.75,520/vp0.width),vp=page.getViewport({scale});
     const card=document.createElement("div");card.className="pdf-thumb selected";card.draggable=true;card.dataset.pageIndex=String(n-1);
     const c=document.createElement("canvas");c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);
     const label=document.createElement("div");label.className="pdf-thumb-number";label.textContent=`Page ${n}`;
@@ -365,4 +396,108 @@ window.addEventListener('storage',()=>apply());
 apply();
 })();
 </script>
+
+<script id="alsbkin-pdf-workflow-controller">
+(function(){
+  const fi=document.getElementById('fileInput');
+  const action=document.getElementById('go');
+  const download=document.getElementById('download');
+  if(!fi||!action||!download)return;
+  const drop=fi.closest('.drop');
+  const result=document.getElementById('result');
+  let lockedAfterSuccess=false;
+
+  const pulse=(el,on)=>{if(el)el.classList.toggle('workflow-pulse',!!on)};
+  const setActionInactive=(inactive)=>{
+    action.classList.toggle('workflow-inactive',!!inactive);
+    action.setAttribute('aria-disabled',inactive?'true':String(!!action.disabled));
+  };
+  const setDownloadInactive=(inactive)=>{
+    download.classList.toggle('workflow-inactive',!!inactive);
+    download.setAttribute('aria-disabled',inactive?'true':'false');
+    if(inactive){
+      download.removeAttribute('href');
+      pulse(download,false);
+    }
+  };
+  const downloadReady=()=>download.hasAttribute('href') && (!result || getComputedStyle(result).display!=='none');
+
+  /* Initial state: Select PDF calls attention. */
+  pulse(drop,true);
+  pulse(action,false);
+  setActionInactive(false);
+  setDownloadInactive(true);
+
+  const originalChange=fi.onchange;
+  fi.onchange=async function(ev){
+    if(!fi.files || !fi.files.length){
+      if(originalChange)return await originalChange.call(this,ev);
+      return;
+    }
+    lockedAfterSuccess=false;
+    pulse(drop,false);
+    pulse(action,true);
+    setActionInactive(false);
+    setDownloadInactive(true);
+    if(result)result.style.display='none';
+    try{
+      if(originalChange)await originalChange.call(this,ev);
+    }finally{
+      if(action.disabled){
+        pulse(action,false);
+      }else{
+        pulse(action,true);
+      }
+    }
+  };
+
+  const originalAction=action.onclick;
+  action.onclick=async function(ev){
+    if(lockedAfterSuccess || action.disabled){
+      if(ev)ev.preventDefault();
+      return;
+    }
+    pulse(action,false);
+    setActionInactive(false);
+    setDownloadInactive(true);
+    try{
+      if(originalAction)await originalAction.call(this,ev);
+    }finally{
+      if(downloadReady()){
+        lockedAfterSuccess=true;
+        action.disabled=true;
+        pulse(action,false);
+        setActionInactive(true);
+        setDownloadInactive(false);
+        pulse(download,true);
+      }else{
+        lockedAfterSuccess=false;
+        action.disabled=false;
+        setActionInactive(false);
+        pulse(action,true);
+        setDownloadInactive(true);
+      }
+    }
+  };
+
+  download.addEventListener('click',function(ev){
+    if(download.classList.contains('workflow-inactive') || !download.hasAttribute('href')){
+      ev.preventDefault();
+      return;
+    }
+    /* Let the browser start the download, then lock Download and point back to Select PDF. */
+    setTimeout(()=>{
+      setDownloadInactive(true);
+      pulse(drop,true);
+    },0);
+  });
+
+  /* Keep the action visibly locked after a successful run until a genuinely new file selection occurs. */
+  const observer=new MutationObserver(()=>{
+    if(lockedAfterSuccess && !action.disabled)action.disabled=true;
+  });
+  observer.observe(action,{attributes:true,attributeFilter:['disabled']});
+})();
+</script>
+
 </body></html>
