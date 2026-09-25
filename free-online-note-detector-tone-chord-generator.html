@@ -1,25 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Free Note, Key &amp; Scale Detector, Tone &amp; Chord Generator | ALSBKIN</title>
-<meta name="description" content="Detect live notes, estimate musical key and major/minor scale, generate reference tones and play common chords directly in your browser."/>
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
-<link rel="canonical" href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"/>
-<meta name="author" content="ALSBKIN"/>
-<meta name="theme-color" content="#170800"/>
-<meta property="og:type" content="website"/>
-<meta property="og:site_name" content="ALSBKIN"/>
-<meta property="og:title" content="Free Note, Key &amp; Scale Detector, Tone &amp; Chord Generator | ALSBKIN"/>
-<meta property="og:description" content="Detect live notes, estimate key and scale from a melody, and generate reference tones or musical chords in your browser."/>
-<meta property="og:url" content="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"/>
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Free Note, Key &amp; Scale Detector, Tone &amp; Chord Generator | ALSBKIN"/>
-<meta name="twitter:description" content="Live note and key/scale detection plus tone and chord generation, directly in your browser."/>
+<meta content="Detect live notes, estimate musical key and major/minor scale, generate reference tones and play common chords directly in your browser." name="description"/>
+<meta content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" name="robots"/>
+<link href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html" rel="canonical"/>
+<meta content="ALSBKIN" name="author"/>
+<meta content="#170800" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="ALSBKIN" property="og:site_name"/>
+<meta content="Free Note, Key &amp; Scale Detector, Tone &amp; Chord Generator | ALSBKIN" property="og:title"/>
+<meta content="Detect live notes, estimate musical key and major/minor scale, generate reference tones and play common chords directly in your browser." property="og:description"/>
+<meta content="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Free Note, Key &amp; Scale Detector, Tone &amp; Chord Generator | ALSBKIN" name="twitter:title"/>
+<meta content="Detect live notes, estimate musical key and major/minor scale, generate reference tones and play common chords directly in your browser." name="twitter:description"/>
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&amp;family=Dancing+Script:wght@600&amp;display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box}
@@ -122,89 +123,91 @@ select,input[type="number"]{height:44px;padding:0 12px;border-radius:12px;border
 /* ALSBKIN visual consistency: Dancing Script title */
 h1{font-family:"Dancing Script","Segoe Script",cursive!important;font-weight:600!important;letter-spacing:.01em!important}
 </style>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5755962917183536"
-     crossorigin="anonymous"></script>
+<style id="alsbkin-trust-style">
+.alsbkin-trust-links{display:flex;justify-content:center;align-items:center;gap:12px 18px;flex-wrap:wrap;margin:16px auto 0;padding-top:14px;border-top:1px solid rgba(143,216,255,.18);font-family:Arial,Helvetica,sans-serif;font-size:14px}.alsbkin-trust-links a{color:#8fd8ff!important;text-decoration:none!important;font-weight:700}.alsbkin-trust-links a:hover{text-decoration:underline!important}.editorial-value{width:min(920px,92%);margin:38px auto;padding:24px 26px;border:1px solid rgba(143,216,255,.22);border-radius:18px;background:rgba(12,18,23,.78);color:#d5e7f3;text-align:left;line-height:1.72;box-shadow:0 12px 32px rgba(0,0,0,.18)}.editorial-value h2,.editorial-value h3{color:#8fd8ff;text-align:left}.editorial-value h2{margin:0 0 14px}.editorial-value h3{margin:24px 0 8px;color:#d8c38b}.editorial-value p{margin:0 0 14px}.editorial-value a{color:#8fd8ff}.song-editorial,.source-note{margin-top:24px}.song-description h3{margin:24px 0 8px;color:#d8c38b;font-size:1.12rem}.song-description .source-note{padding:16px 18px;border:1px solid rgba(216,195,139,.25);border-radius:14px;background:rgba(255,255,255,.025)}
+</style>
 </head>
 <body>
 <nav aria-label="Main navigation"><a class="home" href="/">HOME</a><a class="tools" href="/free-online-tools.html">TOOLS</a><a class="songs" href="/songs.html">SONGS</a></nav>
 <main>
-<div class="language-switcher site-language-switcher" data-alsbkin-language-selector aria-label="Interface language selector">
-<button type="button" class="flag-btn flag-en" data-ui-lang="en" aria-label="English"><span class="flag-text">EN</span></button>
-<button type="button" class="flag-btn flag-fr" data-ui-lang="fr" aria-label="Français"><span class="flag-text">FR</span></button>
-<button type="button" class="flag-btn flag-ro" data-ui-lang="ro" aria-label="Română"><span class="flag-text">RO</span></button>
-<button type="button" class="flag-btn flag-hu" data-ui-lang="hu" aria-label="Magyar"><span class="flag-text">HU</span></button>
+<div aria-label="Interface language selector" class="language-switcher site-language-switcher" data-alsbkin-language-selector="">
+<button aria-label="English" class="flag-btn flag-en" data-ui-lang="en" type="button"><span class="flag-text">EN</span></button>
+<button aria-label="Français" class="flag-btn flag-fr" data-ui-lang="fr" type="button"><span class="flag-text">FR</span></button>
+<button aria-label="Română" class="flag-btn flag-ro" data-ui-lang="ro" type="button"><span class="flag-text">RO</span></button>
+<button aria-label="Magyar" class="flag-btn flag-hu" data-ui-lang="hu" type="button"><span class="flag-text">HU</span></button>
 </div>
-
-
 <h1 id="pageTitle">Live Note &amp; Key Detector + Sound Generator</h1><div class="brand-byline">by ALSBKIN</div>
-<div class="alsbkin-support" data-alsbkin-support>
-  <p class="alsbkin-support-text">Everything on ALSBKIN is free to use. If you enjoy the music or find the tools useful, please visit the ALSBKIN YouTube channel and subscribe to support my work.</p>
-  <a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" target="_blank" rel="noopener noreferrer">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
+<div class="alsbkin-support" data-alsbkin-support="">
+<p class="alsbkin-support-text">Live Note &amp; Key Detector + Sound Generator is free to use on ALSBKIN. If it is useful to you, you can also visit the ALSBKIN YouTube channel and subscribe to support the independent music and tools project.</p>
+<a class="alsbkin-subscribe-btn" href="https://www.youtube.com/@ALSBKIN?sub_confirmation=1" rel="noopener noreferrer" target="_blank">SUBSCRIBE TO MY YOUTUBE CHANNEL</a>
 </div>
-<p id="subtitle" class="subtitle">Detect live notes, estimate the key and major/minor scale of a melody, generate reference tones and play musical chords directly in your browser.</p>
-<a id="audioLink" class="audio-link" data-category-back="audio" href="free-online-audio-tools.html">AUDIO TOOLS</a>
-<div class="tabs" role="tablist" aria-label="Tool sections"><button class="tab-btn active" type="button" data-tab="detector" id="tabDetector">NOTE DETECTOR</button><button class="tab-btn" type="button" data-tab="key" id="tabKey">KEY / SCALE DETECTOR</button><button class="tab-btn" type="button" data-tab="tone" id="tabTone">TONE GENERATOR</button><button class="tab-btn" type="button" data-tab="chord" id="tabChord">CHORD GENERATOR</button></div>
-
+<p class="subtitle" id="subtitle">Detect live notes, estimate the key and major/minor scale of a melody, generate reference tones and play musical chords directly in your browser.</p>
+<a class="audio-link" data-category-back="audio" href="free-online-audio-tools.html" id="audioLink">AUDIO TOOLS</a>
+<div aria-label="Tool sections" class="tabs" role="tablist"><button class="tab-btn active" data-tab="detector" id="tabDetector" type="button">NOTE DETECTOR</button><button class="tab-btn" data-tab="key" id="tabKey" type="button">KEY / SCALE DETECTOR</button><button class="tab-btn" data-tab="tone" id="tabTone" type="button">TONE GENERATOR</button><button class="tab-btn" data-tab="chord" id="tabChord" type="button">CHORD GENERATOR</button></div>
 <section class="panel tool-panel active" id="panel-detector">
-<h2 id="detectorTitle">Live Note Detector / Tuner</h2><p id="detectorDesc" class="panel-desc">Allow microphone access, then sing or play one sustained note at a time. The detector is optimized for monophonic sound.</p>
-<div class="controls"><button id="micBtn" type="button" class="action">START MICROPHONE</button><button id="micStopBtn" type="button" class="action secondary" disabled>STOP MICROPHONE</button><div class="control"><label id="refLabel" for="refA">REFERENCE A4</label><input id="refA" type="number" min="400" max="480" step="0.1" value="440" inputmode="decimal"/></div></div>
-<div class="detector-grid"><div class="metric note-card"><div id="currentNoteLabel" class="metric-label">CURRENT NOTE</div><div id="noteDisplay" class="note-display">—</div><div id="solfegeDisplay" class="solfege">—</div></div><div class="metric"><div id="frequencyLabel" class="metric-label">FREQUENCY</div><div id="frequencyDisplay" class="metric-value">— Hz</div></div><div class="metric"><div id="tuningLabel" class="metric-label">TUNING</div><div id="tuningDisplay" class="metric-value">—</div></div></div>
-<div class="tuner"><div class="tuner-scale"><div id="needle" class="needle" style="left:50%"></div></div><div class="tuner-labels"><span id="flatLabel">♭ FLAT</span><span id="inTuneLabel">IN TUNE</span><span id="sharpLabel">SHARP ♯</span></div><div id="centsDisplay" class="cents">0 cents</div></div>
-<div id="micStatus" class="status" aria-live="polite">Microphone is off.</div>
+<h2 id="detectorTitle">Live Note Detector / Tuner</h2><p class="panel-desc" id="detectorDesc">Allow microphone access, then sing or play one sustained note at a time. The detector is optimized for monophonic sound.</p>
+<div class="controls"><button class="action" id="micBtn" type="button">START MICROPHONE</button><button class="action secondary" disabled="" id="micStopBtn" type="button">STOP MICROPHONE</button><div class="control"><label for="refA" id="refLabel">REFERENCE A4</label><input id="refA" inputmode="decimal" max="480" min="400" step="0.1" type="number" value="440"/></div></div>
+<div class="detector-grid"><div class="metric note-card"><div class="metric-label" id="currentNoteLabel">CURRENT NOTE</div><div class="note-display" id="noteDisplay">—</div><div class="solfege" id="solfegeDisplay">—</div></div><div class="metric"><div class="metric-label" id="frequencyLabel">FREQUENCY</div><div class="metric-value" id="frequencyDisplay">— Hz</div></div><div class="metric"><div class="metric-label" id="tuningLabel">TUNING</div><div class="metric-value" id="tuningDisplay">—</div></div></div>
+<div class="tuner"><div class="tuner-scale"><div class="needle" id="needle" style="left:50%"></div></div><div class="tuner-labels"><span id="flatLabel">♭ FLAT</span><span id="inTuneLabel">IN TUNE</span><span id="sharpLabel">SHARP ♯</span></div><div class="cents" id="centsDisplay">0 cents</div></div>
+<div aria-live="polite" class="status" id="micStatus">Microphone is off.</div>
 </section>
-
 <section class="panel tool-panel" id="panel-key">
 <h2 id="keyTitle">Live Key / Scale Detector</h2>
-<p id="keyDesc" class="panel-desc">Sing or play a short monophonic melody. The detector analyzes the note history and estimates the most likely major or minor key/scale. Relative major/minor keys can be genuinely ambiguous, so uncertain results are shown as such.</p>
-<div class="controls"><button id="keyStartBtn" type="button" class="action">START KEY ANALYSIS</button><button id="keyStopBtn" type="button" class="action secondary" disabled>STOP MICROPHONE</button><button id="keyResetBtn" type="button" class="action secondary">RESET ANALYSIS</button></div>
+<p class="panel-desc" id="keyDesc">Sing or play a short monophonic melody. The detector analyzes the note history and estimates the most likely major or minor key/scale. Relative major/minor keys can be genuinely ambiguous, so uncertain results are shown as such.</p>
+<div class="controls"><button class="action" id="keyStartBtn" type="button">START KEY ANALYSIS</button><button class="action secondary" disabled="" id="keyStopBtn" type="button">STOP MICROPHONE</button><button class="action secondary" id="keyResetBtn" type="button">RESET ANALYSIS</button></div>
 <div class="key-grid">
-  <div class="metric"><div id="detectedKeyLabel" class="metric-label">DETECTED KEY / SCALE</div><div id="keyDisplay" class="key-result">—</div><span id="keyModeHint" class="key-hint">Major / minor estimation</span></div>
-  <div class="metric"><div id="confidenceLabel" class="metric-label">CONFIDENCE</div><div id="keyConfidence" class="metric-value">—</div></div>
-  <div class="metric"><div id="observedLabel" class="metric-label">OBSERVED NOTES</div><div id="keyObserved" class="metric-value">—</div></div>
+<div class="metric"><div class="metric-label" id="detectedKeyLabel">DETECTED KEY / SCALE</div><div class="key-result" id="keyDisplay">—</div><span class="key-hint" id="keyModeHint">Major / minor estimation</span></div>
+<div class="metric"><div class="metric-label" id="confidenceLabel">CONFIDENCE</div><div class="metric-value" id="keyConfidence">—</div></div>
+<div class="metric"><div class="metric-label" id="observedLabel">OBSERVED NOTES</div><div class="metric-value" id="keyObserved">—</div></div>
 </div>
-<div id="scaleNotes" class="key-scale-notes">—</div>
+<div class="key-scale-notes" id="scaleNotes">—</div>
 <div class="piano-wrap">
-  <div id="keyPianoTitle" class="piano-title">DETECTED SCALE ON PIANO</div>
-  <div id="keyPiano" class="piano" aria-label="Detected scale piano keyboard"></div>
-  <div id="keyPianoLegend" class="piano-legend">Red keys belong to the detected scale. The tonic is outlined in green.</div>
+<div class="piano-title" id="keyPianoTitle">DETECTED SCALE ON PIANO</div>
+<div aria-label="Detected scale piano keyboard" class="piano" id="keyPiano"></div>
+<div class="piano-legend" id="keyPianoLegend">Red keys belong to the detected scale. The tonic is outlined in green.</div>
 </div>
-<div id="keyStatus" class="status" aria-live="polite">Start analysis, then sing or play a melody one note at a time.</div>
+<div aria-live="polite" class="status" id="keyStatus">Start analysis, then sing or play a melody one note at a time.</div>
 </section>
-
 <section class="panel tool-panel" id="panel-tone">
-<h2 id="toneTitle">Tone Generator</h2><p id="toneDesc" class="panel-desc">Generate an accurate reference pitch using the selected note, octave, waveform and A4 tuning reference.</p>
-<div class="controls"><div class="control"><label id="toneNoteLabel" for="toneNote">NOTE</label><select id="toneNote"></select></div><div class="control"><label id="toneOctaveLabel" for="toneOctave">OCTAVE</label><select id="toneOctave"></select></div><div class="control"><label id="waveLabel" for="waveform">WAVEFORM</label><select id="waveform"><option value="sine">Sine</option><option value="triangle">Triangle</option><option value="square">Square</option><option value="sawtooth">Sawtooth</option></select></div><div class="control wide"><label id="volumeLabel" for="toneVolume">VOLUME</label><div class="range-wrap"><input id="toneVolume" type="range" min="0" max="100" value="25"/><span id="toneVolumeValue" class="range-value">25%</span></div></div></div>
-<div class="controls" style="margin-top:16px"><button id="playToneBtn" type="button" class="action">PLAY TONE</button><button id="stopToneBtn" type="button" class="action secondary" disabled>STOP</button></div>
-<div id="toneOutput" class="generator-output">A4 · 440.00 Hz</div>
+<h2 id="toneTitle">Tone Generator</h2><p class="panel-desc" id="toneDesc">Generate an accurate reference pitch using the selected note, octave, waveform and A4 tuning reference.</p>
+<div class="controls"><div class="control"><label for="toneNote" id="toneNoteLabel">NOTE</label><select id="toneNote"></select></div><div class="control"><label for="toneOctave" id="toneOctaveLabel">OCTAVE</label><select id="toneOctave"></select></div><div class="control"><label for="waveform" id="waveLabel">WAVEFORM</label><select id="waveform"><option value="sine">Sine</option><option value="triangle">Triangle</option><option value="square">Square</option><option value="sawtooth">Sawtooth</option></select></div><div class="control wide"><label for="toneVolume" id="volumeLabel">VOLUME</label><div class="range-wrap"><input id="toneVolume" max="100" min="0" type="range" value="25"/><span class="range-value" id="toneVolumeValue">25%</span></div></div></div>
+<div class="controls" style="margin-top:16px"><button class="action" id="playToneBtn" type="button">PLAY TONE</button><button class="action secondary" disabled="" id="stopToneBtn" type="button">STOP</button></div>
+<div class="generator-output" id="toneOutput">A4 · 440.00 Hz</div>
 <div class="piano-wrap">
-  <div id="tonePianoTitle" class="piano-title">SELECTED NOTE ON PIANO</div>
-  <div id="tonePiano" class="piano" aria-label="Selected note piano keyboard"></div>
-  <div id="tonePianoLegend" class="piano-legend">The selected note is highlighted in red.</div>
+<div class="piano-title" id="tonePianoTitle">SELECTED NOTE ON PIANO</div>
+<div aria-label="Selected note piano keyboard" class="piano" id="tonePiano"></div>
+<div class="piano-legend" id="tonePianoLegend">The selected note is highlighted in red.</div>
 </div>
 </section>
-
 <section class="panel tool-panel" id="panel-chord">
-<h2 id="chordTitle">Chord Generator</h2><p id="chordDesc" class="panel-desc">Choose a root note and chord type. The browser generates all chord tones simultaneously.</p>
-<div class="controls"><div class="control"><label id="rootLabel" for="chordRoot">ROOT</label><select id="chordRoot"></select></div><div class="control"><label id="chordOctaveLabel" for="chordOctave">OCTAVE</label><select id="chordOctave"></select></div><div class="control wide"><label id="chordTypeLabel" for="chordType">CHORD TYPE</label><select id="chordType"></select></div><div class="control"><label id="chordWaveLabel" for="chordWaveform">WAVEFORM</label><select id="chordWaveform"><option value="sine">Sine</option><option value="triangle">Triangle</option><option value="square">Square</option><option value="sawtooth">Sawtooth</option></select></div><div class="control wide"><label id="chordVolumeLabel" for="chordVolume">VOLUME</label><div class="range-wrap"><input id="chordVolume" type="range" min="0" max="100" value="18"/><span id="chordVolumeValue" class="range-value">18%</span></div></div></div>
-<div class="controls" style="margin-top:16px"><button id="playChordBtn" type="button" class="action">PLAY CHORD</button><button id="stopChordBtn" type="button" class="action secondary" disabled>STOP</button></div>
-<div class="chord-nav-row" aria-label="Chord root navigation">
-  <button id="chordPrevRoot" class="chord-nav-btn" type="button" aria-label="Previous root note" title="Previous root note">◀</button>
-  <div id="chordOutput" class="generator-output"><span id="chordName">C Major</span><br/><span id="chordNotes" class="notes-list">C4 · E4 · G4</span></div>
-  <button id="chordNextRoot" class="chord-nav-btn" type="button" aria-label="Next root note" title="Next root note">▶</button>
+<h2 id="chordTitle">Chord Generator</h2><p class="panel-desc" id="chordDesc">Choose a root note and chord type. The browser generates all chord tones simultaneously.</p>
+<div class="controls"><div class="control"><label for="chordRoot" id="rootLabel">ROOT</label><select id="chordRoot"></select></div><div class="control"><label for="chordOctave" id="chordOctaveLabel">OCTAVE</label><select id="chordOctave"></select></div><div class="control wide"><label for="chordType" id="chordTypeLabel">CHORD TYPE</label><select id="chordType"></select></div><div class="control"><label for="chordWaveform" id="chordWaveLabel">WAVEFORM</label><select id="chordWaveform"><option value="sine">Sine</option><option value="triangle">Triangle</option><option value="square">Square</option><option value="sawtooth">Sawtooth</option></select></div><div class="control wide"><label for="chordVolume" id="chordVolumeLabel">VOLUME</label><div class="range-wrap"><input id="chordVolume" max="100" min="0" type="range" value="18"/><span class="range-value" id="chordVolumeValue">18%</span></div></div></div>
+<div class="controls" style="margin-top:16px"><button class="action" id="playChordBtn" type="button">PLAY CHORD</button><button class="action secondary" disabled="" id="stopChordBtn" type="button">STOP</button></div>
+<div aria-label="Chord root navigation" class="chord-nav-row">
+<button aria-label="Previous root note" class="chord-nav-btn" id="chordPrevRoot" title="Previous root note" type="button">◀</button>
+<div class="generator-output" id="chordOutput"><span id="chordName">C Major</span><br/><span class="notes-list" id="chordNotes">C4 · E4 · G4</span></div>
+<button aria-label="Next root note" class="chord-nav-btn" id="chordNextRoot" title="Next root note" type="button">▶</button>
 </div>
 <div class="piano-wrap">
-  <div id="chordPianoTitle" class="piano-title">CHORD NOTES ON PIANO</div>
-  <div id="chordPiano" class="piano" aria-label="Chord notes piano keyboard"></div>
-  <div id="chordPianoLegend" class="piano-legend">Red keys belong to the chord. The root note is outlined in green.</div>
+<div class="piano-title" id="chordPianoTitle">CHORD NOTES ON PIANO</div>
+<div aria-label="Chord notes piano keyboard" class="piano" id="chordPiano"></div>
+<div class="piano-legend" id="chordPianoLegend">Red keys belong to the chord. The root note is outlined in green.</div>
 </div>
-<div class="option-row"><input id="pauseDetector" type="checkbox" checked/><label id="pauseDetectorLabel" for="pauseDetector">Pause live note detection while generated audio is playing</label></div>
+<div class="option-row"><input checked="" id="pauseDetector" type="checkbox"/><label for="pauseDetector" id="pauseDetectorLabel">Pause live note detection while generated audio is playing</label></div>
 </section>
-
-<div id="privacy" class="privacy-note">🔒 Microphone audio is analyzed locally in your browser. ALSBKIN does not record or upload it.</div>
-<div id="notice" class="notice">For the most stable detection, use one sustained voice or instrument note at a time. Headphones are recommended while using the generators with the microphone active.</div>
+<div class="privacy-note" id="privacy">🔒 Microphone audio is analyzed locally in your browser. ALSBKIN does not record or upload it.</div>
+<div class="notice" id="notice">For the most stable detection, use one sustained voice or instrument note at a time. Headphones are recommended while using the generators with the microphone active.</div>
 <section class="seo-info"><h2 id="infoTitle">Online Note Detector, Key &amp; Scale Detector, Tone Generator and Chord Generator</h2><p id="info1">This browser tool uses microphone pitch analysis for monophonic notes, a rolling note-history model to estimate major/minor key and scale, and the Web Audio API to synthesize reference tones and common chords. No audio file or account is required.</p></section>
-</main><footer><div id="footerText">© 2026 ALSBKIN. All rights reserved.</div></footer>
+<section class="editorial-value" data-editorial-enhancement="tool">
+<h2>Pitch reference, note detection and chord practice</h2>
+<p>Use the microphone to estimate live musical notes, generate reference tones and play common chords directly in the browser. These features are useful for tuning practice, ear training and quick harmonic reference, while microphone quality and room noise can affect detection accuracy.</p>
+<h3>When this tool is useful</h3><p>A note detector can help with tuning, ear training, checking a sung note or matching an instrument to a reference tone. Tone and chord generators are also useful for practising intervals and comparing harmonic relationships.</p>
+<h3>Practical limits and quality checks</h3><p>Microphone quality, room noise, vibrato and complex overtones can affect detection. Use a clean sustained sound when possible and treat the displayed note as guidance rather than a laboratory-grade frequency measurement.</p>
+<h3>Privacy and responsible use</h3><p>Microphone-based detection uses audio input while the feature is active, and generated tones are produced by the browser. Grant microphone access only when you intend to use live detection and revoke it later in browser settings if desired.</p>
+</section>
+<section class="editorial-value tool-faq" data-editorial-enhancement="tool-faq"><h2>Frequently asked questions</h2><h3>Can browser audio processing change sound quality?</h3><p>Live note detection analyses incoming sound and does not modify the instrument or microphone source. Generated reference tones are synthetic; keep playback at a comfortable level, particularly with headphones.</p><h3>Why can results differ between browsers or devices?</h3><p>Pitch readings depend on microphone quality, background noise, room acoustics and how stable the played note is. A quiet environment and sustained single notes generally produce more useful results than chords or noisy signals.</p><p><strong>About Live Note &amp; Key Detector + Sound Generator:</strong> the tool is provided as a practical free utility within ALSBKIN.ro. For site-wide information about the project, data handling and third-party services, see <a href="about.html">About</a>, <a href="privacy.html">Privacy Policy</a> and <a href="cookies.html">Cookie Policy</a>.</p></section>
+</main><footer><div id="footerText">© 2026 ALSBKIN. All rights reserved.</div><div aria-label="Site information" class="alsbkin-trust-links"><a href="about.html">About</a><a href="privacy.html">Privacy Policy</a><a href="cookies.html">Cookie Policy</a><a href="mailto:contact@alsbkin.ro">Contact</a></div>
+</footer>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
@@ -415,7 +418,6 @@ $('micBtn').addEventListener('click',startMic);$('micStopBtn').addEventListener(
 applyLanguage();updateToneOutput();updateChordOutput();
 })();
 </script>
-
 <script id="alsbkin-global-ui-script">
 (()=>{
   'use strict';
@@ -484,5 +486,4 @@ applyLanguage();updateToneOutput();updateChordOutput();
   window.addEventListener('storage',applyShared);
 })();
 </script>
-
 </body></html>
