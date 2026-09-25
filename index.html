@@ -1171,102 +1171,19 @@ nav .tools-nav {
 @media(max-width:560px){.language-switcher.site-language-switcher{gap:9px!important}.language-switcher.site-language-switcher .flag-btn{width:70px!important;height:44px!important}.language-switcher.site-language-switcher .flag-text{font-size:16px!important}}
 </style>
 <script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5755962917183536"></script>
-<style id="alsbkin-youtube-click-to-load-style">
-/*
-  YouTube click-to-load facade.
-  No YouTube iframe/network request is created until the visitor explicitly clicks.
-*/
-.youtube-facade {
-  all: unset;
-  box-sizing: border-box;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(255,255,255,.08), transparent 34%),
-    linear-gradient(145deg, #111 0%, #050505 62%, #000 100%);
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.youtube-facade:hover .youtube-facade-play,
-.youtube-facade:focus-visible .youtube-facade-play {
-  transform: scale(1.08);
-  box-shadow: 0 0 0 5px rgba(255,0,0,.16), 0 8px 24px rgba(0,0,0,.45);
-}
-
-.youtube-facade:focus-visible {
-  outline: 3px solid #8fd8ff;
-  outline-offset: -3px;
-}
-
-.youtube-facade-play {
-  width: 64px;
-  height: 44px;
-  border-radius: 12px;
-  background: #ff0000;
-  position: relative;
-  box-shadow: 0 7px 20px rgba(0,0,0,.45);
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-
-.youtube-facade-play::after {
-  content: "";
-  position: absolute;
-  left: 26px;
-  top: 12px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 16px solid #fff;
-}
-
-.youtube-facade-brand {
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: .2px;
-  text-shadow: 0 2px 8px rgba(0,0,0,.8);
-}
-
-.youtube-player > iframe,
-.youtube-player > .youtube-facade,
-.about-short > iframe,
-.about-short > .youtube-facade {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.about-short {
-  position: relative;
-}
-
-.about-short > .youtube-facade {
-  border-radius: inherit;
-}
-
-.youtube-player > iframe,
-.about-short > iframe {
-  background: #000;
-}
-</style>
 <style id="alsbkin-trust-style">
 .alsbkin-trust-links{display:flex;justify-content:center;align-items:center;gap:12px 18px;flex-wrap:wrap;margin:16px auto 0;padding-top:14px;border-top:1px solid rgba(143,216,255,.18);font-family:Arial,Helvetica,sans-serif;font-size:14px}.alsbkin-trust-links a{color:#8fd8ff!important;text-decoration:none!important;font-weight:700}.alsbkin-trust-links a:hover{text-decoration:underline!important}.editorial-value{width:min(920px,92%);margin:38px auto;padding:24px 26px;border:1px solid rgba(143,216,255,.22);border-radius:18px;background:rgba(12,18,23,.78);color:#d5e7f3;text-align:center;line-height:1.72;box-shadow:0 12px 32px rgba(0,0,0,.18)}.editorial-value h2,.editorial-value h3{color:#8fd8ff;text-align:center}.editorial-value h2{margin:0 0 14px}.editorial-value h3{margin:24px 0 8px;color:#d8c38b}.editorial-value p{margin:0 0 14px}.editorial-value a{color:#8fd8ff}.song-editorial,.source-note{margin-top:24px}.song-description h3{margin:24px 0 8px;color:#d8c38b;font-size:1.12rem}.song-description .source-note{padding:16px 18px;border:1px solid rgba(216,195,139,.25);border-radius:14px;background:rgba(255,255,255,.025)}
 </style>
 <style id="alsbkin-bottom-description-centering">.editorial-value,.editorial-value h2,.editorial-value h3,.editorial-value p,.editorial-value li,.editorial-value .source-note{text-align:center!important}</style>
+
+<style id="alsbkin-youtube-native-fallback-style">
+.youtube-player,.about-short{overflow:visible!important}
+.youtube-player iframe,.about-short iframe{border-radius:inherit}
+.youtube-direct-fallback{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);z-index:2;white-space:nowrap;color:#8fd8ff!important;font:700 13px/1.3 Arial,Helvetica,sans-serif;text-decoration:none!important}
+.youtube-direct-fallback:hover{text-decoration:underline!important}
+.playlist-card{padding-bottom:38px!important}
+.about-short{margin-bottom:38px}
+</style>
 </head>
 <body>
 <nav><a class="songs-nav" href="songs.html" id="navSongs">PIESE</a><a class="about-nav" href="#despre" id="navAbout">DESPRE</a><a class="tools-nav" href="free-online-tools.html" id="navTools">INSTRUMENTE</a></nav>
@@ -1310,12 +1227,12 @@ nav .tools-nav {
 </header>
 <section id="muzica">
 <div class="youtube-playlists">
-<article class="playlist-card"><h3>🎸 Rock | Metal | Folk</h3><div class="youtube-player"><button aria-label="Load ALSBKIN Rock Metal Folk Playlist" class="youtube-facade" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexN3XLRj2rGLeWre779BN_OM" data-youtube-title="ALSBKIN Rock Metal Folk Playlist" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div></article>
-<article class="playlist-card"><h3>🪗 Balkan Pop-Folk</h3><div class="youtube-player"><button aria-label="Load ALSBKIN Balkan Pop-Folk Playlist" class="youtube-facade" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLSS-petF8scw" data-youtube-title="ALSBKIN Balkan Pop-Folk Playlist" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div></article>
-<article class="playlist-card"><h3>🎧 EDM | House | Dance</h3><div class="youtube-player"><button aria-label="Load ALSBKIN EDM House Dance Playlist" class="youtube-facade" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLMnipVzbCs6Y" data-youtube-title="ALSBKIN EDM House Dance Playlist" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div></article>
-<article class="playlist-card"><h3>💃 Salsa</h3><div class="youtube-player"><button aria-label="Load ALSBKIN Salsa Playlist" class="youtube-facade" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexNcbQaqyxxYfm8akVGdy2xw" data-youtube-title="ALSBKIN Salsa Playlist" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div></article>
-<article class="playlist-card"><h3>💃 Bachata</h3><div class="youtube-player"><button aria-label="Load ALSBKIN Bachata Playlist" class="youtube-facade" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexMyNxfm9v_S8tu9vieus6XD" data-youtube-title="ALSBKIN Bachata Playlist" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div></article>
-<article class="playlist-card"><h3>💃 Kizomba</h3><div class="youtube-player"><button aria-label="Load ALSBKIN Kizomba Playlist" class="youtube-facade" data-youtube-src="https://www.youtube-nocookie.com/embed/videoseries?list=PL0DZN21QAexNeqqvjseeNo3udGv7hfsU3" data-youtube-title="ALSBKIN Kizomba Playlist" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div></article>
+<article class="playlist-card"><h3>🎸 Rock | Metal | Folk</h3><div class="youtube-player"><iframe src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexN3XLRj2rGLeWre779BN_OM&amp;rel=0" title="ALSBKIN Rock Metal Folk Playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/playlist?list=PL0DZN21QAexN3XLRj2rGLeWre779BN_OM" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></article>
+<article class="playlist-card"><h3>🪗 Balkan Pop-Folk</h3><div class="youtube-player"><iframe src="https://www.youtube.com/embed/videoseries?list=PLSS-petF8scw&amp;rel=0" title="ALSBKIN Balkan Pop-Folk Playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/playlist?list=PLSS-petF8scw" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></article>
+<article class="playlist-card"><h3>🎧 EDM | House | Dance</h3><div class="youtube-player"><iframe src="https://www.youtube.com/embed/videoseries?list=PLMnipVzbCs6Y&amp;rel=0" title="ALSBKIN EDM House Dance Playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/playlist?list=PLMnipVzbCs6Y" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></article>
+<article class="playlist-card"><h3>💃 Salsa</h3><div class="youtube-player"><iframe src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexNcbQaqyxxYfm8akVGdy2xw&amp;rel=0" title="ALSBKIN Salsa Playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/playlist?list=PL0DZN21QAexNcbQaqyxxYfm8akVGdy2xw" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></article>
+<article class="playlist-card"><h3>💃 Bachata</h3><div class="youtube-player"><iframe src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexMyNxfm9v_S8tu9vieus6XD&amp;rel=0" title="ALSBKIN Bachata Playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/playlist?list=PL0DZN21QAexMyNxfm9v_S8tu9vieus6XD" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></article>
+<article class="playlist-card"><h3>💃 Kizomba</h3><div class="youtube-player"><iframe src="https://www.youtube.com/embed/videoseries?list=PL0DZN21QAexNeqqvjseeNo3udGv7hfsU3&amp;rel=0" title="ALSBKIN Kizomba Playlist" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/playlist?list=PL0DZN21QAexNeqqvjseeNo3udGv7hfsU3" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></article>
 </div>
 </section>
 <section id="despre">
@@ -1323,7 +1240,7 @@ nav .tools-nav {
 <p id="aboutText">
       ALSBKIN este un proiect muzical de muzică originală și reinterpretări moderne, care combină storytelling-ul, energia Metal/Rock, influențele folk, EDM și atmosfera latino într-un stil inedit.
     </p>
-<div class="about-short"><button aria-label="Load This Is ALSBKIN" class="youtube-facade youtube-facade-short" data-youtube-src="https://www.youtube-nocookie.com/embed/171mBBieKtY" data-youtube-title="This Is ALSBKIN" type="button"><span aria-hidden="true" class="youtube-facade-play"></span><span aria-hidden="true" class="youtube-facade-brand">YouTube</span></button></div>
+<div class="about-short"><iframe src="https://www.youtube.com/embed/171mBBieKtY?rel=0" title="This Is ALSBKIN" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class="youtube-direct-fallback" href="https://www.youtube.com/watch?v=171mBBieKtY" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div>
 </section>
 <section id="contact">
 <h2 id="contactTitle">Contact</h2>
@@ -1433,54 +1350,6 @@ document.querySelectorAll('.flag-btn[data-ui-lang]').forEach(b=>b.addEventListen
   document.addEventListener('DOMContentLoaded',applyShared);
   document.querySelectorAll('[data-ui-lang]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.uiLang)));
   window.addEventListener('storage',applyShared);
-})();
-</script>
-<script id="alsbkin-youtube-click-to-load-script">
-(() => {
-  'use strict';
-
-  const addPlaybackParams = (rawUrl) => {
-    const url = new URL(rawUrl, window.location.href);
-    url.searchParams.set('autoplay', '1');
-    url.searchParams.set('playsinline', '1');
-    url.searchParams.set('origin', window.location.origin);
-    url.searchParams.set('widget_referrer', window.location.href);
-    return url.toString();
-  };
-
-  const loadYouTubePlayer = (button) => {
-    if (!button || button.dataset.youtubeLoaded === '1') return;
-
-    const rawSrc = button.dataset.youtubeSrc;
-    if (!rawSrc) return;
-
-    button.dataset.youtubeLoaded = '1';
-
-    const iframe = document.createElement('iframe');
-    iframe.title = button.dataset.youtubeTitle || 'YouTube player';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    iframe.allowFullscreen = true;
-    iframe.loading = 'eager';
-
-    // Attach the iframe to the live document before navigation. This gives
-    // the browser a real embedding context for YouTube's Referer check.
-    button.replaceWith(iframe);
-    iframe.src = addPlaybackParams(rawSrc);
-  };
-
-  document.addEventListener('click', (event) => {
-    const button = event.target.closest('.youtube-facade[data-youtube-src]');
-    if (button) loadYouTubePlayer(button);
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const button = event.target.closest('.youtube-facade[data-youtube-src]');
-    if (!button) return;
-    event.preventDefault();
-    loadYouTubePlayer(button);
-  });
 })();
 </script>
 
