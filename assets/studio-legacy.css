@@ -10,3 +10,973 @@
 .studio-legacy{--studio-bg:#303b59;--studio-panel:#384564;--studio-line:#ffffff32;--studio-ink:#fff9f0;--studio-muted:#e0e5f4;--studio-gold:#f5d1a3;--blue:#d8e7ff;--cyan:#aee9e8;--green:#ace5cf;--text:#fff9f0;--muted:#e0e5f4;--accent:#e7cdfa;background:radial-gradient(ellipse at 90% 0%,#66558c 0%,transparent 45%),radial-gradient(ellipse at 0% 45%,#276c75 0%,transparent 53%),linear-gradient(155deg,#35486a,#34334f)!important;background-attachment:fixed!important}
 .studio-tools>nav,.studio-legal .top{background:#343c60ee!important}.studio-tools .hub-card,.studio-tools .tool-link,.studio-tools .tools-panel,.studio-tools .app-card,.studio-tools .seo-info,.studio-tools .editorial-value,.studio-tools .tool-faq,.studio-legal .card{border-radius:14px!important;background:var(--studio-panel)!important;box-shadow:0 8px 24px #18223e22!important}.studio-tools .hub-card[data-cat=audio]{background:linear-gradient(135deg,#4259a0,#4f3e91)!important}.studio-tools .hub-card[data-cat=pdf]{background:linear-gradient(135deg,#904b68,#71456d)!important}.studio-tools .hub-card[data-cat=video]{background:linear-gradient(135deg,#92552d,#875067)!important}.studio-tools .hub-card[data-cat=mobile]{background:linear-gradient(135deg,#246d75,#35558b)!important}.studio-tools .hub-card[data-cat=misc]{background:linear-gradient(135deg,#626098,#3f5078)!important}.studio-tools .hub-card:not(.disabled):hover,.studio-tools .tool-link:hover{background:#526487!important;transform:translateY(-4px)!important;box-shadow:0 12px 26px #1d234a44!important}.studio-tools .category-jump a,.studio-tools .category-back-button,.studio-tools .back-button,.studio-tools .audio-link,.studio-tools .misc-link,.studio-tools .alsbkin-subscribe-btn{background:#48587a!important;border-color:#ffffff40!important;border-radius:24px!important}
 @media(prefers-reduced-motion:reduce){.studio-tools .hub-card:not(.disabled):hover,.studio-tools .tool-link:hover{transform:none!important}}
+
+html{font-size:120%}
+
+/* about.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) body{line-height:1.68;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) .brand{font-size:1.35rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) h1{font-size:clamp(2.1rem,7.2vw,3.7rem);line-height:1.08;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) .lead{font-size:1.12rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) .updated{font-size:.94rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/about.html"])) .song-description h3{font-size:1.12rem;}
+
+/* cookies.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) body{line-height:1.68;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) .brand{font-size:1.35rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) h1{font-size:clamp(2.1rem,7.2vw,3.7rem);line-height:1.08;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) .lead{font-size:1.12rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) .updated{font-size:.94rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/cookies.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-converter.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-converter.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-cutter.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .drop-sub{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .file-meta{font-size:18px;line-height:1.5
+;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .option label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .status{line-height:1.5
+;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) footer{font-size:16.8px;}
+@media (max-width:780px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .wave-zoom-control label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .wave-play-toggle{font-size:21.6px;line-height:1;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-cutter.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-fade.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-fade.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-joiner.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-joiner.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-speed-changer.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-speed-changer.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-tools.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) h1{font-size:clamp(55.2px,8.4vw,96px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .intro{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .tools-panel h2{font-size:36px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .category-description{font-size:19.2px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .tool-icon{font-size:31.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .tool-name{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .tool-desc{font-size:15.6px;line-height:1.4;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .hub-card{font-size:26.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .seo-info p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .intro{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .category-jump a,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .category-jump .disabled-category{font-size:15.6px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-tools.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-audio-volume-booster.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-audio-volume-booster.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-bpm-key-finder.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .drop-sub{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .file-meta{font-size:18px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .wave-play-toggle{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .wave-zoom-control label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .metric-label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .metric-value{font-size:clamp(31.2px,4.8vw,50.4px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .metric-sub{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .live-title{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .live-key{font-size:38.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) button{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) footer{font-size:16.8px;}
+@media (max-width:780px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .key-timeline-title{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .key-timeline-help{font-size:14.4px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .key-change-key{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .key-change-confidence{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .key-summary{font-size:14.4px;line-height:1.5
+;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-bpm-key-finder.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-internet-speed-test.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) textarea{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) button.action{font:800 18px "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .status{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .result-label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .result-value{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .big-metric{font-size:40.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .seo-info p{line-height:1.7;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) footer{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .security-icon{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .grade{font-size:52.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-internet-speed-test.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-ip-locator.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) textarea{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) button.action{font:800 18px "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .status{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .result-label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .result-value{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .big-metric{font-size:40.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .seo-info p{line-height:1.7;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) footer{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .security-icon{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .grade{font-size:52.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-ip-locator.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-meeting-transcriber.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) h1{font-size:clamp(55.2px,8.4vw,91.2px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .field select,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .field input{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .status{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .transcript-title{font-size:24px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) #transcript{font:500 19.2px/1.65 "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .small{font-size:15.6px;line-height:1.6;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .speaker-row select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .seo-info p{line-height:1.7;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) footer{font-size:16.8px;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .subtitle{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .flag-btn .flag-text{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-meeting-transcriber.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-miscellaneous-tools.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) h1{font-size:clamp(55.2px,8.4vw,96px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .intro{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .tools-panel h2{font-size:36px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .category-description{font-size:19.2px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .tool-icon{font-size:31.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .tool-name{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .tool-desc{font-size:15.6px;line-height:1.4;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .hub-card{font-size:26.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .seo-info p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .intro{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .category-jump a,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .category-jump .disabled-category{font-size:15.6px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-miscellaneous-tools.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-note-detector-tone-chord-generator.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) h1{font-size:clamp(52.8px,7.92vw,91.2px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .tab-btn{font:800 16.8px "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .panel h2{font-size:33.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .panel-desc{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .control label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) select,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) input[type="number"]{font:700 18px "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .action{font:800 18px "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .metric-label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .note-display{font-size:clamp(64.8px,10.8vw,112.8px);line-height:1;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .solfege{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .metric-value{font-size:32.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .status{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .tuner-labels{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .cents{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .key-result{font-size:clamp(36px,6vw,57.6px);line-height:1.1;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .key-scale-notes{font-size:21.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .key-hint{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .piano-title{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .piano .white-key .key-label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .piano .black-key .key-label{font-size:10.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .piano-legend{font-size:14.4px;line-height:1.45;}
+@media (max-width:620px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .piano .white-key .key-label{font-size:12px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .piano .black-key .key-label{font-size:9.6px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .chord-nav-btn{font-size:36px;line-height:1;}
+@media (max-width:520px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .chord-nav-btn{font-size:28.8px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .generator-output{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .notes-list{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .seo-info p{line-height:1.7;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-note-detector-tone-chord-generator.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-compress.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .download{font:800 18px "Exo 2";}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .seo p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) nav a{font-size:14.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-compress.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-converter.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .download{font:800 18px "Exo 2";}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .seo p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) nav a{font-size:14.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-converter.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-merger.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .download{font:800 18px "Exo 2";}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .seo p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) nav a{font-size:14.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .pdf-preview-help{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .pdf-thumb-number{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .pdf-thumb-source{font-size:13.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .pdf-drag-note{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-merger.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-page-organizer.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .download{font:800 18px "Exo 2";}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .seo p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) nav a{font-size:14.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .pdf-preview-help{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .pdf-thumb-number{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .pdf-drag-note{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-page-organizer.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-rotate.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .download{font:800 18px "Exo 2";}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .seo p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) nav a{font-size:14.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-rotate.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-split-extractor.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .download{font:800 18px "Exo 2";}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .seo p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) nav a{font-size:14.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .pdf-preview-help{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .pdf-thumb-number{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .pdf-drag-note{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-split-extractor.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-pdf-tools.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) h1{font-size:clamp(55.2px,8.4vw,96px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .intro{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .tools-panel h2{font-size:36px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .category-description{font-size:19.2px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .tool-icon{font-size:31.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .tool-name{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .tool-desc{font-size:15.6px;line-height:1.4;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .hub-card{font-size:26.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .seo-info p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .intro{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .category-jump a,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .category-jump .disabled-category{font-size:15.6px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-pdf-tools.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-tools.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) h1{font-size:clamp(55.2px,8.4vw,96px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .intro{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .tools-panel h2{font-size:36px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .category-description{font-size:19.2px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .tool-icon{font-size:31.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .tool-name{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .tool-desc{font-size:15.6px;line-height:1.4;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .hub-card{font-size:26.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .seo-info p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .intro{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .category-jump a,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .category-jump .disabled-category{font-size:15.6px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-tools.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-compressor.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-compressor.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-cropper.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cropper.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-cutter.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .drop-title{font-size:30px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .drop-sub{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .file-meta{font-size:18px;line-height:1.5
+;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .option label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .status{line-height:1.5
+;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) footer{font-size:16.8px;}
+@media (max-width:780px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .timeline-play-toggle{font-size:20.4px;line-height:1;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .ffmpeg-note{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .time-tick{font-size:12px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .precision-option label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .precision-option select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-cutter.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-joiner.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-joiner.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-rotate.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-rotate.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-speed-changer.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-speed-changer.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-to-audio.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-to-audio.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-tools.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) h1{font-size:clamp(55.2px,8.4vw,96px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .intro{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .tools-panel h2{font-size:36px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .category-description{font-size:19.2px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .tool-icon{font-size:31.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .tool-name{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .tool-desc{font-size:15.6px;line-height:1.4;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .hub-card{font-size:26.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .seo-info p{line-height:1.65;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .intro{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .category-jump a,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .category-jump .disabled-category{font-size:15.6px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-tools.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-video-volume-changer.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .drop-title{font-size:28.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .drop-sub{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .file-meta{font-size:16.8px;line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .field label{font-size:15.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .field input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .field select{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .download-link{font-size:18px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .status{line-height:1.5;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .small{font-size:15.6px;line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .seo-info p{line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .file-row button{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) footer{font-size:16.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-video-volume-changer.html"])) .song-description h3{font-size:1.12rem;}
+
+/* free-online-website-security-check.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .flag-btn .flag-text{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) h1{font-size:clamp(55.2px,8.4vw,93.6px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .subtitle{font-size:21.6px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) input,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) textarea{font:inherit;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) button.action{font:800 18px "Exo 2",sans-serif;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .status{line-height:1.55;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .result-label{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .result-value{font-size:22.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .big-metric{font-size:40.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .seo-info p{line-height:1.7;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) footer{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .security-icon{font-size:21.6px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .grade{font-size:52.8px;}
+@media (max-width:760px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .flag-btn .flag-text{font-size:19.2px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .subtitle{font-size:19.2px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/free-online-website-security-check.html"])) .song-description h3{font-size:1.12rem;}
+
+/* mobile-apps.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) h1{font-size:clamp(57.6px,9.6vw,103.2px);}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .brand-byline{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .intro{font-size:24px;line-height:1.65;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .app-card h2{font-size:32.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .app-card p{font-size:20.4px;line-height:1.6;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .seo-info p{line-height:1.65;}
+@media (max-width:700px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) nav a{font-size:14.4px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .intro{font-size:20.4px;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .alsbkin-support-text{line-height:1.55!important;font-size:18px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .alsbkin-subscribe-btn{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .category-back-button,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .audio-link,:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .misc-link{font:900 16.8px/1.15 "Exo 2",Arial,sans-serif!important;}
+@media (max-width:600px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .alsbkin-support-text{font-size:15.6px!important;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .alsbkin-subscribe-btn{font-size:14.4px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .language-switcher.site-language-switcher .flag-text{font-size:21.6px!important;}
+@media (max-width:560px){:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .language-switcher.site-language-switcher .flag-text{font-size:19.2px!important;}}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .alsbkin-trust-links{font-size:16.8px;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .editorial-value{line-height:1.72;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/mobile-apps.html"])) .song-description h3{font-size:1.12rem;}
+
+/* privacy.html */
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) body{line-height:1.68;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) .brand{font-size:1.35rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) h1{font-size:clamp(2.1rem,7.2vw,3.7rem);line-height:1.08;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) .lead{font-size:1.12rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) .updated{font-size:.94rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) .section-marker h2{font-size:1.65rem;}
+:where(html:has(> head > link[rel="canonical"][href="https://alsbkin.ro/privacy.html"])) .alsbkin-trust-links{font-size:16.8px;}
+
+.studio-legacy h1{font-size:clamp(38.4px,6vw,79.2px)!important;line-height:1.13!important;}
+.studio-tools>nav:before{font:700 24px/1 "Space Grotesk",sans-serif;}
+.studio-tools>nav a{font:600 14.4px/1.4 Inter,Arial,sans-serif!important;}
+.studio-tools .flag-btn,.studio-legal .legal-lang button{font:600 13.2px/1.3 Inter,Arial,sans-serif!important;}
+.studio-tools .flag-btn .flag-text{font:inherit!important;}
+.studio-tools .hub-card{font-size:clamp(20.4px,2.52vw,30px)!important;}
+@media (max-width:700px){.studio-tools>nav:before{font-size:19.2px;}
+.studio-tools>nav a{font-size:12px!important;}}
+
+/* Readability update: language flags, prominent navigation, YouTube CTA. */
+body .language-switcher.site-language-switcher,body .legal-lang{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;flex-wrap:wrap!important;width:auto!important;max-width:100%!important;margin:0!important}
+body .language-switcher.site-language-switcher .flag-btn,body .legal-lang button[data-lang]{position:relative!important;display:inline-flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:4px!important;width:54px!important;min-width:0!important;height:53px!important;padding:4px!important;border-radius:9px!important;border:1px solid #69748a66!important;background:#ffffff!important;box-shadow:0 2px 7px #18224122!important;color:#232d47!important;font:800 12px/1.1 Inter,Arial,sans-serif!important;cursor:pointer;overflow:visible!important;animation:none!important;transform:none!important;text-shadow:none!important}
+body .language-switcher.site-language-switcher .flag-btn .flag-text{position:static!important;color:inherit!important;font:inherit!important;text-shadow:none!important}
+body .language-switcher.site-language-switcher .flag-btn::before,body .legal-lang button[data-lang]::before{content:""!important;position:static!important;display:block!important;flex:none;width:30px;height:19px;background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;border-radius:2px;box-shadow:0 0 0 1px #0002;pointer-events:none}
+body .language-switcher.site-language-switcher .flag-btn::after{display:none!important}
+body .language-switcher.site-language-switcher .flag-btn:is(.active,[aria-pressed=true]),body .legal-lang button[aria-pressed=true]{border-color:#6b46ce!important;background:#f1eaff!important;color:#4b2698!important;box-shadow:0 0 0 2px #9d83e6!important}
+body .language-switcher.site-language-switcher .flag-btn:hover,body .legal-lang button[data-lang]:hover{border-color:#6b46ce!important;background:#f1eaff!important}
+body .language-switcher.site-language-switcher .flag-btn[data-ui-lang="en"]::before,body .legal-lang button[data-lang="en"]::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2060%2030%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Cpath%20d%3D%22M0%200h60v30H0z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Cpath%20fill%3D%22%23012169%22%20d%3D%22M0%200h60v30H0z%22%2F%3E%3Cpath%20stroke%3D%22%23fff%22%20stroke-width%3D%226%22%20d%3D%22M0%200l60%2030M60%200L0%2030%22%2F%3E%3Cpath%20stroke%3D%22%23C8102E%22%20stroke-width%3D%222%22%20d%3D%22M0%200l30%2015m0%200l30%2015M60%200L30%2015m0%200L0%2030%22%2F%3E%3Cpath%20stroke%3D%22%23fff%22%20stroke-width%3D%2210%22%20d%3D%22M30%200v30M0%2015h60%22%2F%3E%3Cpath%20stroke%3D%22%23C8102E%22%20stroke-width%3D%226%22%20d%3D%22M30%200v30M0%2015h60%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")!important}
+body .language-switcher.site-language-switcher .flag-btn[data-ui-lang="fr"]::before,body .legal-lang button[data-lang="fr"]::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2060%2040%22%3E%3Cpath%20fill%3D%22%230055A4%22%20d%3D%22M0%200h20v40H0z%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M20%200h20v40H20z%22%2F%3E%3Cpath%20fill%3D%22%23EF4135%22%20d%3D%22M40%200h20v40H40z%22%2F%3E%3C%2Fsvg%3E")!important}
+body .language-switcher.site-language-switcher .flag-btn[data-ui-lang="ro"]::before,body .legal-lang button[data-lang="ro"]::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2060%2040%22%3E%3Cpath%20fill%3D%22%23002B7F%22%20d%3D%22M0%200h20v40H0z%22%2F%3E%3Cpath%20fill%3D%22%23FCD116%22%20d%3D%22M20%200h20v40H20z%22%2F%3E%3Cpath%20fill%3D%22%23CE1126%22%20d%3D%22M40%200h20v40H40z%22%2F%3E%3C%2Fsvg%3E")!important}
+body .language-switcher.site-language-switcher .flag-btn[data-ui-lang="hu"]::before,body .legal-lang button[data-lang="hu"]::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2060%2030%22%3E%3Cpath%20fill%3D%22%23CE2939%22%20d%3D%22M0%200h60v10H0z%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M0%2010h60v10H0z%22%2F%3E%3Cpath%20fill%3D%22%23477050%22%20d%3D%22M0%2020h60v10H0z%22%2F%3E%3C%2Fsvg%3E")!important}
+body .alsbkin-support .alsbkin-subscribe-btn,body .studio-footer-subscribe .alsbkin-subscribe-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:10px!important;padding:15px 24px!important;min-height:54px!important;max-width:100%!important;white-space:normal!important;text-align:center!important;line-height:1.35!important;font:800 17px/1.35 Inter,Arial,sans-serif!important;letter-spacing:.025em!important;color:#fff!important;background:#c90000!important;border:2px solid #ff3333!important;border-radius:12px!important;text-decoration:none!important;text-shadow:none!important;box-shadow:0 6px 20px #c9000040!important;transition:background .2s,transform .2s,box-shadow .2s!important;transform:none!important}
+body .alsbkin-support .alsbkin-subscribe-btn::before,body .studio-footer-subscribe .alsbkin-subscribe-btn::before{content:"";flex:none;width:27px;height:19px;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 20'%3E%3Crect width='28' height='20' rx='5' fill='white'/%3E%3Cpath d='M11 5l9 5-9 5z' fill='%23c90000'/%3E%3C/svg%3E")}
+body .alsbkin-support .alsbkin-subscribe-btn:hover,body .studio-footer-subscribe .alsbkin-subscribe-btn:hover{background:#aa0000!important;color:#fff!important;box-shadow:0 9px 24px #c9000055!important;transform:translateY(-2px)!important}
+body .alsbkin-support .alsbkin-subscribe-btn:focus-visible,body .studio-footer-subscribe .alsbkin-subscribe-btn:focus-visible{outline:3px solid #ff8a80!important;outline-offset:4px}
+body .studio-footer-subscribe{text-align:center;padding:0 16px 24px}
+@media(max-width:480px){body .language-switcher.site-language-switcher .flag-btn,body .legal-lang button[data-lang]{width:48px!important;height:49px!important}body .alsbkin-support .alsbkin-subscribe-btn,body .studio-footer-subscribe .alsbkin-subscribe-btn{font-size:15px!important;padding:13px 15px!important}}
+@media(prefers-reduced-motion:reduce){body .alsbkin-support .alsbkin-subscribe-btn:hover,body .studio-footer-subscribe .alsbkin-subscribe-btn:hover{transform:none!important}}
+
+body.studio-tools>nav a,body.studio-legal .nav a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:48px!important;padding:11px 20px!important;border:1px solid #7655c5!important;border-radius:12px!important;background:#f4edff!important;color:#412588!important;font:800 18px/1.22 Inter,Arial,sans-serif!important;letter-spacing:.025em!important;text-decoration:none!important;text-transform:uppercase!important;white-space:normal!important;text-align:center!important;box-shadow:0 3px 8px #46307820!important;transition:background .2s,color .2s,box-shadow .2s!important;animation:none!important;transform:none!important}body.studio-tools>nav a:hover,body.studio-legal .nav a:hover{background:#6041b3!important;color:#fff!important}body.studio-tools>nav{gap:9px!important;flex-wrap:wrap!important}body.studio-tools>nav:before{margin-right:12px;font-size:24px}body.studio-legal .top .wrap{justify-content:center;gap:12px}body.studio-legal .nav{justify-content:center;gap:8px}body.studio-legal .nav a[href="about.html"]{font-size:16px!important}body.studio-tools main>.language-switcher.site-language-switcher{margin:0 auto 28px!important}body.studio-tools main:has(> .alsbkin-support){display:flex;flex-direction:column;min-width:0}body.studio-tools main>.alsbkin-support{order:100;margin:38px auto 0!important;border:1px solid var(--studio-line)!important;border-radius:14px;padding:22px 16px!important}body.studio-tools main>.alsbkin-support .alsbkin-subscribe-btn{margin:0 auto!important}body.studio-tools h1,body.studio-legal h1{overflow-wrap:anywhere}body.studio-tools main>*{min-width:0}body.studio-legal main .card{overflow-wrap:anywhere}
+@media(max-width:700px){body.studio-tools>nav a,body.studio-legal .nav a{font-size:15px!important;min-height:44px!important;padding:9px 12px!important}body.studio-tools>nav:before{font-size:20px;flex-basis:100%;margin:0;text-align:center}body.studio-tools>nav{gap:7px!important}body.studio-legal .nav a[href="about.html"]{font-size:14px!important}}
+/* Final contrast and small-screen safeguards. */
+body.studio-tools>nav a[href$='free-online-tools.html']{background:#6041b3!important;color:#fff!important;border-color:#987be5!important;box-shadow:0 5px 14px #25184f44!important}
+body.studio-legal .nav a{font-size:22px!important}
+body.studio-legal .nav a[href='about.html']{font-size:19px!important}
+body.studio-tools main>.transcript-wrap{width:100%!important;max-width:100%!important;min-width:0!important;overflow-wrap:anywhere}
+@media(max-width:700px){body.studio-tools>nav a{font-size:16px!important}body.studio-legal .nav a{font-size:20px!important;padding:9px 10px!important}body.studio-legal .nav a[href='about.html']{font-size:18px!important}}
